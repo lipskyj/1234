@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+
+# generated caption outputs
+*.he.srt
+*.he.vtt
+*.he.txt
