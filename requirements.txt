@@ -1,0 +1,13 @@
+# Hebrew caption tooling -- install what you need for your workflow.
+
+# Translate an existing English .srt/.vtt to Hebrew (lightweight, recommended):
+deep-translator>=1.11.4
+
+# Transcribe a video/audio file from scratch (heavier; also needs ffmpeg on PATH):
+openai-whisper>=20231117
+
+# Download a public video by URL before transcribing (optional):
+yt-dlp>=2024.04.09
+
+# Fully-offline translation fallback (optional; install the en->he pack after):
+# argostranslate>=1.9.6
