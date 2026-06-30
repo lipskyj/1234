@@ -1,0 +1,10 @@
+PASTE THE VIDEO'S ENGLISH CAPTIONS BELOW THIS LINE, THEN SAVE THIS FILE.
+====================================================================
+How:
+  - On the reel, turn on CC, and copy the English caption lines here.
+  - One sentence per line is fine (no timestamps needed for a quick result).
+  - OR, if you have the real .srt/.vtt, just paste its full contents instead
+    and rename this file to  english_captions.srt
+--------------------------------------------------------------------
+(delete this whole header before running)
+
