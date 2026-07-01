@@ -45,6 +45,14 @@ def extract_video(post_url: str) -> tuple[str, str]:
             "var to your own li_at cookie to access posts visible to you)."
         )
 
+    if "authwall" in resp.url or resp.url.rstrip("/").endswith("/login"):
+        raise LinkedInExtractionError(
+            "LinkedIn redirected to a login page instead of the post. It's "
+            "blocking anonymous requests for this one (common even for posts "
+            "that look public). Set the LINKEDIN_COOKIE env var to your own "
+            "li_at session cookie and try again."
+        )
+
     html = resp.text
 
     mp4_matches = sorted(set(_MP4_RE.findall(html)), key=len, reverse=True)
