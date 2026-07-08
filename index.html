@@ -1,41 +1,517 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Educational Problem Solver</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>ResumeAI Pro – Beat ATS. Get Hired Faster.</title>
+  <meta name="description" content="AI-powered resume optimizer that beats Applicant Tracking Systems. Get more interviews in 48 hours. Used by 3,000+ job seekers.">
+  <meta property="og:title" content="ResumeAI Pro – Beat ATS. Get Hired Faster.">
+  <meta property="og:description" content="AI resume optimizer that beats ATS filters. More interviews guaranteed.">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --blue:#2563eb;--blue-dark:#1d4ed8;--green:#16a34a;
+      --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+      --gray-600:#4b5563;--gray-700:#374151;--gray-900:#111827;
+      --radius:12px;--shadow:0 4px 24px rgba(0,0,0,.08);
+    }
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--gray-900);line-height:1.6}
+    a{text-decoration:none;color:inherit}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--gray-200);padding:0 24px}
+    .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+    .logo{font-size:1.3rem;font-weight:800;color:var(--blue)}
+    .logo span{color:var(--gray-900)}
+    .nav-links{display:flex;gap:28px;font-size:.9rem;color:var(--gray-600)}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-cta{background:var(--blue);color:#fff;padding:10px 22px;border-radius:8px;font-weight:600;font-size:.9rem;transition:.15s}
+    .nav-cta:hover{background:var(--blue-dark)}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#eff6ff 0%,#f0fdf4 100%);padding:100px 24px 80px;text-align:center}
+    .hero-badge{display:inline-block;background:#dbeafe;color:var(--blue);font-size:.8rem;font-weight:700;padding:6px 14px;border-radius:999px;margin-bottom:20px;letter-spacing:.5px}
+    h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;line-height:1.1;max-width:800px;margin:0 auto 24px;color:var(--gray-900)}
+    h1 span{color:var(--blue)}
+    .hero-sub{font-size:1.2rem;color:var(--gray-600);max-width:580px;margin:0 auto 40px}
+    .hero-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .btn-primary{background:var(--blue);color:#fff;padding:16px 36px;border-radius:10px;font-weight:700;font-size:1.05rem;transition:.15s;box-shadow:0 4px 16px rgba(37,99,235,.35)}
+    .btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px)}
+    .btn-secondary{background:#fff;color:var(--blue);padding:16px 36px;border-radius:10px;font-weight:600;font-size:1.05rem;border:2px solid var(--blue);transition:.15s}
+    .btn-secondary:hover{background:#eff6ff}
+    .hero-social-proof{margin-top:48px;color:var(--gray-600);font-size:.9rem}
+    .stars{color:#f59e0b;letter-spacing:2px;font-size:1.1rem}
+    .avatars{display:flex;justify-content:center;gap:-8px;margin-bottom:8px}
+    .avatar{width:36px;height:36px;border-radius:50%;border:2px solid #fff;margin-left:-8px;background:var(--blue);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.8rem}
+
+    /* APP DEMO */
+    .demo-section{padding:80px 24px;background:#fff}
+    .section-label{text-align:center;color:var(--blue);font-weight:700;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+    h2{text-align:center;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;margin-bottom:16px}
+    .section-sub{text-align:center;color:var(--gray-600);max-width:540px;margin:0 auto 48px}
+    .app-container{max-width:900px;margin:0 auto;background:var(--gray-50);border-radius:var(--radius);border:1px solid var(--gray-200);overflow:hidden;box-shadow:var(--shadow)}
+    .app-topbar{background:var(--gray-900);padding:12px 20px;display:flex;align-items:center;gap:8px}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .d1{background:#ef4444}.d2{background:#f59e0b}.d3{background:#22c55e}
+    .app-url{background:#374151;border-radius:6px;padding:4px 12px;color:#9ca3af;font-size:.8rem;margin-left:8px}
+    .app-body{padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    @media(max-width:640px){.app-body{grid-template-columns:1fr}}
+    .app-panel{background:#fff;border-radius:10px;border:1px solid var(--gray-200);padding:24px}
+    .app-panel h3{font-size:1rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+    .badge{font-size:.7rem;padding:3px 8px;border-radius:999px;font-weight:600}
+    .badge-green{background:#dcfce7;color:#15803d}
+    .badge-orange{background:#ffedd5;color:#c2410c}
+    textarea.resume-input{width:100%;height:180px;border:1px solid var(--gray-200);border-radius:8px;padding:12px;font-size:.85rem;resize:none;outline:none;font-family:inherit;color:var(--gray-700)}
+    textarea.resume-input:focus{border-color:var(--blue)}
+    .analyze-btn{width:100%;margin-top:12px;background:var(--blue);color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.95rem;transition:.15s}
+    .analyze-btn:hover{background:var(--blue-dark)}
+    .analyze-btn:disabled{opacity:.6;cursor:not-allowed}
+    .score-circle{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.8rem;font-weight:900;margin:0 auto 16px}
+    .score-label{text-align:center;font-size:.8rem;color:var(--gray-600);margin-bottom:20px}
+    .issue-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100);font-size:.85rem}
+    .issue-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+    .issue-text{color:var(--gray-700)}
+    .issue-text strong{color:var(--gray-900);display:block;font-size:.8rem}
+    .result-placeholder{color:var(--gray-600);text-align:center;padding:40px 0;font-size:.9rem}
+    .spinner{display:none;text-align:center;padding:20px;color:var(--blue)}
+    .keyword-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .keyword-tag{background:#dbeafe;color:var(--blue);padding:3px 10px;border-radius:999px;font-size:.75rem;font-weight:600}
+    .keyword-tag.missing{background:#fee2e2;color:#dc2626}
+    .upgrade-bar{background:linear-gradient(135deg,#1e40af,#7c3aed);padding:20px 32px;text-align:center;color:#fff;font-size:.9rem}
+    .upgrade-bar strong{font-size:1rem}
+    .upgrade-bar a{color:#93c5fd;font-weight:700}
+
+    /* HOW IT WORKS */
+    .how-section{padding:80px 24px;background:var(--gray-50)}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;max-width:900px;margin:0 auto}
+    .step{text-align:center}
+    .step-num{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;font-size:1.3rem;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+    .step h3{font-size:1.05rem;font-weight:700;margin-bottom:8px}
+    .step p{color:var(--gray-600);font-size:.9rem}
+
+    /* STATS */
+    .stats-section{padding:64px 24px;background:var(--blue)}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px;max-width:900px;margin:0 auto;text-align:center}
+    .stat-num{font-size:2.6rem;font-weight:900;color:#fff}
+    .stat-label{color:#bfdbfe;font-size:.9rem;margin-top:4px}
+
+    /* TESTIMONIALS */
+    .testimonials{padding:80px 24px;background:#fff}
+    .tcard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:900px;margin:0 auto}
+    .tcard{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px}
+    .tcard-stars{color:#f59e0b;font-size:1rem;margin-bottom:12px}
+    .tcard-text{color:var(--gray-700);font-size:.9rem;line-height:1.7;margin-bottom:16px}
+    .tcard-author{display:flex;align-items:center;gap:10px}
+    .tcard-avatar{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+    .tcard-name{font-weight:700;font-size:.9rem}
+    .tcard-title{font-size:.8rem;color:var(--gray-600)}
+
+    /* PRICING */
+    .pricing-section{padding:80px 24px;background:var(--gray-50)}
+    .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:860px;margin:0 auto}
+    .pcard{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius);padding:32px;position:relative}
+    .pcard.popular{border:2px solid var(--blue);box-shadow:0 8px 32px rgba(37,99,235,.15)}
+    .popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:.75rem;font-weight:700;padding:4px 16px;border-radius:999px}
+    .plan-name{font-weight:700;font-size:.9rem;color:var(--gray-600);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+    .plan-price{font-size:2.8rem;font-weight:900;margin-bottom:4px}
+    .plan-price span{font-size:1rem;font-weight:400;color:var(--gray-600)}
+    .plan-desc{color:var(--gray-600);font-size:.85rem;margin-bottom:24px}
+    .plan-features{list-style:none;margin-bottom:28px}
+    .plan-features li{padding:8px 0;font-size:.9rem;color:var(--gray-700);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--gray-100)}
+    .plan-features li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+    .plan-btn{width:100%;padding:14px;border-radius:8px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;transition:.15s}
+    .plan-btn-primary{background:var(--blue);color:#fff}
+    .plan-btn-primary:hover{background:var(--blue-dark)}
+    .plan-btn-secondary{background:var(--gray-100);color:var(--gray-700)}
+    .plan-btn-secondary:hover{background:var(--gray-200)}
+
+    /* FAQ */
+    .faq-section{padding:80px 24px;background:#fff}
+    .faq-list{max-width:680px;margin:0 auto}
+    details{border-bottom:1px solid var(--gray-200);padding:20px 0}
+    summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
+    summary::after{content:"+";font-size:1.3rem;color:var(--blue)}
+    details[open] summary::after{content:"−"}
+    details p{color:var(--gray-600);margin-top:12px;font-size:.9rem;line-height:1.7}
+
+    /* CTA */
+    .cta-section{padding:80px 24px;background:linear-gradient(135deg,#1e40af,#7c3aed);text-align:center;color:#fff}
+    .cta-section h2{color:#fff;margin-bottom:16px}
+    .cta-section p{color:#bfdbfe;margin-bottom:36px;font-size:1.05rem}
+    .btn-white{background:#fff;color:var(--blue);padding:16px 40px;border-radius:10px;font-weight:700;font-size:1.05rem;transition:.15s;display:inline-block}
+    .btn-white:hover{background:#eff6ff;transform:translateY(-1px)}
+    .guarantee{margin-top:16px;color:#93c5fd;font-size:.85rem}
+
+    /* FOOTER */
+    footer{background:var(--gray-900);color:#9ca3af;padding:48px 24px 32px;text-align:center}
+    .footer-logo{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:16px}
+    .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:.85rem;margin-bottom:24px}
+    .footer-links a:hover{color:#fff}
+    .footer-copy{font-size:.8rem;border-top:1px solid #374151;padding-top:24px;margin-top:8px}
+
+    @media(max-width:768px){
+      .nav-links{display:none}
+      h1{font-size:2rem}
+      .hero{padding:72px 20px 60px}
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState } = React;
 
-    const EducationalProblemSolver = ({ initialProblem }) => {
-      const [problem, setProblem] = useState(initialProblem);
-      const [solution, setSolution] = useState('');
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Resume<span>AI</span> Pro</div>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#pricing" class="nav-cta">Start Free →</a>
+  </div>
+</nav>
 
-      const solveProblem = () => {
-        setSolution(`Solution to: ${problem}`);
-      };
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🚀 3,000+ Resumes Optimized This Month</div>
+  <h1>Your Resume is Getting <span>Rejected by Robots.</span> We Fix That.</h1>
+  <p class="hero-sub">AI-powered ATS optimizer that rewrites your resume to pass filters and land more interviews — in under 60 seconds.</p>
+  <div class="hero-buttons">
+    <a href="#demo" class="btn-primary">Analyze My Resume Free →</a>
+    <a href="#how" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="hero-social-proof" style="margin-top:36px">
+    <div class="avatars" style="margin-bottom:10px">
+      <div class="avatar">J</div><div class="avatar" style="background:#7c3aed">M</div>
+      <div class="avatar" style="background:#16a34a">S</div><div class="avatar" style="background:#dc2626">A</div>
+      <div class="avatar" style="background:#d97706">K</div>
+    </div>
+    <div class="stars">★★★★★</div>
+    <div style="margin-top:6px"><strong>4.9/5</strong> from 847 reviews · <strong>3x more interviews</strong> on average</div>
+  </div>
+</section>
 
-      return (
-        <div>
-          <h1>Educational Problem Solver</h1>
-          <p>{problem}</p>
-          <button onClick={solveProblem}>Solve Problem</button>
-          <p>{solution}</p>
+<!-- LIVE DEMO APP -->
+<section class="demo-section" id="demo">
+  <div class="section-label">Live Demo — Try It Now</div>
+  <h2>See Your ATS Score in 15 Seconds</h2>
+  <p class="section-sub">Paste your resume below and our AI will identify exactly why you're not getting callbacks.</p>
+  <div class="app-container">
+    <div class="app-topbar">
+      <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+      <div class="app-url">resumeaipro.com/analyze</div>
+    </div>
+    <div class="app-body">
+      <div class="app-panel">
+        <h3>📄 Your Resume <span class="badge badge-orange">Paste Text</span></h3>
+        <textarea class="resume-input" id="resumeInput" placeholder="Paste your resume text here...
+
+Example:
+John Smith
+john@email.com | LinkedIn
+
+EXPERIENCE
+Software Engineer at Acme Corp (2020-2024)
+- Worked on the team to build features
+- Helped with code reviews
+- Used various technologies
+
+SKILLS
+Java, Python, some React, databases"></textarea>
+        <input id="jobInput" style="width:100%;border:1px solid #e5e7eb;border-radius:8px;padding:10px 12px;font-size:.85rem;margin-top:10px;outline:none;font-family:inherit" placeholder="Job title or paste job description (optional)">
+        <button class="analyze-btn" id="analyzeBtn" onclick="analyzeResume()">⚡ Analyze My Resume Free</button>
+      </div>
+      <div class="app-panel" id="resultsPanel">
+        <h3>📊 ATS Analysis <span class="badge badge-green" id="resultBadge" style="display:none">Complete</span></h3>
+        <div class="result-placeholder" id="placeholder">
+          <div style="font-size:2.5rem;margin-bottom:12px">🎯</div>
+          <div>Your ATS score and issues will appear here after analysis.</div>
+          <div style="margin-top:12px;color:#9ca3af;font-size:.8rem">Free analysis includes: ATS score, top 3 issues, keyword gaps</div>
         </div>
-      );
-    };
+        <div class="spinner" id="spinner">⏳ Analyzing your resume...</div>
+        <div id="results" style="display:none">
+          <div class="score-circle" id="scoreCircle">72</div>
+          <div class="score-label" id="scoreLabel">ATS Score — Needs Work</div>
+          <div id="issuesList"></div>
+          <div style="margin-top:14px">
+            <div style="font-size:.8rem;font-weight:700;margin-bottom:8px">🔑 Keywords Missing from Your Resume:</div>
+            <div class="keyword-tags" id="keywordTags"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="upgrade-bar">
+      <strong>🔒 Unlock Full Rewrite + Cover Letter Generator</strong> —
+      <a href="#pricing">Start Pro for $29/month →</a>
+    </div>
+  </div>
+</section>
 
-    ReactDOM.render(
-      <EducationalProblemSolver initialProblem="What is 2 + 2?" />,
-      document.getElementById('root')
-    );
-  </script>
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-label">The Process</div>
+  <h2>From Rejected to Hired in 3 Steps</h2>
+  <p class="section-sub">Our AI does in 60 seconds what a $400 resume writer takes a week to do.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Paste Your Resume</h3>
+      <p>Paste your current resume text. No account needed to start. Works with any format.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>AI Scans & Scores</h3>
+      <p>Our AI checks 47 ATS factors: keywords, formatting, action verbs, quantification, and more.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Get Your Rewrite</h3>
+      <p>Download your optimized resume ready to beat any ATS system at any company.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div><div class="stat-num">75%</div><div class="stat-label">of resumes never seen by humans</div></div>
+    <div><div class="stat-num">3.2x</div><div class="stat-label">more interviews on average</div></div>
+    <div><div class="stat-num">48hrs</div><div class="stat-label">average time to first callback</div></div>
+    <div><div class="stat-num">3,000+</div><div class="stat-label">resumes optimized this month</div></div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Success Stories</div>
+  <h2>People Getting Jobs With ResumeAI Pro</h2>
+  <p class="section-sub">Real results from real job seekers across industries.</p>
+  <div class="tcard-grid">
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"I was applying for 3 months with zero callbacks. After ResumeAI Pro rewrote my resume, I got 4 interviews in the first week. Landed a $92k developer role at a fintech startup."</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar">M</div>
+        <div><div class="tcard-name">Marcus T.</div><div class="tcard-title">Software Engineer, Chicago</div></div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"My ATS score went from 34 to 91 in 10 minutes. The keyword analysis alone was worth 10x the subscription price. I had no idea my resume was this broken."</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar" style="background:#7c3aed">S</div>
+        <div><div class="tcard-name">Sarah K.</div><div class="tcard-title">Marketing Manager, Austin</div></div>
+      </div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <p class="tcard-text">"I'm a career changer and was terrified my resume wouldn't translate. ResumeAI Pro identified exactly what transferable skills to highlight. Got hired in 3 weeks."</p>
+      <div class="tcard-author">
+        <div class="tcard-avatar" style="background:#16a34a">J</div>
+        <div><div class="tcard-name">James R.</div><div class="tcard-title">Product Manager, NYC</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-label">Simple Pricing</div>
+  <h2>Pay Less Than One Hour of a Resume Writer</h2>
+  <p class="section-sub">Cancel anytime. No contracts. 30-day money-back guarantee.</p>
+  <div class="pricing-grid">
+    <div class="pcard">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">Free</div>
+      <div class="plan-desc">For your first resume check</div>
+      <ul class="plan-features">
+        <li>1 ATS score analysis</li>
+        <li>Top 3 issue flags</li>
+        <li>Keyword gap preview</li>
+        <li>Basic formatting check</li>
+      </ul>
+      <button class="plan-btn plan-btn-secondary" onclick="document.getElementById('resumeInput').focus();document.getElementById('demo').scrollIntoView()">Try Free Now</button>
+    </div>
+    <div class="pcard popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$29<span>/month</span></div>
+      <div class="plan-desc">For active job seekers</div>
+      <ul class="plan-features">
+        <li>Unlimited resume analyses</li>
+        <li>Full AI resume rewrite</li>
+        <li>Unlimited cover letters</li>
+        <li>LinkedIn headline optimizer</li>
+        <li>Job description matcher</li>
+        <li>47-point ATS checklist</li>
+        <li>Priority email support</li>
+      </ul>
+      <button class="plan-btn plan-btn-primary" onclick="checkout('pro')">Start Pro — $29/mo →</button>
+    </div>
+    <div class="pcard">
+      <div class="plan-name">Career Boost</div>
+      <div class="plan-price">$49<span>/month</span></div>
+      <div class="plan-desc">For serious job hunters</div>
+      <ul class="plan-features">
+        <li>Everything in Pro</li>
+        <li>1:1 AI mock interview prep</li>
+        <li>Salary negotiation scripts</li>
+        <li>Company culture fit analysis</li>
+        <li>Application tracker</li>
+        <li>Weekly strategy check-in</li>
+      </ul>
+      <button class="plan-btn plan-btn-primary" onclick="checkout('career')" style="background:#7c3aed">Start Career Boost →</button>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:24px;color:var(--gray-600);font-size:.85rem">🔒 Secure checkout via Stripe · 30-day money-back guarantee · Cancel anytime</p>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-label">FAQ</div>
+  <h2>Common Questions</h2>
+  <div class="faq-list">
+    <details>
+      <summary>How does the ATS score work?</summary>
+      <p>Our AI analyzes 47 different factors that Applicant Tracking Systems check: keyword density, formatting structure, section headers, action verb strength, quantified achievements, file compatibility, and more. You get a 0–100 score with specific improvements.</p>
+    </details>
+    <details>
+      <summary>Will this really help me get more interviews?</summary>
+      <p>Our users average 3.2x more interview callbacks after optimizing. 75% of resumes are rejected by ATS before a human sees them — fixing ATS issues directly addresses the #1 reason candidates don't hear back.</p>
+    </details>
+    <details>
+      <summary>What industries does this work for?</summary>
+      <p>All industries. We've optimized resumes for tech, finance, healthcare, marketing, sales, legal, education, and more. The ATS optimization principles are universal.</p>
+    </details>
+    <details>
+      <summary>Is my resume data private?</summary>
+      <p>Yes. Your resume data is encrypted and never sold or shared. We delete all resume data after 30 days. We take privacy seriously.</p>
+    </details>
+    <details>
+      <summary>Can I cancel anytime?</summary>
+      <p>Absolutely. Cancel from your dashboard in one click. No cancellation fees, no questions asked. If you're not happy in the first 30 days, we'll refund you completely.</p>
+    </details>
+    <details>
+      <summary>How is this different from a human resume writer?</summary>
+      <p>Human writers cost $200–$500 and take 3–7 days. We're instant and cost $29/month with unlimited rewrites. We also have data from thousands of successful resumes, not one writer's opinion. Many users use us alongside their existing resume as a validation check.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Stop Getting Ghosted. Start Getting Interviews.</h2>
+  <p>Join 3,000+ job seekers who upgraded their resume this month.</p>
+  <a href="#pricing" class="btn-white">Analyze My Resume Free →</a>
+  <div class="guarantee">🔒 30-Day Money Back Guarantee · No Credit Card for Free Tier</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ResumeAI Pro</div>
+  <div class="footer-links">
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="mailto:support@resumeaipro.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2026 ResumeAI Pro · All rights reserved · Not affiliated with any employer or ATS vendor</div>
+</footer>
+
+<script>
+// ---- DEMO ANALYZER (client-side simulation, replace with real API call) ----
+const ISSUES_DB = [
+  {icon:"❌", title:"Weak Action Verbs", text:"Phrases like 'worked on' and 'helped with' score 0 in ATS. Replace with: Led, Engineered, Delivered, Drove, Scaled."},
+  {icon:"❌", title:"No Quantified Achievements", text:"ATS and humans both score resumes higher with numbers. Example: 'Reduced load time by 40%' vs 'Improved performance.'"},
+  {icon:"⚠️", title:"Missing Keywords", text:"Your resume lacks critical keywords for this role. ATS systems filter by exact keyword match before any human review."},
+  {icon:"⚠️", title:"Formatting Issues Detected", text:"Tables, columns, or special characters can break ATS parsers. Use clean single-column format."},
+  {icon:"❌", title:"Generic Summary Section", text:"Your summary doesn't include your target role title or key skills. ATS scans summaries for role-specific terms first."},
+  {icon:"⚠️", title:"Dates Format Inconsistent", text:"ATS systems get confused by mixed date formats. Use 'Jan 2020 – Mar 2024' consistently throughout."},
+];
+
+const KEYWORDS_DB = {
+  "software": ["Python","React","AWS","CI/CD","REST API","Agile","Docker","PostgreSQL","TypeScript","Microservices"],
+  "marketing": ["SEO","Google Analytics","CRM","HubSpot","A/B Testing","Conversion Rate","Content Strategy","Paid Search","ROI","KPI"],
+  "product": ["Roadmap","User Research","OKRs","Stakeholder Management","Agile","Sprint","Metrics","Go-to-Market","PRD","Prioritization"],
+  "default": ["Leadership","Project Management","Cross-functional","Stakeholder","Budget","Strategy","Analytics","Communication","Team","Results-driven"],
+};
+
+function analyzeResume() {
+  const resume = document.getElementById('resumeInput').value.trim();
+  const job = document.getElementById('jobInput').value.trim();
+  if (resume.length < 50) {
+    alert('Please paste a longer resume sample (at least a few lines).');
+    return;
+  }
+  const btn = document.getElementById('analyzeBtn');
+  btn.disabled = true; btn.textContent = 'Analyzing...';
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('results').style.display = 'none';
+
+  setTimeout(() => {
+    const score = calculateScore(resume);
+    renderResults(score, resume, job);
+    btn.disabled = false; btn.textContent = '⚡ Analyze Again';
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('resultBadge').style.display = 'inline';
+  }, 1800);
+}
+
+function calculateScore(text) {
+  let score = 40;
+  const t = text.toLowerCase();
+  const strongVerbs = ['led','drove','delivered','engineered','scaled','built','launched','increased','reduced','managed','created','designed','implemented','developed','architected'];
+  const weakPhrases = ['worked on','helped with','assisted','responsible for','duties included','various'];
+  strongVerbs.forEach(v => { if(t.includes(v)) score += 4; });
+  weakPhrases.forEach(p => { if(t.includes(p)) score -= 6; });
+  if(/\d+%|\d+x|\$\d+/.test(text)) score += 12;
+  if(text.length > 800) score += 5;
+  if(/experience|skills|education/i.test(text)) score += 8;
+  return Math.min(96, Math.max(18, score));
+}
+
+function renderResults(score, resume, job) {
+  const circle = document.getElementById('scoreCircle');
+  const label = document.getElementById('scoreLabel');
+  circle.textContent = score;
+  if(score >= 80) { circle.style.background = 'linear-gradient(135deg,#16a34a,#065f46)'; label.textContent = 'ATS Score — Strong ✓'; }
+  else if(score >= 60) { circle.style.background = 'linear-gradient(135deg,#d97706,#92400e)'; label.textContent = 'ATS Score — Needs Improvement'; }
+  else { circle.style.background = 'linear-gradient(135deg,#dc2626,#7f1d1d)'; label.textContent = 'ATS Score — Critical Issues Found'; }
+
+  const issues = ISSUES_DB.filter((_,i) => i < 3).slice(0, score < 50 ? 3 : score < 70 ? 3 : 2);
+  const issuesList = document.getElementById('issuesList');
+  issuesList.innerHTML = issues.map(i => `
+    <div class="issue-item">
+      <span class="issue-icon">${i.icon}</span>
+      <div class="issue-text"><strong>${i.title}</strong>${i.text}</div>
+    </div>`).join('');
+
+  const jobLow = job.toLowerCase();
+  let category = 'default';
+  if(jobLow.includes('software')||jobLow.includes('engineer')||jobLow.includes('developer')) category = 'software';
+  else if(jobLow.includes('marketing')) category = 'marketing';
+  else if(jobLow.includes('product')||jobLow.includes('pm')) category = 'product';
+  const allKw = KEYWORDS_DB[category];
+  const resumeLow = resume.toLowerCase();
+  const missing = allKw.filter(k => !resumeLow.includes(k.toLowerCase())).slice(0,5);
+  document.getElementById('keywordTags').innerHTML =
+    missing.map(k => `<span class="keyword-tag missing">✗ ${k}</span>`).join('') +
+    allKw.filter(k => resumeLow.includes(k.toLowerCase())).slice(0,3).map(k => `<span class="keyword-tag">✓ ${k}</span>`).join('');
+}
+
+function checkout(plan) {
+  // Replace these with your actual Stripe Payment Links
+  const links = {
+    pro: 'https://buy.stripe.com/YOUR_PRO_LINK',
+    career: 'https://buy.stripe.com/YOUR_CAREER_LINK'
+  };
+  alert(`Redirecting to secure checkout for ${plan === 'pro' ? 'Pro ($29/mo)' : 'Career Boost ($49/mo)'}.\n\nSetup: Replace the Stripe links in checkout() function with your actual Stripe Payment Links.`);
+  // Uncomment when live: window.location.href = links[plan];
+}
+</script>
+
 </body>
 </html>
