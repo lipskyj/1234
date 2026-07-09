@@ -1,41 +1,1446 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Educational Problem Solver</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>SCROLLSTOP — Digital Detox Campaign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,wght@0,400;1,400;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f3f0e6;
+      --ink: #232a1f;
+      --coral: #ff3b5c;
+      --ink-40: rgba(35,42,31,0.4);
+      --ink-10: rgba(35,42,31,0.07);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .logo-icon svg { width: 100%; height: 100%; }
+
+    .wordmark {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      color: var(--cream);
+    }
+
+    .wordmark span { color: var(--coral); }
+
+    .header-tag {
+      margin-left: auto;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-40);
+      border: 1px solid var(--ink-40);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px;
+      display: grid;
+      gap: 64px;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 6px;
+    }
+
+    .section-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
+    .section-title em {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--coral);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    .hero-copy .section-title { font-size: clamp(36px, 5vw, 64px); }
+
+    .hero-body {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--ink);
+      opacity: 0.75;
+      margin-top: 20px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .stat-card {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .stat-number {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 36px;
+      line-height: 1;
+      color: var(--coral);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 6px;
+      opacity: 0.6;
+    }
+
+    /* ── PHONE MOCKUP ── */
+    .phone-mockup {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .phone-frame {
+      width: 260px;
+      background: var(--ink);
+      border-radius: 36px;
+      padding: 12px;
+      box-shadow: 0 40px 80px rgba(35,42,31,0.25);
+      position: relative;
+    }
+
+    .phone-screen {
+      background: var(--cream);
+      border-radius: 26px;
+      overflow: hidden;
+      aspect-ratio: 9/19;
+      position: relative;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 22px;
+      background: var(--ink);
+      border-radius: 12px;
+      z-index: 10;
+    }
+
+    .feed-post {
+      padding: 16px;
+      border-bottom: 1px solid var(--ink-10);
+      animation: feedScroll 8s linear infinite;
+    }
+
+    .feed-post-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      background: var(--coral);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 10px;
+      color: var(--cream);
+      flex-shrink: 0;
+    }
+
+    .feed-username { font-size: 10px; font-weight: 700; }
+    .feed-handle { font-size: 9px; opacity: 0.5; }
+
+    .feed-image {
+      background: var(--ink);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .feed-image-text {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 11px;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+
+    .feed-image-text .coral { color: var(--coral); }
+
+    .feed-caption {
+      font-size: 9px;
+      line-height: 1.5;
+      opacity: 0.7;
+    }
+
+    .interrupt-banner {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--coral);
+      color: var(--cream);
+      padding: 12px 16px;
+      text-align: center;
+      animation: bannerPulse 2s ease-in-out infinite;
+    }
+
+    .interrupt-banner-text {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    .interrupt-banner-sub { font-size: 8px; opacity: 0.8; margin-top: 2px; }
+
+    @keyframes bannerPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    /* ── TACTIC GRID ── */
+    .tactic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2px;
+      background: var(--ink-10);
+    }
+
+    .tactic-card {
+      background: var(--cream);
+      padding: 28px;
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tactic-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--coral);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
+    }
+
+    .tactic-card:hover { background: #ede9dc; }
+    .tactic-card:hover::before { transform: scaleY(1); }
+
+    .tactic-type {
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+
+    .tactic-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 18px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .tactic-desc {
+      font-size: 11px;
+      line-height: 1.6;
+      opacity: 0.65;
+      margin-bottom: 16px;
+    }
+
+    .tactic-example {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 10px;
+      line-height: 1.6;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .tactic-example .highlight { color: var(--coral); }
+
+    .tactic-platform {
+      display: flex;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    .platform-tag {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 2px;
+      border: 1px solid currentColor;
+    }
+
+    .platform-tag.reels { color: var(--coral); }
+    .platform-tag.feed { color: var(--ink); opacity: 0.5; }
+    .platform-tag.stories { color: #8b5cf6; }
+
+    /* ── CALENDAR ── */
+    .calendar-wrap { overflow-x: auto; }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: 80px repeat(7, 1fr);
+      gap: 1px;
+      background: var(--ink-10);
+      min-width: 680px;
+    }
+
+    .cal-header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 10px;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .cal-time {
+      background: var(--cream);
+      padding: 10px;
+      font-size: 9px;
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cal-cell {
+      background: var(--cream);
+      padding: 8px;
+      min-height: 72px;
+    }
+
+    .cal-post {
+      border-radius: 3px;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .cal-post.blunt { background: var(--ink); color: var(--cream); }
+    .cal-post.guilt { background: var(--coral); color: var(--cream); }
+    .cal-post.calm { background: #e0ddd0; color: var(--ink); }
+    .cal-post.meme { background: #232a1f22; color: var(--ink); border: 1px solid var(--ink-10); }
+
+    .cal-post-label { font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+    .cal-post-title { font-weight: 700; margin-top: 2px; }
+
+    /* ── CAPTION BANK ── */
+    .caption-bank {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .caption-bank { grid-template-columns: 1fr; }
+    }
+
+    .caption-col-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--ink-10);
+    }
+
+    .caption-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--ink-10);
+    }
+
+    .caption-tone {
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 4px;
+    }
+
+    .caption-text {
+      font-family: 'Source Serif 4', serif;
+      font-style: italic;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+
+    .caption-text.blunt {
+      font-family: 'Archivo Black', sans-serif;
+      font-style: normal;
+      font-size: 14px;
+    }
+
+    /* ── KPI SECTION ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 2px;
+      background: var(--ink-10);
+    }
+
+    .kpi-card {
+      background: var(--cream);
+      padding: 24px;
+    }
+
+    .kpi-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--coral);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .kpi-icon svg { width: 16px; height: 16px; fill: var(--cream); }
+
+    .kpi-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .kpi-desc { font-size: 10px; opacity: 0.55; line-height: 1.5; }
+
+    .kpi-signal {
+      margin-top: 12px;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      color: var(--coral);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* ── AB TEST TABLE ── */
+    .ab-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .ab-table th {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .ab-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--ink-10);
+      font-size: 11px;
+      vertical-align: top;
+    }
+
+    .ab-table tr:hover td { background: var(--ink-10); }
+
+    .ab-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 2px;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .ab-badge.a { background: var(--ink); color: var(--cream); }
+    .ab-badge.b { background: var(--coral); color: var(--cream); }
+
+    .hook-text {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 13px;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* ── RULES ── */
+    .rules-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2px;
+      background: var(--ink-10);
+    }
+
+    .rule-card {
+      background: var(--cream);
+      padding: 24px;
+    }
+
+    .rule-number {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 48px;
+      color: var(--ink-10);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .rule-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .rule-desc { font-size: 11px; opacity: 0.6; line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-wordmark {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-wordmark span { color: var(--coral); }
+
+    .footer-note {
+      font-size: 10px;
+      opacity: 0.4;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--ink-10);
+    }
+
+    /* ── GLITCH TEXT EFFECT ── */
+    @keyframes glitch {
+      0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+      20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, 0); }
+      40% { clip-path: inset(43% 0 1% 0); transform: translate(0, 0); }
+      60% { clip-path: inset(25% 0 58% 0); transform: translate(1px, 0); }
+      80% { clip-path: inset(54% 0 7% 0); transform: translate(-1px, 0); }
+      100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, 0); }
+    }
+
+    .glitch-wrap { position: relative; display: inline-block; }
+
+    .glitch-wrap::before,
+    .glitch-wrap::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+
+    .glitch-wrap::before {
+      color: var(--coral);
+      animation: glitch 0.6s infinite;
+      opacity: 0;
+    }
+
+    .glitch-wrap:hover::before { opacity: 1; }
+
+    /* ── POST PREVIEW CARDS ── */
+    .post-previews {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .post-preview {
+      background: var(--ink);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .post-preview-screen {
+      padding: 20px 16px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .post-preview-screen.blunt { background: var(--ink); }
+    .post-preview-screen.guilt { background: #1a0008; }
+    .post-preview-screen.calm { background: #2d3528; }
+    .post-preview-screen.meme { background: var(--cream); }
+
+    .post-preview-headline {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 22px;
+      line-height: 1.1;
+      color: var(--cream);
+    }
+
+    .post-preview-headline.coral { color: var(--coral); }
+    .post-preview-headline.dark { color: var(--ink); }
+
+    .post-preview-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-top: 10px;
+      color: var(--cream);
+    }
+
+    .post-preview-sub.dark { color: var(--ink); }
+
+    .post-preview-bar {
+      height: 3px;
+      background: var(--coral);
+      width: 40%;
+      border-radius: 2px;
+      margin-top: 14px;
+    }
+
+    .post-preview-meta {
+      background: var(--ink);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post-preview-format {
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+    }
+
+    .post-preview-tone {
+      font-size: 8px;
+      opacity: 0.4;
+      color: var(--cream);
+    }
+
+    .progress-bar-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--coral);
+      animation: progress 4s linear infinite;
+    }
+
+    @keyframes progress {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    .countdown-digits {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--coral);
+      margin-top: 8px;
+      letter-spacing: 0.1em;
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 8px;
+      height: 8px;
+      background: var(--coral);
+      border-radius: 50%;
+      animation: notifPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes notifPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.7; }
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState } = React;
 
-    const EducationalProblemSolver = ({ initialProblem }) => {
-      const [problem, setProblem] = useState(initialProblem);
-      const [solution, setSolution] = useState('');
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="14" y="4" width="4" height="24" rx="2" fill="#f3f0e6"/>
+        <line x1="6" y1="26" x2="26" y2="6" stroke="#ff3b5c" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="wordmark">SCROLL<span>STOP</span></div>
+  </div>
+  <div class="header-tag">Digital Detox Campaign</div>
+</header>
 
-      const solveProblem = () => {
-        setSolution(`Solution to: ${problem}`);
-      };
+<!-- ── MAIN ── -->
+<main class="page-wrap">
 
-      return (
-        <div>
-          <h1>Educational Problem Solver</h1>
-          <p>{problem}</p>
-          <button onClick={solveProblem}>Solve Problem</button>
-          <p>{solution}</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="section-label">Mission Brief</p>
+      <h1 class="section-title">
+        Using the feed<br>to <em>kill</em> the feed.
+      </h1>
+      <p class="hero-body">
+        Organic reach through native platform mechanics — every bait tactic flipped to push people off their phone and into the world.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number">2×</div>
+          <div class="stat-label">Posts per day<br>alternating tactics</div>
         </div>
-      );
-    };
+        <div class="stat-card">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Tonal registers<br>calm / blunt / guilt / meme</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">A/B</div>
+          <div class="stat-label">Hook format<br>per platform</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Never breaks<br>character</div>
+        </div>
+      </div>
+    </div>
 
-    ReactDOM.render(
-      <EducationalProblemSolver initialProblem="What is 2 + 2?" />,
-      document.getElementById('root')
-    );
-  </script>
+    <div class="phone-mockup">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          <div class="feed-post">
+            <div class="feed-post-header">
+              <div class="avatar">SS</div>
+              <div>
+                <div class="feed-username">scrollstop</div>
+                <div class="feed-handle">@scrollstop • now</div>
+              </div>
+            </div>
+            <div class="feed-image">
+              <div class="feed-image-text">
+                you've been on here<br>
+                <span class="coral">47 minutes.</span><br>
+                your body forgot<br>what sunlight feels like.
+              </div>
+            </div>
+            <div class="feed-caption">put the phone down. go outside. we'll still be here being useless when you get back. #scrollstop</div>
+          </div>
+          <div class="interrupt-banner">
+            <div class="interrupt-banner-text">⏱ STEP AWAY CHALLENGE ACTIVE</div>
+            <div class="interrupt-banner-sub">tap to log your walk → win nothing → feel better</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTENT TACTICS -->
+  <section>
+    <p class="section-label">Content System — 11 Tactics</p>
+    <h2 class="section-title">Every trick the feed uses,<br><em>pointed outward.</em></h2>
+
+    <br><br>
+
+    <div class="tactic-grid">
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 6a · Static Feed</div>
+        <div class="tactic-title">NOTIFICATION BAIT</div>
+        <div class="tactic-desc">Looks like a real alert. Says something that makes you stop scrolling and go outside instead.</div>
+        <div class="tactic-example">
+          🔴 <span class="highlight">SCROLLSTOP ALERT:</span><br>
+          You have 1 unread sunset.<br>
+          It expires in 14 minutes.
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag feed">Feed</span>
+          <span class="platform-tag stories">Stories</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 6b · Reels</div>
+        <div class="tactic-title">COUNTDOWN URGENCY</div>
+        <div class="tactic-desc">Autoplay bar mimics a timer. Three seconds of text. Then: put the phone down before the bar runs out.</div>
+        <div class="tactic-example">
+          [0:00 → 0:03]<br>
+          <span class="highlight">you're still here.</span><br>
+          that's the whole post.<br>
+          bye.
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag reels">Reels</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 6c · Static Feed</div>
+        <div class="tactic-title">FAKE STATS</div>
+        <div class="tactic-desc">Ridiculous-but-plausible numbers. The kind that make you go "wait, what?" and actually stop.</div>
+        <div class="tactic-example">
+          <span class="highlight">STUDY FINDS:</span><br>
+          People who put their phone<br>
+          down for 20 min report<br>
+          100% fewer regrets about<br>
+          the last 20 min.
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag feed">Feed</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 6e · Reels</div>
+        <div class="tactic-title">GLITCH LOOP</div>
+        <div class="tactic-desc">Visual corruption that looks like the app is breaking — then resolves to a calm message. Pattern interrupt in motion.</div>
+        <div class="tactic-example">
+          [glitch frames 0–0.5s]<br>
+          [ERROR: content not found]<br>
+          <span class="highlight">oh good. go drink water.</span>
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag reels">Reels</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 6f · Static Feed</div>
+        <div class="tactic-title">LOCKSCREEN GUILT</div>
+        <div class="tactic-desc">Designed to look like a lockscreen widget. People screenshot it. That's the whole distribution strategy.</div>
+        <div class="tactic-example">
+          ───────────────<br>
+          WED · 3:47 PM<br>
+          <span class="highlight">screen time: 4h 12m</span><br>
+          last walk: yesterday<br>
+          ───────────────
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag feed">Feed</span>
+          <span class="platform-tag stories">Stories</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic 7e · Reels</div>
+        <div class="tactic-title">POLL BAIT</div>
+        <div class="tactic-desc">Either answer makes the point. The engagement metric becomes the content.</div>
+        <div class="tactic-example">
+          when did you last go outside?<br><br>
+          🟩 <span class="highlight">today</span> (good)<br>
+          🟥 can't remember (same)
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag reels">Reels</span>
+          <span class="platform-tag stories">Stories</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic · Swipe Gate</div>
+        <div class="tactic-title">SWIPE-UP UNLOCK</div>
+        <div class="tactic-desc">The "unlock" is: go do the thing. Completion comment IS the social proof for the next post.</div>
+        <div class="tactic-example">
+          slide 1: "the unlock is free."<br>
+          slide 2: "swipe for it."<br>
+          slide 3: <span class="highlight">"put the phone down<br>for 10 minutes.<br>that's it. you're unlocked."</span>
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag feed">Feed</span>
+          <span class="platform-tag reels">Reels</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic · Read Receipts</div>
+        <div class="tactic-title">STREAK GUILT</div>
+        <div class="tactic-desc">Borrowed Duolingo anxiety. The streak you're actually breaking is the streak of not going outside.</div>
+        <div class="tactic-example">
+          🔥 <span class="highlight">Day 0</span> — walked today<br>
+          ─────────────────<br>
+          🟥 yesterday<br>
+          🟥 day before<br>
+          🟥 the whole week<br><br>
+          start the streak.
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag feed">Feed</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic · Conspiracy Frame</div>
+        <div class="tactic-title">ALGORITHM CONSPIRACY</div>
+        <div class="tactic-desc">Speaks fluent feed-brain. Immediately undercuts itself. The joke IS the point.</div>
+        <div class="tactic-example">
+          <span class="highlight">they don't want you to know</span><br>
+          that you can just<br>
+          close the app<br>
+          and go for a walk<br>
+          for free<br>
+          right now<br>
+          without signing up for anything.
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag reels">Reels</span>
+          <span class="platform-tag feed">Feed</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic · Sticker Collage</div>
+        <div class="tactic-title">STICKER COLLAGE</div>
+        <div class="tactic-desc">Chaotic Y2K layout mimics peak engagement bait — every element is asking you to leave the app.</div>
+        <div class="tactic-example">
+          ✨ tap to leave ✨<br>
+          💀 ur phone time today 💀<br>
+          <span class="highlight">⚡ TOUCH GRASS ⚡</span><br>
+          🌿 free • offline • now 🌿
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag stories">Stories</span>
+          <span class="platform-tag reels">Reels</span>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-type">Tactic · Clickbait Thumb</div>
+        <div class="tactic-title">CLICKBAIT THUMBNAIL</div>
+        <div class="tactic-desc">Every thumbnail convention — shocked face, arrow, bold text — leads to a 3-word answer. The reveal IS the post.</div>
+        <div class="tactic-example">
+          [thumbnail: giant text]<br>
+          "I TRIED THIS FOR 24HRS"<br>
+          ──────────<br>
+          <span class="highlight">content: "i went outside.<br>it was fine. bye."</span>
+        </div>
+        <div class="tactic-platform">
+          <span class="platform-tag reels">Reels</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- POST PREVIEWS -->
+  <section>
+    <p class="section-label">Creative Previews</p>
+    <h2 class="section-title">What it looks like<br><em>mid-scroll.</em></h2>
+    <br><br>
+    <div class="post-previews">
+
+      <div class="post-preview">
+        <div class="post-preview-screen blunt" style="position:relative;">
+          <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+          <div class="post-preview-headline">you've been<br>scrolling<br><span style="color:var(--coral)">47 min.</span></div>
+          <div class="post-preview-sub">autoplay stops · you don't have to</div>
+        </div>
+        <div class="post-preview-meta">
+          <span class="post-preview-format">Reels 6b</span>
+          <span class="post-preview-tone">blunt</span>
+        </div>
+      </div>
+
+      <div class="post-preview">
+        <div class="post-preview-screen guilt" style="position:relative;">
+          <div class="notification-dot"></div>
+          <div class="post-preview-headline coral">🔴 1 unread<br>sunset</div>
+          <div class="countdown-digits">expires in 00:14:32</div>
+          <div class="post-preview-sub">tap to dismiss · or just go outside</div>
+        </div>
+        <div class="post-preview-meta">
+          <span class="post-preview-format">Feed 6a</span>
+          <span class="post-preview-tone">guilt</span>
+        </div>
+      </div>
+
+      <div class="post-preview">
+        <div class="post-preview-screen calm">
+          <div class="post-preview-headline" style="font-family:'Source Serif 4',serif;font-style:italic;font-weight:400;font-size:18px;color:var(--cream);line-height:1.4">
+            your brain is not broken.<br>it's just very, very tired<br>of rectangles.
+          </div>
+          <div class="post-preview-bar"></div>
+          <div class="post-preview-sub">drink water. go walk. we'll wait.</div>
+        </div>
+        <div class="post-preview-meta">
+          <span class="post-preview-format">Feed 6c</span>
+          <span class="post-preview-tone">calm</span>
+        </div>
+      </div>
+
+      <div class="post-preview">
+        <div class="post-preview-screen meme">
+          <div class="post-preview-headline dark" style="font-size:14px;line-height:1.4;">
+            they don't want you<br>to know you can just<br><span style="color:var(--coral)">close the app</span><br>and go for a walk<br>for free right now
+          </div>
+          <div class="post-preview-sub dark">not sponsored · not a product · just a walk</div>
+        </div>
+        <div class="post-preview-meta">
+          <span class="post-preview-format">Reels 7e</span>
+          <span class="post-preview-tone">meme</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- POST CALENDAR -->
+  <section>
+    <p class="section-label">Post Cadence — Week 1</p>
+    <h2 class="section-title">Alternating tactics.<br><em>Never the same gimmick twice.</em></h2>
+    <br><br>
+    <div class="calendar-wrap">
+      <div class="calendar-grid">
+        <div class="cal-header">TIME</div>
+        <div class="cal-header">MON</div>
+        <div class="cal-header">TUE</div>
+        <div class="cal-header">WED</div>
+        <div class="cal-header">THU</div>
+        <div class="cal-header">FRI</div>
+        <div class="cal-header">SAT</div>
+        <div class="cal-header">SUN</div>
+
+        <div class="cal-time">9 AM</div>
+        <div class="cal-cell">
+          <div class="cal-post blunt">
+            <div class="cal-post-label">Reels 6b</div>
+            <div class="cal-post-title">Countdown Urgency</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post calm">
+            <div class="cal-post-label">Feed 6c</div>
+            <div class="cal-post-title">Fake Stats</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post guilt">
+            <div class="cal-post-label">Feed 6a</div>
+            <div class="cal-post-title">Notif Bait</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post meme">
+            <div class="cal-post-label">Reels 7e</div>
+            <div class="cal-post-title">Poll Bait</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post blunt">
+            <div class="cal-post-label">Reels 6e</div>
+            <div class="cal-post-title">Glitch Loop</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post calm">
+            <div class="cal-post-label">Feed 6f</div>
+            <div class="cal-post-title">Lockscreen</div>
+          </div>
+        </div>
+        <div class="cal-cell"></div>
+
+        <div class="cal-time">6 PM</div>
+        <div class="cal-cell"></div>
+        <div class="cal-cell">
+          <div class="cal-post guilt">
+            <div class="cal-post-label">Stories</div>
+            <div class="cal-post-title">Streak Guilt</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post meme">
+            <div class="cal-post-label">Feed 6c</div>
+            <div class="cal-post-title">Algorithm Conspiracy</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post blunt">
+            <div class="cal-post-label">Reels</div>
+            <div class="cal-post-title">Clickbait Thumb</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post calm">
+            <div class="cal-post-label">Feed 6a</div>
+            <div class="cal-post-title">Swipe-Up Unlock</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post meme">
+            <div class="cal-post-label">Stories</div>
+            <div class="cal-post-title">Sticker Collage</div>
+          </div>
+        </div>
+        <div class="cal-cell">
+          <div class="cal-post guilt">
+            <div class="cal-post-label">Reels 6b</div>
+            <div class="cal-post-title">Lockscreen + CTA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- A/B TABLE -->
+  <section>
+    <p class="section-label">Platform A/B Strategy</p>
+    <h2 class="section-title">Same idea.<br><em>Different hook.</em></h2>
+    <br><br>
+    <div style="overflow-x:auto">
+      <table class="ab-table">
+        <thead>
+          <tr>
+            <th>Post Type</th>
+            <th>Platform</th>
+            <th><span class="ab-badge a">A</span> Hook (static / feed)</th>
+            <th><span class="ab-badge b">B</span> Hook (motion / reels)</th>
+            <th>Signal to Watch</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Countdown</td>
+            <td>IG / TT</td>
+            <td><div class="hook-text">YOU HAVE 12 MINUTES LEFT<br>OF SUNLIGHT TODAY.</div></td>
+            <td><div class="hook-text">autoplay bar fills. screen goes black. "bye."</div></td>
+            <td>saves · "going outside now" comments</td>
+          </tr>
+          <tr>
+            <td>Fake Stat</td>
+            <td>IG</td>
+            <td><div class="hook-text">STUDY: people who walk daily<br>are 100% outside right now.</div></td>
+            <td><div class="hook-text">text typesets live. number appears. zoom out.</div></td>
+            <td>shares to story · "is this real" comments</td>
+          </tr>
+          <tr>
+            <td>Notif Bait</td>
+            <td>IG / TT</td>
+            <td><div class="hook-text">🔴 1 unread sunset — tap to dismiss</div></td>
+            <td><div class="hook-text">phone notification UI animation → dissolve</div></td>
+            <td>DMs · comments saying "went for a walk"</td>
+          </tr>
+          <tr>
+            <td>Algorithm Conspiracy</td>
+            <td>TT / IG</td>
+            <td><div class="hook-text">THEY DON'T WANT YOU<br>TO KNOW THIS IS FREE.</div></td>
+            <td><div class="hook-text">green text scroll. CRT monitor. click-off.</div></td>
+            <td>completion rate · stitches / duets</td>
+          </tr>
+          <tr>
+            <td>Poll Bait</td>
+            <td>IG Stories / TT</td>
+            <td><div class="hook-text">when did you last go outside?<br>□ today  □ honestly can't remember</div></td>
+            <td><div class="hook-text">poll flies in. both options say "go outside".</div></td>
+            <td>poll responses · walk log comments</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CAPTION BANK -->
+  <section>
+    <p class="section-label">Caption Bank — Bilingual Rotation</p>
+    <h2 class="section-title">Never the same twice.<br><em>Always sounds handwritten.</em></h2>
+    <br><br>
+    <div class="caption-bank">
+      <div>
+        <div class="caption-col-label">English</div>
+        <div class="caption-item">
+          <div class="caption-tone">calm</div>
+          <div class="caption-text">your brain is not broken. it's just very, very tired of rectangles.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">blunt</div>
+          <div class="caption-text blunt">put the phone down. this post will still be useless when you get back.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">guilt</div>
+          <div class="caption-text">the number of steps you walked today is in your pocket. we both know what it says.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">meme</div>
+          <div class="caption-text blunt">pov: you've seen 400 posts today and learned nothing useful. go for a walk.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">calm</div>
+          <div class="caption-text">you don't need to finish the feed. it will keep going. you do not have to.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">blunt</div>
+          <div class="caption-text blunt">log off. touch grass. drink water. that's the whole post. bye.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">meme</div>
+          <div class="caption-text blunt">they really made infinite scroll and then called us addicted. incredible.</div>
+        </div>
+      </div>
+      <div>
+        <div class="caption-col-label">Español</div>
+        <div class="caption-item">
+          <div class="caption-tone">calm</div>
+          <div class="caption-text">tu cerebro no está roto. solo está muy, muy cansado de rectángulos.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">blunt</div>
+          <div class="caption-text blunt">suelta el teléfono. este post seguirá siendo inútil cuando vuelvas.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">guilt</div>
+          <div class="caption-text">cuántos pasos diste hoy está en tu bolsillo. los dos sabemos lo que dice.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">meme</div>
+          <div class="caption-text blunt">pov: viste 400 posts hoy y no aprendiste nada útil. sal a caminar.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">calm</div>
+          <div class="caption-text">no tienes que terminar el feed. seguirá aquí. tú no tienes que estarlo.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">blunt</div>
+          <div class="caption-text blunt">cierra la app. toca pasto. toma agua. ese es el post completo. chau.</div>
+        </div>
+        <div class="caption-item">
+          <div class="caption-tone">meme</div>
+          <div class="caption-text blunt">crearon el scroll infinito y luego nos llamaron adictos. increíble.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- KPI -->
+  <section>
+    <p class="section-label">What We're Actually Measuring</p>
+    <h2 class="section-title">Completion signal.<br><em>Not vanity metrics.</em></h2>
+    <br><br>
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 2a5 5 0 110 10A5 5 0 018 3zm.5 2.5h-1v4l3.5 2.1.5-.87-3-1.78V5.5z"/></svg>
+        </div>
+        <div class="kpi-name">Walk Comments</div>
+        <div class="kpi-desc">Comments saying "went for a walk," "just got back," "touched grass." These are the primary KPI — a real action taken.</div>
+        <div class="kpi-signal">PRIMARY SIGNAL</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><path d="M3 2h10a1 1 0 011 1v7a1 1 0 01-1 1H9l-2 3-2-3H3a1 1 0 01-1-1V3a1 1 0 011-1z"/></svg>
+        </div>
+        <div class="kpi-name">Saves & Sends</div>
+        <div class="kpi-desc">Saved to show someone else = the message landed. Sent to a contact = personal accountability loop activated.</div>
+        <div class="kpi-signal">DISTRIBUTION SIGNAL</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zm0 2l4 4H9v4H7V8H4l4-4z"/></svg>
+        </div>
+        <div class="kpi-name">Reels Completion</div>
+        <div class="kpi-desc">Completion rate on Reels — not likes. If they watched to the end, the pattern interrupt worked mid-scroll.</div>
+        <div class="kpi-signal">ATTENTION SIGNAL</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><path d="M2 8l4-5v3h8v4H6v3L2 8z"/></svg>
+        </div>
+        <div class="kpi-name">Stitch / Duet Rate</div>
+        <div class="kpi-desc">People adding their "went for a walk" video on top = organic amplification that stays on-brand automatically.</div>
+        <div class="kpi-signal">AMPLIFICATION</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+        </div>
+        <div class="kpi-name">Poll Responses</div>
+        <div class="kpi-desc">Both poll options work — but the ratio of "today" to "can't remember" tells us what the audience actually needs.</div>
+        <div class="kpi-signal">AUDIENCE SIGNAL</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-icon">
+          <svg viewBox="0 0 16 16"><path d="M8 1L10 6h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z"/></svg>
+        </div>
+        <div class="kpi-name">Streak Participants</div>
+        <div class="kpi-desc">People who log Day 2, Day 3 in comments. Returning to report = the campaign broke the scroll loop at least once.</div>
+        <div class="kpi-signal">RETENTION SIGNAL</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- BRAND RULES -->
+  <section>
+    <p class="section-label">Brand Constitution — Never Break These</p>
+    <h2 class="section-title">The account always sounds<br><em>like it's mocking the feed<br>from inside it.</em></h2>
+    <br><br>
+    <div class="rules-list">
+      <div class="rule-card">
+        <div class="rule-number">01</div>
+        <div class="rule-title">Never preach.</div>
+        <div class="rule-desc">No "social media is bad for you" lectures. The tone is blunt irony — the feed already knows. So do we.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">02</div>
+        <div class="rule-title">The joke lands first.</div>
+        <div class="rule-desc">Hook with the bait pattern. Land the punchline. The action is the punchline. In that order, every time.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">03</div>
+        <div class="rule-title">No guilt without exit.</div>
+        <div class="rule-desc">Every guilt-tactic post ends with one concrete, free, frictionless action. Walk. Water. Close the app.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">04</div>
+        <div class="rule-title">Bilingual, not translated.</div>
+        <div class="rule-desc">Spanish captions are rewritten for the register, not Google Translated. They should feel native to each language.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">05</div>
+        <div class="rule-title">Character stays intact.</div>
+        <div class="rule-desc">No inspirational quotes. No wellness language. No "you deserve rest." We live in the feed. We mock the feed.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-number">06</div>
+        <div class="rule-title">Never explain the bit.</div>
+        <div class="rule-desc">If you have to caption what the tactic is doing, the tactic failed. Let the format do the work.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="footer-wordmark">SCROLL<span>STOP</span></div>
+  <div class="footer-note">
+    Using the feed's own attention mechanics against itself. Every bait tactic flipped to push people off their phone and into the world. Never breaking character.
+  </div>
+</footer>
+
 </body>
 </html>
