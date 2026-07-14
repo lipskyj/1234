@@ -81,7 +81,7 @@ select:focus{border-color:var(--accent)}
 .drop-zone:hover,.drop-zone.over{border-color:var(--accent3);background:var(--surface2)}
 .drop-zone .dz-icon{font-size:32px;display:block;margin-bottom:8px}
 .drop-zone p{font-size:.75rem;color:var(--muted);line-height:1.5}
-.drop-zone input{display:none}
+.drop-zone{display:block}
 #img-preview{width:100%;border-radius:8px;margin-bottom:12px;display:none;max-height:160px;object-fit:cover}
 .seg-btns{display:flex;gap:6px;margin-bottom:10px}
 .seg-btn{flex:1;padding:6px 4px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
@@ -158,11 +158,11 @@ select:focus{border-color:var(--accent)}
     <div class="tab-panel" id="tab-image">
       <div class="sb-sec">
         <div class="lbl">Upload Image</div>
-        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('img-file').click()">
+        <label class="drop-zone" id="drop-zone" for="img-file">
           <span class="dz-icon">🖼️</span>
           <p>Click or drag & drop an image<br><span style="color:var(--accent3)">PNG / JPG / WebP</span></p>
-          <input type="file" id="img-file" accept="image/*" onchange="onImageFile(event)">
-        </div>
+        </label>
+        <input type="file" id="img-file" accept="image/*" style="display:none" onchange="onImageFile(event)">
         <img id="img-preview" alt="preview">
         <div class="lbl">Conversion Mode</div>
         <div class="seg-btns">
@@ -1764,10 +1764,10 @@ function setImgMode(m) {
 // Wire up drag & drop on drop zone
 (function() {
   const dz = document.getElementById('drop-zone');
-  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', e => { e.stopPropagation(); dz.classList.remove('over'); });
   dz.addEventListener('drop', e => {
-    e.preventDefault(); dz.classList.remove('over');
+    e.preventDefault(); e.stopPropagation(); dz.classList.remove('over');
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) loadImageFile(file);
   });
@@ -1783,18 +1783,25 @@ function setImgMode(m) {
 function onImageFile(e) { if (e.target.files[0]) loadImageFile(e.target.files[0]); }
 
 function loadImageFile(file) {
-  const url = URL.createObjectURL(file);
-  const preview = document.getElementById('img-preview');
-  preview.src = url; preview.style.display = 'block';
-  const img = new Image();
-  img.onload = () => {
-    imgBitmap = img;
-    const btn = document.getElementById('img-gen-btn');
-    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
-    document.getElementById('img-gen-lbl').textContent = 'Convert to 3D';
-    URL.revokeObjectURL(url);
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const dataURL = ev.target.result;
+    const preview = document.getElementById('img-preview');
+    preview.src = dataURL;
+    preview.style.display = 'block';
+    const img = new Image();
+    img.onload = () => {
+      imgBitmap = img;
+      const btn = document.getElementById('img-gen-btn');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+      document.getElementById('img-gen-lbl').textContent = 'Convert to 3D';
+      toast('Image loaded — click Convert to 3D!', 'ok');
+    };
+    img.src = dataURL;
   };
-  img.src = url;
+  reader.readAsDataURL(file);
 }
 
 async function convertImage() {
@@ -1806,7 +1813,8 @@ async function convertImage() {
   await sleep(100);
 
   // Draw image to offscreen canvas and read pixels
-  const oc = new OffscreenCanvas(res, res);
+  const oc = document.createElement('canvas');
+  oc.width = res; oc.height = res;
   const ctx = oc.getContext('2d');
   ctx.drawImage(imgBitmap, 0, 0, res, res);
   const data = ctx.getImageData(0, 0, res, res).data;
