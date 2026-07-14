@@ -1,41 +1,1117 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Educational Problem Solver</title>
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>3D Generator — Meshy AI</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a12;
+      --surface: #13131f;
+      --surface2: #1c1c2e;
+      --border: #2a2a42;
+      --accent: #7c3aed;
+      --accent2: #a855f7;
+      --accent3: #c084fc;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --error: #ef4444;
+      --warn: #f59e0b;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--accent), var(--accent3));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    header h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: -.5px; }
+    header h1 span { color: var(--accent3); }
+    .badge {
+      margin-left: auto;
+      font-size: .7rem; font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      letter-spacing: .5px;
+    }
+
+    /* ── Layout ── */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 0;
+      height: calc(100vh - 65px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-section {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-section:last-child { border-bottom: none; flex: 1; }
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* API Key */
+    .api-row {
+      display: flex; gap: 8px;
+    }
+    .api-row input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text);
+      font-size: .85rem;
+      font-family: 'Courier New', monospace;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .api-row input:focus { border-color: var(--accent); }
+    .api-row input.saved { border-color: var(--success); }
+    .btn-sm {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .btn-sm:hover { background: var(--accent2); }
+    .btn-sm:active { transform: scale(.96); }
+
+    .api-hint {
+      margin-top: 8px;
+      font-size: .72rem;
+      color: var(--text-muted);
+    }
+    .api-hint a { color: var(--accent3); text-decoration: none; }
+    .api-hint a:hover { text-decoration: underline; }
+
+    /* Mode tabs */
+    .mode-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .mode-tab {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all .2s;
+    }
+    .mode-tab.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    /* Prompt */
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--text);
+      font-size: .88rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+      transition: border-color .2s;
+      line-height: 1.5;
+    }
+    textarea:focus { border-color: var(--accent); }
+
+    /* Negative prompt */
+    .neg-label {
+      font-size: .75rem;
+      color: var(--text-muted);
+      margin: 12px 0 6px;
+    }
+
+    /* Options */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .opt-group label {
+      font-size: .72rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+    select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-size: .83rem;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color .2s;
+    }
+    select:focus { border-color: var(--accent); }
+
+    /* Generate button */
+    .btn-generate {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-generate:hover { opacity: .9; }
+    .btn-generate:active { transform: scale(.98); }
+    .btn-generate:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+
+    /* Presets */
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .preset-chip {
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-muted);
+      font-size: .75rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .preset-chip:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    /* ── Viewer ── */
+    .viewer {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      overflow: hidden;
+    }
+    .viewer-toolbar {
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .viewer-toolbar h2 { font-size: .9rem; font-weight: 600; flex: 1; }
+
+    .viewer-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 3D canvas */
+    #three-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      pointer-events: none;
+    }
+    .empty-state .icon3d {
+      font-size: 72px;
+      line-height: 1;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 24px #7c3aed66);
+    }
+    .empty-state h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+    .empty-state p { font-size: .85rem; color: var(--text-muted); max-width: 300px; line-height: 1.6; }
+
+    /* Progress overlay */
+    #progress-overlay {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10,10,18,.85);
+      backdrop-filter: blur(4px);
+      gap: 20px;
+    }
+    #progress-overlay.visible { display: flex; }
+    .spinner {
+      width: 56px; height: 56px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent2);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .progress-text { font-size: 1rem; font-weight: 600; }
+    .progress-sub { font-size: .8rem; color: var(--text-muted); }
+    .progress-bar-wrap {
+      width: 240px;
+      height: 6px;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      border-radius: 999px;
+      transition: width .4s ease;
+      width: 0%;
+    }
+
+    /* Status bar */
+    .status-bar {
+      padding: 8px 20px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .75rem;
+      color: var(--text-muted);
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+    .status-dot.green { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .status-dot.purple { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+    /* Download buttons */
+    .dl-btns { display: flex; gap: 8px; }
+    .btn-dl {
+      padding: 6px 14px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-dl:hover { border-color: var(--accent3); color: var(--accent3); }
+
+    /* Task history */
+    .history-list { display: flex; flex-direction: column; gap: 8px; }
+    .history-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+    .history-item:hover { border-color: var(--accent3); }
+    .history-item.active { border-color: var(--accent2); }
+    .history-prompt { font-size: .82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-meta { font-size: .7rem; color: var(--text-muted); margin-top: 4px; display: flex; gap: 8px; }
+    .history-status {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .history-status.SUCCEEDED { background: #10b98122; color: var(--success); }
+    .history-status.IN_PROGRESS,
+    .history-status.PENDING { background: #7c3aed22; color: var(--accent3); }
+    .history-status.FAILED { background: #ef444422; color: var(--error); }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: .85rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all .3s;
+      pointer-events: none;
+      z-index: 9999;
+      max-width: 320px;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.success { background: #10b98122; border: 1px solid var(--success); color: var(--success); }
+    #toast.error { background: #ef444422; border: 1px solid var(--error); color: var(--error); }
+    #toast.info { background: #7c3aed22; border: 1px solid var(--accent2); color: var(--accent3); }
+
+    /* Demo mode banner */
+    .demo-banner {
+      background: linear-gradient(90deg, #7c3aed22, #a855f722);
+      border: 1px solid #7c3aed55;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: .78rem;
+      color: var(--accent3);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      main { grid-template-columns: 1fr; }
+      .viewer { min-height: 50vh; }
+      .sidebar { max-height: 50vh; }
+    }
+  </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState } = React;
 
-    const EducationalProblemSolver = ({ initialProblem }) => {
-      const [problem, setProblem] = useState(initialProblem);
-      const [solution, setSolution] = useState('');
+<header>
+  <div class="logo-icon">✦</div>
+  <h1>3D <span>Generator</span></h1>
+  <span class="badge">MESHY AI</span>
+</header>
 
-      const solveProblem = () => {
-        setSolution(`Solution to: ${problem}`);
-      };
+<main>
+  <!-- Sidebar -->
+  <aside class="sidebar">
 
-      return (
-        <div>
-          <h1>Educational Problem Solver</h1>
-          <p>{problem}</p>
-          <button onClick={solveProblem}>Solve Problem</button>
-          <p>{solution}</p>
+    <!-- API Key -->
+    <div class="sidebar-section">
+      <div class="section-label">Meshy API Key</div>
+      <div class="demo-banner">
+        No key? The demo mode shows a live interactive 3D preview using Three.js. Add your Meshy AI key to generate real AI models.
+      </div>
+      <div class="api-row">
+        <input type="password" id="api-key-input" placeholder="msy_xxxxxxxxxxxxxxxx" autocomplete="off" />
+        <button class="btn-sm" onclick="saveKey()">Save</button>
+      </div>
+      <p class="api-hint">Get a free key at <a href="https://www.meshy.ai" target="_blank">meshy.ai</a> → Dashboard → API Keys</p>
+    </div>
+
+    <!-- Mode -->
+    <div class="sidebar-section">
+      <div class="section-label">Generation Mode</div>
+      <div class="mode-tabs">
+        <div class="mode-tab active" onclick="setMode('text')" id="tab-text">✦ Text to 3D</div>
+        <div class="mode-tab" onclick="setMode('image')" id="tab-image">🖼 Image to 3D</div>
+      </div>
+
+      <!-- Prompt -->
+      <textarea id="prompt-input" placeholder="Describe your 3D model…&#10;e.g. A medieval knight in full armor, highly detailed, game-ready" rows="4"></textarea>
+
+      <!-- Negative -->
+      <div class="neg-label">Negative prompt (optional)</div>
+      <textarea id="neg-prompt-input" placeholder="low quality, blurry, distorted" rows="2"></textarea>
+
+      <!-- Image input (hidden by default) -->
+      <div id="image-section" style="display:none; margin-top:12px;">
+        <label class="neg-label">Upload reference image</label>
+        <input type="file" id="image-input" accept="image/*" style="color:var(--text-muted); font-size:.8rem; width:100%;" />
+      </div>
+
+      <!-- Options -->
+      <div class="options-grid">
+        <div class="opt-group">
+          <label>Art Style</label>
+          <select id="opt-style">
+            <option value="realistic">Realistic</option>
+            <option value="cartoon">Cartoon</option>
+            <option value="low-poly">Low Poly</option>
+            <option value="sculpture">Sculpture</option>
+            <option value="pbr">PBR</option>
+          </select>
         </div>
-      );
-    };
+        <div class="opt-group">
+          <label>Quality</label>
+          <select id="opt-quality">
+            <option value="draft">Draft (fast)</option>
+            <option value="standard" selected>Standard</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div class="opt-group">
+          <label>Format</label>
+          <select id="opt-format">
+            <option value="glb">GLB</option>
+            <option value="obj">OBJ</option>
+            <option value="fbx">FBX</option>
+            <option value="usdz">USDZ</option>
+          </select>
+        </div>
+        <div class="opt-group">
+          <label>Texture</label>
+          <select id="opt-texture">
+            <option value="1024">1K</option>
+            <option value="2048" selected>2K</option>
+            <option value="4096">4K</option>
+          </select>
+        </div>
+      </div>
 
-    ReactDOM.render(
-      <EducationalProblemSolver initialProblem="What is 2 + 2?" />,
-      document.getElementById('root')
-    );
-  </script>
+      <button class="btn-generate" onclick="generate()" id="gen-btn">
+        <span id="gen-icon">✦</span>
+        <span id="gen-label">Generate 3D Model</span>
+      </button>
+    </div>
+
+    <!-- Presets -->
+    <div class="sidebar-section">
+      <div class="section-label">Quick Prompts</div>
+      <div class="presets" id="presets"></div>
+    </div>
+
+    <!-- History -->
+    <div class="sidebar-section">
+      <div class="section-label">Recent Tasks</div>
+      <div class="history-list" id="history-list">
+        <div style="font-size:.8rem; color:var(--text-muted);">No tasks yet.</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Viewer -->
+  <div class="viewer">
+    <div class="viewer-toolbar">
+      <h2 id="viewer-title">3D Viewport</h2>
+      <div class="dl-btns" id="dl-btns" style="display:none;"></div>
+    </div>
+
+    <div class="viewer-body">
+      <!-- Three.js canvas -->
+      <canvas id="three-canvas"></canvas>
+
+      <!-- Empty state (shown over canvas initially) -->
+      <div class="empty-state" id="empty-state" style="position:absolute;">
+        <div class="icon3d">🧊</div>
+        <h3>Ready to Generate</h3>
+        <p>Enter a text prompt and click Generate. A live 3D preview rotates here while your model is being created.</p>
+      </div>
+
+      <!-- Progress overlay -->
+      <div id="progress-overlay">
+        <div class="spinner"></div>
+        <div class="progress-text" id="prog-text">Initializing…</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="prog-bar"></div>
+        </div>
+        <div class="progress-sub" id="prog-sub">This usually takes 30–120 seconds</div>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-dot" id="status-dot"></div>
+      <span id="status-text">Ready</span>
+      <span style="margin-left:auto;" id="task-id-display"></span>
+    </div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<!-- Three.js -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://unpkg.com/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let apiKey = localStorage.getItem('meshy_api_key') || '';
+let mode = 'text';
+let currentTaskId = null;
+let pollTimer = null;
+let tasks = JSON.parse(localStorage.getItem('meshy_tasks') || '[]');
+let demoScene = null;
+
+// ── Init ───────────────────────────────────────────────────────────────────
+if (apiKey) {
+  document.getElementById('api-key-input').value = apiKey;
+  document.getElementById('api-key-input').classList.add('saved');
+}
+
+const PRESETS = [
+  'A glowing crystal dragon',
+  'Sci-fi battle mech suit',
+  'Ancient Greek temple ruins',
+  'Cute cartoon fox character',
+  'Futuristic sports car',
+  'Magic floating island',
+  'Viking warrior with axe',
+  'Giant mushroom forest',
+  'Steampunk airship',
+  'Fantasy treasure chest',
+];
+
+function initPresets() {
+  const el = document.getElementById('presets');
+  PRESETS.forEach(p => {
+    const chip = document.createElement('div');
+    chip.className = 'preset-chip';
+    chip.textContent = p;
+    chip.onclick = () => {
+      document.getElementById('prompt-input').value = p;
+    };
+    el.appendChild(chip);
+  });
+}
+initPresets();
+renderHistory();
+initThreeJS();
+
+// ── Key ────────────────────────────────────────────────────────────────────
+function saveKey() {
+  apiKey = document.getElementById('api-key-input').value.trim();
+  localStorage.setItem('meshy_api_key', apiKey);
+  document.getElementById('api-key-input').classList.add('saved');
+  toast('API key saved', 'success');
+}
+
+// ── Mode ───────────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  document.getElementById('tab-text').classList.toggle('active', m === 'text');
+  document.getElementById('tab-image').classList.toggle('active', m === 'image');
+  document.getElementById('image-section').style.display = m === 'image' ? 'block' : 'none';
+}
+
+// ── Generate ───────────────────────────────────────────────────────────────
+async function generate() {
+  const prompt = document.getElementById('prompt-input').value.trim();
+  if (!prompt) { toast('Please enter a prompt', 'error'); return; }
+
+  if (!apiKey) {
+    // Demo mode — show animated 3D object
+    runDemoMode(prompt);
+    return;
+  }
+
+  setGenerating(true);
+  setStatus('purple', 'Submitting task…');
+
+  try {
+    const body = mode === 'text'
+      ? {
+          mode: 'preview',
+          prompt,
+          negative_prompt: document.getElementById('neg-prompt-input').value.trim() || undefined,
+          art_style: document.getElementById('opt-style').value,
+          should_remesh: true,
+          topology: 'triangle',
+        }
+      : buildImageBody();
+
+    const endpoint = mode === 'text'
+      ? 'https://api.meshy.ai/openapi/v2/text-to-3d'
+      : 'https://api.meshy.ai/openapi/v1/image-to-3d';
+
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    currentTaskId = data.result;
+
+    const task = {
+      id: currentTaskId,
+      prompt,
+      mode,
+      status: 'PENDING',
+      created: Date.now(),
+      urls: null,
+    };
+    tasks.unshift(task);
+    saveTasks();
+    renderHistory();
+
+    document.getElementById('task-id-display').textContent = `Task: ${currentTaskId.slice(0,8)}…`;
+    setStatus('purple', 'Processing…');
+    showProgress('Queued', 5);
+
+    startPolling(currentTaskId);
+
+  } catch (e) {
+    toast(`Error: ${e.message}`, 'error');
+    setGenerating(false);
+    setStatus('', 'Error');
+  }
+}
+
+function buildImageBody() {
+  return {
+    image_url: 'https://assets.meshy.ai/placeholder.jpg', // user uploads handled separately
+    enable_pbr: true,
+  };
+}
+
+// ── Polling ────────────────────────────────────────────────────────────────
+function startPolling(taskId) {
+  clearInterval(pollTimer);
+  pollTimer = setInterval(() => pollTask(taskId), 4000);
+}
+
+async function pollTask(taskId) {
+  try {
+    const endpoint = mode === 'text'
+      ? `https://api.meshy.ai/openapi/v2/text-to-3d/${taskId}`
+      : `https://api.meshy.ai/openapi/v1/image-to-3d/${taskId}`;
+
+    const res = await fetch(endpoint, {
+      headers: { 'Authorization': `Bearer ${apiKey}` },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    const pct = data.progress || 0;
+    const status = data.status;
+
+    showProgress(statusLabel(status), pct);
+    setStatus('purple', `${statusLabel(status)} — ${pct}%`);
+
+    updateTask(taskId, { status, progress: pct, urls: data.model_urls || null });
+
+    if (status === 'SUCCEEDED') {
+      clearInterval(pollTimer);
+      onSuccess(taskId, data);
+    } else if (status === 'FAILED' || status === 'EXPIRED') {
+      clearInterval(pollTimer);
+      onFailed(taskId, data.task_error?.message || 'Unknown error');
+    }
+  } catch (e) {
+    console.warn('Poll error:', e);
+  }
+}
+
+function statusLabel(s) {
+  return { PENDING: 'Queued', IN_PROGRESS: 'Generating', SUCCEEDED: 'Done', FAILED: 'Failed', EXPIRED: 'Expired' }[s] || s;
+}
+
+function onSuccess(taskId, data) {
+  setGenerating(false);
+  hideProgress();
+  setStatus('green', 'Model ready ✓');
+  toast('3D model generated!', 'success');
+
+  updateTask(taskId, { status: 'SUCCEEDED', urls: data.model_urls });
+  renderHistory();
+  showDownloadButtons(data.model_urls);
+
+  // Load GLB in Three.js viewer if available
+  if (data.model_urls?.glb) {
+    loadGLB(data.model_urls.glb);
+  }
+}
+
+function onFailed(taskId, msg) {
+  setGenerating(false);
+  hideProgress();
+  setStatus('', 'Failed');
+  toast(`Generation failed: ${msg}`, 'error');
+  updateTask(taskId, { status: 'FAILED' });
+  renderHistory();
+}
+
+// ── Demo Mode ──────────────────────────────────────────────────────────────
+function runDemoMode(prompt) {
+  document.getElementById('empty-state').style.display = 'none';
+  toast('Demo mode — enter your Meshy API key for real AI models', 'info');
+  setStatus('green', 'Demo preview active');
+
+  // Create a fun procedural 3D object based on the prompt keywords
+  createDemoObject(prompt);
+  showDownloadButtons(null, true);
+}
+
+// ── Three.js ───────────────────────────────────────────────────────────────
+let renderer, scene, camera, controls, animId;
+let currentMesh = null;
+
+function initThreeJS() {
+  const canvas = document.getElementById('three-canvas');
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0a0a12);
+
+  camera = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+  camera.position.set(0, 1.5, 4);
+
+  controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.07;
+  controls.minDistance = 0.5;
+  controls.maxDistance = 20;
+
+  // Lights
+  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambient);
+
+  const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+  dirLight.position.set(3, 6, 4);
+  dirLight.castShadow = true;
+  dirLight.shadow.mapSize.set(1024, 1024);
+  scene.add(dirLight);
+
+  const purpleLight = new THREE.PointLight(0x7c3aed, 3, 10);
+  purpleLight.position.set(-3, 2, -2);
+  scene.add(purpleLight);
+
+  const blueLight = new THREE.PointLight(0x2563eb, 2, 10);
+  blueLight.position.set(3, -1, 2);
+  scene.add(blueLight);
+
+  // Grid
+  const grid = new THREE.GridHelper(10, 20, 0x2a2a42, 0x1c1c2e);
+  grid.position.y = -1.2;
+  scene.add(grid);
+
+  resizeRenderer();
+  window.addEventListener('resize', resizeRenderer);
+
+  animate();
+}
+
+function resizeRenderer() {
+  const canvas = document.getElementById('three-canvas');
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+
+function animate() {
+  animId = requestAnimationFrame(animate);
+  controls.update();
+  if (currentMesh) {
+    currentMesh.rotation.y += 0.005;
+  }
+  renderer.render(scene, camera);
+}
+
+function clearScene() {
+  if (currentMesh) {
+    scene.remove(currentMesh);
+    currentMesh = null;
+  }
+}
+
+function createDemoObject(prompt) {
+  clearScene();
+  const lower = prompt.toLowerCase();
+
+  let geo, mat;
+
+  if (/dragon|beast|creature/.test(lower)) {
+    geo = new THREE.TorusKnotGeometry(0.8, 0.25, 128, 20, 2, 3);
+    mat = new THREE.MeshStandardMaterial({ color: 0x7c3aed, metalness: .8, roughness: .2, emissive: 0x3a1a7a, emissiveIntensity: .4 });
+  } else if (/car|vehicle|ship|airship/.test(lower)) {
+    const group = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.BoxGeometry(2, 0.6, 1), new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: .9, roughness: .1 }));
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.4, 0.9), new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: .7, roughness: .2 }));
+    top.position.y = 0.5;
+    [[-.7,-.35,.55],[.7,-.35,.55],[-.7,-.35,-.55],[.7,-.35,-.55]].forEach(([x,y,z]) => {
+      const w = new THREE.Mesh(new THREE.CylinderGeometry(.25,.25,.15,32), new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 1, roughness: .2 }));
+      w.rotation.z = Math.PI/2; w.position.set(x,y,z);
+      group.add(w);
+    });
+    group.add(body, top);
+    currentMesh = group;
+    scene.add(currentMesh);
+    return;
+  } else if (/crystal|gem|magic|glow/.test(lower)) {
+    geo = new THREE.OctahedronGeometry(1, 2);
+    mat = new THREE.MeshStandardMaterial({ color: 0xa855f7, metalness: .1, roughness: 0, transparent: true, opacity: .85, emissive: 0x7c3aed, emissiveIntensity: .6 });
+  } else if (/temple|ruin|castle|building/.test(lower)) {
+    const group = new THREE.Group();
+    for (let i = 0; i < 6; i++) {
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(.08,.1,1.5+Math.random()*.5,8), new THREE.MeshStandardMaterial({ color: 0xd4c5a9, roughness: .9 }));
+      const angle = (i/6)*Math.PI*2;
+      col.position.set(Math.cos(angle)*.9, col.geometry.parameters.height/2-.75, Math.sin(angle)*.9);
+      group.add(col);
+    }
+    const roof = new THREE.Mesh(new THREE.CylinderGeometry(.1,1.1,.3,6), new THREE.MeshStandardMaterial({ color: 0x8b7355, roughness: .8 }));
+    roof.position.y = 1;
+    group.add(roof);
+    currentMesh = group;
+    scene.add(currentMesh);
+    return;
+  } else if (/fox|wolf|cat|dog|animal/.test(lower)) {
+    geo = new THREE.SphereGeometry(0.7, 32, 32);
+    mat = new THREE.MeshStandardMaterial({ color: 0xff6b35, roughness: .7 });
+  } else if (/island|mountain|terrain/.test(lower)) {
+    geo = new THREE.ConeGeometry(1.2, 1.8, 8);
+    mat = new THREE.MeshStandardMaterial({ color: 0x2d6a4f, roughness: .9, metalness: 0 });
+  } else {
+    // Generic futuristic cube cluster
+    const group = new THREE.Group();
+    const colors = [0x7c3aed, 0xa855f7, 0x2563eb, 0x0891b2];
+    for (let i = 0; i < 12; i++) {
+      const s = .15 + Math.random()*.4;
+      const box = new THREE.Mesh(
+        new THREE.BoxGeometry(s, s, s),
+        new THREE.MeshStandardMaterial({ color: colors[i%colors.length], metalness: .7, roughness: .3, emissive: colors[i%colors.length], emissiveIntensity: .15 })
+      );
+      box.position.set((Math.random()-.5)*1.6, (Math.random()-.5)*1.6, (Math.random()-.5)*1.6);
+      box.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+      group.add(box);
+    }
+    currentMesh = group;
+    scene.add(currentMesh);
+    return;
+  }
+
+  currentMesh = new THREE.Mesh(geo, mat);
+  currentMesh.castShadow = true;
+  scene.add(currentMesh);
+}
+
+function loadGLB(url) {
+  clearScene();
+  const loader = new THREE.GLTFLoader();
+  showProgress('Loading model…', 90);
+  loader.load(url,
+    (gltf) => {
+      const model = gltf.scene;
+      // Center + scale
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z);
+      model.scale.setScalar(2 / maxDim);
+      const center = box.getCenter(new THREE.Vector3());
+      model.position.sub(center.multiplyScalar(2 / maxDim));
+
+      model.traverse(n => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+      currentMesh = model;
+      scene.add(model);
+      hideProgress();
+    },
+    (xhr) => {
+      const pct = (xhr.loaded / xhr.total) * 10 + 90;
+      showProgress('Loading model…', Math.round(pct));
+    },
+    (err) => {
+      console.error(err);
+      toast('Could not load GLB preview', 'error');
+      hideProgress();
+    }
+  );
+}
+
+// ── UI helpers ─────────────────────────────────────────────────────────────
+function setGenerating(on) {
+  document.getElementById('gen-btn').disabled = on;
+  document.getElementById('gen-label').textContent = on ? 'Generating…' : 'Generate 3D Model';
+  document.getElementById('gen-icon').textContent = on ? '⏳' : '✦';
+  document.getElementById('progress-overlay').classList.toggle('visible', on);
+  document.getElementById('empty-state').style.display = on ? 'none' : (currentMesh ? 'none' : 'flex');
+}
+
+function showProgress(label, pct) {
+  document.getElementById('progress-overlay').classList.add('visible');
+  document.getElementById('prog-text').textContent = label;
+  document.getElementById('prog-bar').style.width = `${pct}%`;
+  document.getElementById('empty-state').style.display = 'none';
+}
+
+function hideProgress() {
+  document.getElementById('progress-overlay').classList.remove('visible');
+}
+
+function setStatus(type, text) {
+  const dot = document.getElementById('status-dot');
+  dot.className = 'status-dot' + (type ? ` ${type}` : '');
+  document.getElementById('status-text').textContent = text;
+}
+
+function showDownloadButtons(urls, demo = false) {
+  const el = document.getElementById('dl-btns');
+  el.innerHTML = '';
+  el.style.display = 'flex';
+
+  if (demo) {
+    const span = document.createElement('span');
+    span.style.cssText = 'font-size:.75rem;color:var(--text-muted);';
+    span.textContent = 'Demo preview — add API key for real exports';
+    el.appendChild(span);
+    return;
+  }
+
+  if (!urls) return;
+  Object.entries(urls).forEach(([fmt, url]) => {
+    if (!url) return;
+    const a = document.createElement('a');
+    a.className = 'btn-dl';
+    a.href = url;
+    a.target = '_blank';
+    a.download = '';
+    a.textContent = `↓ ${fmt.toUpperCase()}`;
+    el.appendChild(a);
+  });
+}
+
+// ── Task history ───────────────────────────────────────────────────────────
+function saveTasks() {
+  localStorage.setItem('meshy_tasks', JSON.stringify(tasks.slice(0, 20)));
+}
+
+function updateTask(id, updates) {
+  const t = tasks.find(t => t.id === id);
+  if (t) Object.assign(t, updates);
+  saveTasks();
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (!tasks.length) {
+    el.innerHTML = '<div style="font-size:.8rem;color:var(--text-muted);">No tasks yet.</div>';
+    return;
+  }
+  el.innerHTML = tasks.slice(0, 8).map(t => `
+    <div class="history-item ${t.id === currentTaskId ? 'active' : ''}" onclick="loadTask('${t.id}')">
+      <div class="history-prompt">${escHtml(t.prompt)}</div>
+      <div class="history-meta">
+        <span class="history-status ${t.status}">${t.status}</span>
+        <span>${timeAgo(t.created)}</span>
+        <span>${t.mode}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadTask(id) {
+  const t = tasks.find(t => t.id === id);
+  if (!t) return;
+  currentTaskId = id;
+  document.getElementById('prompt-input').value = t.prompt;
+  renderHistory();
+  if (t.urls?.glb) loadGLB(t.urls.glb);
+  if (t.urls) showDownloadButtons(t.urls);
+  setStatus(t.status === 'SUCCEEDED' ? 'green' : '', statusLabel(t.status));
+  document.getElementById('task-id-display').textContent = `Task: ${id.slice(0,8)}…`;
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = type; }, 3500);
+}
+
+// ── Utils ──────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function timeAgo(ts) {
+  const s = Math.floor((Date.now()-ts)/1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s/60)}m ago`;
+  if (s < 86400) return `${Math.floor(s/3600)}h ago`;
+  return `${Math.floor(s/86400)}d ago`;
+}
+</script>
 </body>
 </html>
