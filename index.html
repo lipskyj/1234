@@ -166,23 +166,23 @@ select:focus{border-color:var(--accent)}
         <img id="img-preview" alt="preview">
         <div class="lbl">Conversion Mode</div>
         <div class="seg-btns">
-          <div class="seg-btn active" id="mode-height" onclick="setImgMode('height')">Height Map</div>
-          <div class="seg-btn" id="mode-silhouette" onclick="setImgMode('silhouette')">Silhouette</div>
+          <div class="seg-btn active" id="mode-height" onclick="setImgMode('height')">Voxel 3D</div>
+          <div class="seg-btn" id="mode-silhouette" onclick="setImgMode('silhouette')">Medallion</div>
         </div>
         <div class="q-row">
           <label>Depth Scale</label>
-          <input type="range" id="depth-scale" min="0.1" max="2" step="0.05" value="0.6">
-          <span class="q-val" id="depth-val">0.6</span>
+          <input type="range" id="depth-scale" min="0.1" max="2" step="0.05" value="0.8">
+          <span class="q-val" id="depth-val">0.8</span>
         </div>
         <div class="q-row">
           <label>Resolution</label>
-          <input type="range" id="img-res" min="32" max="200" step="8" value="96">
-          <span class="q-val" id="res-val">96</span>
+          <input type="range" id="img-res" min="16" max="80" step="4" value="48">
+          <span class="q-val" id="res-val">48</span>
         </div>
         <div class="q-row">
           <label>Smoothing</label>
-          <input type="range" id="img-smooth" min="0" max="5" step="1" value="2">
-          <span class="q-val" id="smooth-val">2</span>
+          <input type="range" id="img-smooth" min="0" max="5" step="1" value="1">
+          <span class="q-val" id="smooth-val">1</span>
         </div>
         <button class="btn-gen" id="img-gen-btn" onclick="convertImage()" style="opacity:.4;cursor:not-allowed" disabled>
           <span>⬆</span><span id="img-gen-lbl">Convert to 3D</span>
@@ -191,8 +191,8 @@ select:focus{border-color:var(--accent)}
       <div class="sb-sec">
         <div class="lbl">How It Works</div>
         <p style="font-size:.78rem;color:var(--muted);line-height:1.7">
-          <b style="color:var(--text)">Height Map</b> — pixel brightness drives vertex displacement on a subdivided plane, creating relief-style 3D.<br><br>
-          <b style="color:var(--text)">Silhouette</b> — dark areas are extruded into solid geometry, light areas become recesses.
+          <b style="color:var(--text)">Voxel 3D</b> — each pixel becomes a 3D column, taller where bright. Looks like a pixel-art sculpture with visible sides.<br><br>
+          <b style="color:var(--text)">Medallion</b> — raises the subject as a smooth bas-relief on a solid backing plate, like a coin or sculpture.
         </p>
       </div>
     </div>
@@ -1893,78 +1893,101 @@ function gaussianBlur(lum, res, radius) {
   return out;
 }
 
-function buildHeightMap(data, res, depthScale, smoothRadius=2) {
-  // Extract luminance grid
+// Voxel 3D: each pixel → a box column. Visible sides make it look like a real 3D object.
+function buildHeightMap(data, res, depthScale, smoothRadius=1) {
   let lum = new Float32Array(res * res);
-  const colors = new Float32Array(res * res * 3);
   for (let i = 0; i < res * res; i++) {
     const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
     lum[i] = (r*0.299 + g*0.587 + b*0.114) / 255;
-    colors[i*3]   = r/255;
-    colors[i*3+1] = g/255;
-    colors[i*3+2] = b/255;
-  }
-
-  // Gaussian smooth to eliminate pixel noise
-  if (smoothRadius > 0) lum = gaussianBlur(lum, res, smoothRadius);
-
-  // Normalize to 0-1
-  let mn = Infinity, mx = -Infinity;
-  for (let i = 0; i < lum.length; i++) { mn = Math.min(mn, lum[i]); mx = Math.max(mx, lum[i]); }
-  const range = mx - mn || 1;
-  for (let i = 0; i < lum.length; i++) lum[i] = (lum[i] - mn) / range;
-
-  const geo = new THREE.PlaneGeometry(3, 3, res-1, res-1);
-  geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) pos.setY(i, lum[i] * depthScale);
-  pos.needsUpdate = true;
-
-  // Vertex colors from original image
-  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  geo.computeVertexNormals();
-
-  const mat = new THREE.MeshStandardMaterial({
-    vertexColors: true, metalness: 0.3, roughness: 0.55, side: THREE.DoubleSide,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.castShadow = true; mesh.receiveShadow = true;
-  mesh.position.y = -depthScale * 0.5;
-  return mesh;
-}
-
-function buildSilhouette(data, res, depthScale, smoothRadius=3) {
-  // Extract luminance, smooth, and invert (dark areas extrude forward)
-  let lum = new Float32Array(res * res);
-  const colors = new Float32Array(res * res * 3);
-  for (let i = 0; i < res * res; i++) {
-    const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
-    lum[i] = 1 - (r*0.299 + g*0.587 + b*0.114) / 255; // inverted: dark = high
-    colors[i*3]   = r/255;
-    colors[i*3+1] = g/255;
-    colors[i*3+2] = b/255;
   }
   if (smoothRadius > 0) lum = gaussianBlur(lum, res, smoothRadius);
 
   // Normalize
   let mn = Infinity, mx = -Infinity;
-  for (let i = 0; i < lum.length; i++) { mn = Math.min(mn, lum[i]); mx = Math.max(mx, lum[i]); }
+  for (let v of lum) { mn = Math.min(mn, v); mx = Math.max(mx, v); }
   const range = mx - mn || 1;
   for (let i = 0; i < lum.length; i++) lum[i] = (lum[i] - mn) / range;
 
-  const geo = new THREE.PlaneGeometry(3, 3, res-1, res-1);
-  geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) pos.setY(i, lum[i] * depthScale);
-  pos.needsUpdate = true;
+  const cellSize = 3 / res;
+  const boxGeo = new THREE.BoxGeometry(cellSize * 0.92, 1, cellSize * 0.92);
+  const mat = new THREE.MeshStandardMaterial({ metalness: 0.3, roughness: 0.6 });
 
-  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  // InstancedMesh: one draw call for all voxels
+  const count = res * res;
+  const instMesh = new THREE.InstancedMesh(boxGeo, mat, count);
+  instMesh.castShadow = true; instMesh.receiveShadow = true;
+
+  const dummy = new THREE.Object3D();
+  const col = new THREE.Color();
+
+  for (let y = 0; y < res; y++) {
+    for (let x = 0; x < res; x++) {
+      const i = y * res + x;
+      const h = Math.max(0.01, lum[i] * depthScale);
+      dummy.position.set(
+        (x / res - 0.5) * 3 + cellSize * 0.5,
+        h * 0.5,
+        (y / res - 0.5) * 3 + cellSize * 0.5
+      );
+      dummy.scale.set(1, h, 1);
+      dummy.updateMatrix();
+      instMesh.setMatrixAt(i, dummy.matrix);
+
+      const r = data[i*4]/255, g2 = data[i*4+1]/255, b2 = data[i*4+2]/255;
+      col.setRGB(r, g2, b2);
+      instMesh.setColorAt(i, col);
+    }
+  }
+  instMesh.instanceMatrix.needsUpdate = true;
+  if (instMesh.instanceColor) instMesh.instanceColor.needsUpdate = true;
+  instMesh.position.y = 0;
+  return instMesh;
+}
+
+// Medallion: smooth bas-relief raised on a solid backing plate — like a coin/sculpture.
+function buildSilhouette(data, res, depthScale, smoothRadius=3) {
+  let lum = new Float32Array(res * res);
+  const colors = new Float32Array(res * res * 3);
+  for (let i = 0; i < res * res; i++) {
+    const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
+    lum[i] = (r*0.299 + g*0.587 + b*0.114) / 255;
+    colors[i*3] = r/255; colors[i*3+1] = g/255; colors[i*3+2] = b/255;
+  }
+  if (smoothRadius > 0) lum = gaussianBlur(lum, res, smoothRadius);
+
+  let mn = Infinity, mx = -Infinity;
+  for (let v of lum) { mn = Math.min(mn, v); mx = Math.max(mx, v); }
+  const range = mx - mn || 1;
+  for (let i = 0; i < lum.length; i++) lum[i] = (lum[i] - mn) / range;
+
+  // Displaced surface (the relief face)
+  const geo = new THREE.PlaneGeometry(3, 3, res-1, res-1);
+  const pos = geo.attributes.position;
+  // PlaneGeometry is XY plane; rotate after so we can set Z (depth) before rotating
+  for (let i = 0; i < pos.count; i++) pos.setZ(i, lum[i] * depthScale);
+  pos.needsUpdate = true;
   geo.computeVertexNormals();
 
-  const mat = new THREE.MeshStandardMaterial({
-    vertexColors: true, metalness: 0.55, roughness: 0.3, side: THREE.DoubleSide,
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  const surfMat = new THREE.MeshStandardMaterial({
+    vertexColors: true, metalness: 0.5, roughness: 0.35,
   });
-  const mesh = new THREE.Mesh(geo, mat);
+  const surface = new THREE.Mesh(geo, surfMat);
+  surface.castShadow = true;
+
+  // Solid backing plate
+  const plate = new THREE.Mesh(
+    new THREE.BoxGeometry(3.1, 3.1, 0.12),
+    new THREE.MeshStandardMaterial({ color: 0x2a1a4a, metalness: 0.7, roughness: 0.3 })
+  );
+  plate.position.z = -0.08;
+  plate.receiveShadow = true;
+
+  const group = new THREE.Group();
+  group.add(plate, surface);
+  // Face the camera
+  group.rotation.x = 0;
+  return group;
   mesh.castShadow = true; mesh.receiveShadow = true;
   return mesh;
 }
