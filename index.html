@@ -184,6 +184,14 @@ select:focus{border-color:var(--accent)}
           <input type="range" id="img-smooth" min="0" max="5" step="1" value="1">
           <span class="q-val" id="smooth-val">1</span>
         </div>
+        <div class="lbl" style="margin-top:14px">Shape Hint <span style="color:var(--accent3);font-weight:400;text-transform:none;letter-spacing:0">(what is in the image?)</span></div>
+        <input type="text" id="img-shape"
+          placeholder="football · dragon · car · cup · face…"
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 11px;color:var(--text);font-size:.84rem;margin-bottom:12px;outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:12px;line-height:1.5">
+          With a shape hint the image color is applied to a proper 3D model.<br>Without it, Voxel/Medallion pixel mode is used.
+        </p>
         <button class="btn-gen" id="img-gen-btn" onclick="convertImage()" style="opacity:.4;cursor:not-allowed" disabled>
           <span>⬆</span><span id="img-gen-lbl">Convert to 3D</span>
         </button>
@@ -191,8 +199,9 @@ select:focus{border-color:var(--accent)}
       <div class="sb-sec">
         <div class="lbl">How It Works</div>
         <p style="font-size:.78rem;color:var(--muted);line-height:1.7">
-          <b style="color:var(--text)">Voxel 3D</b> — each pixel becomes a 3D column, taller where bright. Looks like a pixel-art sculpture with visible sides.<br><br>
-          <b style="color:var(--text)">Medallion</b> — raises the subject as a smooth bas-relief on a solid backing plate, like a coin or sculpture.
+          <b style="color:var(--text)">Shape Hint</b> — type what's in the image (football, dragon…) and the colors are extracted from your image and mapped onto a real 3D model.<br><br>
+          <b style="color:var(--text)">Voxel 3D</b> — pixel-art 3D sculpture from brightness.<br>
+          <b style="color:var(--text)">Medallion</b> — smooth bas-relief on a backing plate.
         </p>
       </div>
     </div>
@@ -296,6 +305,7 @@ const PROMPTS = [
   'Ancient stone temple ruins','Magic floating island','Treasure chest overflowing with gems',
   'Legendary golden sword','Wizard with staff and orb','Sci-fi spaceship',
   'Giant mushroom with glowing spores','Dark obsidian castle','Portal to another dimension',
+  'Golden football','Gold trophy cup','Red sports car',
 ];
 const chipsEl = document.getElementById('chips');
 PROMPTS.forEach(p => {
@@ -515,6 +525,9 @@ function analyzePrompt(text) {
     { key:'portal',    words:['portal','gateway','vortex','rift','wormhole','dimensional'] },
     { key:'ship',      words:['ship','galleon','pirate','vessel','airship','boat'] },
     { key:'animal',    words:['fox','wolf','cat','dog','lion','bear','tiger','creature','beast'] },
+    { key:'ball',      words:['ball','football','soccer','basketball','volleyball','sphere','globe','orb'] },
+    { key:'car',       words:['car','vehicle','truck','jeep','race car','automobile','sports car'] },
+    { key:'cup',       words:['cup','trophy','goblet','chalice','vase','pot','bowl'] },
   ];
 
   let subject = 'abstract';
@@ -1596,6 +1609,171 @@ function buildIsland(md, glow) {
   return g;
 }
 
+// BALL / FOOTBALL
+function buildBall(md, glow) {
+  const g = new THREE.Group();
+  const baseColor = (md.color === 0x7c3aed) ? 0xffffff : md.color;
+
+  const ballMat = new THREE.MeshPhysicalMaterial({
+    color: baseColor, metalness: 0.05, roughness: 0.3,
+    clearcoat: 0.6, clearcoatRoughness: 0.1,
+    envMap, envMapIntensity: 1.2,
+    emissive: glow ? new THREE.Color(baseColor) : new THREE.Color(0),
+    emissiveIntensity: glow ? 0.15 : 0,
+  });
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(1.2, 64, 64), ballMat);
+  ball.castShadow = true; g.add(ball);
+
+  // Football patch positions — use icosahedron vertices (12 pentagon positions)
+  const patchMat = new THREE.MeshPhysicalMaterial({
+    color: 0x111111, metalness: 0.05, roughness: 0.55,
+    clearcoat: 0.6, clearcoatRoughness: 0.1,
+  });
+  const icoGeo = new THREE.IcosahedronGeometry(1, 0);
+  const pos = icoGeo.attributes.position;
+  const seen = new Map();
+  for (let i = 0; i < pos.count; i++) {
+    const v = new THREE.Vector3(pos.getX(i), pos.getY(i), pos.getZ(i)).normalize();
+    const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
+    if (!seen.has(key)) seen.set(key, v);
+  }
+  seen.forEach(dir => {
+    const patch = new THREE.Mesh(new THREE.CircleGeometry(0.28, 5), patchMat.clone());
+    const p = dir.clone().multiplyScalar(1.215);
+    patch.position.copy(p);
+    patch.lookAt(p.clone().multiplyScalar(2));
+    patch.castShadow = true;
+    g.add(patch);
+  });
+
+  // Seam lines (thin tori)
+  const seamMat = new THREE.MeshPhysicalMaterial({ color: 0xcccccc, metalness: 0.1, roughness: 0.6 });
+  [0, Math.PI/3, -Math.PI/3].forEach((ry, i) => {
+    const seam = new THREE.Mesh(new THREE.TorusGeometry(1.21, 0.015, 8, 80), seamMat.clone());
+    seam.rotation.x = Math.PI / 2;
+    seam.rotation.y = ry;
+    if (i > 0) seam.rotation.x = Math.PI / 4 + (i-1) * Math.PI/2;
+    g.add(seam);
+  });
+
+  return g;
+}
+
+// CAR (sleek sports car)
+function buildCar(md, glow) {
+  const g = new THREE.Group();
+  const bodyM = primaryMat(md, glow ? 0.15 : 0);
+  const darkM = mkMat({ color: 0x111111, metalness: 0.9, roughness: 0.1 });
+  const glassM = new THREE.MeshPhysicalMaterial({ color: 0x88ccff, metalness: 0, roughness: 0, transparent: true, opacity: 0.45, transmission: 0.5 });
+  const wheelM = mkMat({ color: 0x222222, metalness: 0.3, roughness: 0.8 });
+  const rimM   = mkMat({ color: 0xcccccc, metalness: 1, roughness: 0.1 });
+
+  // Main body (low aerodynamic box)
+  const body = new THREE.Mesh(new THREE.BoxGeometry(2.6, 0.45, 1.1), bodyM.clone());
+  body.position.y = 0.25; body.castShadow = true; g.add(body);
+
+  // Hood slope
+  const hood = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.12, 1.06), bodyM.clone());
+  hood.position.set(0.85, 0.52, 0); hood.rotation.z = -0.18; hood.castShadow = true; g.add(hood);
+
+  // Cabin
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.42, 0.96), bodyM.clone());
+  cabin.position.set(-0.1, 0.67, 0); cabin.castShadow = true; g.add(cabin);
+
+  // Windscreen + rear glass
+  [0.38, -0.38].forEach((x, i) => {
+    const win = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.38, 0.88), glassM.clone());
+    win.position.set(-0.1 + x * 1.1, 0.66, 0);
+    win.rotation.z = i === 0 ? 0.45 : -0.35;
+    g.add(win);
+  });
+
+  // Side skirts
+  [-0.57, 0.57].forEach(z => {
+    const skirt = new THREE.Mesh(new THREE.BoxGeometry(2.5, 0.12, 0.08), darkM.clone());
+    skirt.position.set(0, 0.06, z); g.add(skirt);
+  });
+
+  // Wheels (4)
+  [[-0.85, 0.62], [-0.85, -0.62], [0.85, 0.62], [0.85, -0.62]].forEach(([x, z]) => {
+    const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.22, 20), wheelM.clone());
+    wheel.rotation.x = Math.PI / 2; wheel.position.set(x, -0.05, z); wheel.castShadow = true;
+    const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.24, 8), rimM.clone());
+    rim.rotation.x = Math.PI / 2; rim.position.copy(wheel.position);
+    // Spokes
+    for (let s = 0; s < 5; s++) {
+      const sp = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.26, 0.04), rimM.clone());
+      sp.rotation.z = (s / 5) * Math.PI * 2; sp.position.copy(wheel.position);
+      g.add(sp);
+    }
+    g.add(wheel, rim);
+  });
+
+  // Headlights
+  [0.48, -0.48].forEach(z => {
+    const hl = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 8),
+      mkMat({ color: 0xffffcc, emissive: new THREE.Color(0xffee88), emissiveIntensity: 1.5 }));
+    hl.position.set(1.3, 0.28, z); g.add(hl);
+  });
+
+  g.position.y = 0.3;
+  return g;
+}
+
+// CUP / TROPHY
+function buildCup(md, glow) {
+  const g = new THREE.Group();
+  const goldM = primaryMat({ color: 0xffd700, metalness: 1, roughness: 0.2 }, glow ? 0.2 : 0);
+  const darkM = mkMat({ color: 0x8b6914, metalness: 0.8, roughness: 0.4 });
+  const gemM  = mkMat({ color: md.color, emissive: new THREE.Color(md.color), emissiveIntensity: 0.6, transparent: true, opacity: 0.9 });
+
+  // Base
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.65, 0.18, 20), goldM.clone());
+  base.position.y = -1.1; base.castShadow = true; g.add(base);
+
+  // Stem (lathe profile)
+  const pts = [];
+  for (let i = 0; i <= 10; i++) {
+    const t = i / 10;
+    const r = 0.1 + Math.sin(t * Math.PI) * 0.08;
+    pts.push(new THREE.Vector2(r, t * 0.85 - 0.9));
+  }
+  const stem = new THREE.Mesh(new THREE.LatheGeometry(pts, 18), goldM.clone());
+  stem.castShadow = true; g.add(stem);
+
+  // Cup bowl (lathe)
+  const bowlPts = [];
+  for (let i = 0; i <= 14; i++) {
+    const t = i / 14;
+    const r = 0.25 + t * 0.55 + Math.sin(t * Math.PI * 0.5) * 0.1;
+    bowlPts.push(new THREE.Vector2(r, t * 1.0 - 0.05));
+  }
+  const bowl = new THREE.Mesh(new THREE.LatheGeometry(bowlPts, 24), goldM.clone());
+  bowl.castShadow = true; g.add(bowl);
+
+  // Rim
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.055, 10, 40), goldM.clone());
+  rim.rotation.x = Math.PI / 2; rim.position.y = 0.96; g.add(rim);
+
+  // Handles
+  [-1, 1].forEach(side => {
+    const handle = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.055, 10, 20, Math.PI), goldM.clone());
+    handle.position.set(side * 0.84, 0.5, 0);
+    handle.rotation.z = side * Math.PI / 2;
+    handle.castShadow = true; g.add(handle);
+  });
+
+  // Decorative gems on bowl
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2;
+    const gem = new THREE.Mesh(new THREE.OctahedronGeometry(0.07, 0), gemM.clone());
+    gem.position.set(Math.cos(a) * 0.65, 0.5, Math.sin(a) * 0.65);
+    g.add(gem);
+  }
+
+  return g;
+}
+
 // ── Color utility ───────────────────────────────────────────────────────────
 function lerpColor(a, b, t) {
   const ar=(a>>16)&255, ag=(a>>8)&255, ab=a&255;
@@ -1612,6 +1790,7 @@ function buildFromAnalysis(a) {
     mushroom:buildMushroom, tree:buildTree, portal:buildPortal,
     ship:buildShip, animal:buildAnimal, island:buildIsland,
     temple:buildCastle, abstract:buildAbstract,
+    ball:buildBall, car:buildCar, cup:buildCup,
   };
   const fn = B[a.subject] || buildAbstract;
   if (fn === buildAbstract) return buildAbstract(a.matDef, a.isGlowing, a.seed);
@@ -1916,39 +2095,83 @@ function loadImageFile(file) {
   reader.readAsDataURL(file);
 }
 
+function extractDominantColor(data, res) {
+  // Average non-background pixels for the dominant hue
+  let r=0, g=0, b=0, n=0;
+  for (let i=0; i<res*res; i++) {
+    const pr=data[i*4], pg=data[i*4+1], pb=data[i*4+2];
+    const lum=(pr*0.299+pg*0.587+pb*0.114);
+    if (lum>25 && lum<235) { r+=pr; g+=pg; b+=pb; n++; }
+  }
+  if (!n) return 0x888888;
+  return ((Math.round(r/n)<<16)|(Math.round(g/n)<<8)|Math.round(b/n));
+}
+
 async function convertImage() {
   if (!imgBitmap) { toast('Upload an image first', 'err'); return; }
   const res = parseInt(document.getElementById('img-res').value);
   const depthScale = parseFloat(document.getElementById('depth-scale').value);
   const smoothRadius = parseInt(document.getElementById('img-smooth').value);
+  const shapeHint = document.getElementById('img-shape').value.trim();
 
   setProgress('Reading image pixels…', 15);
   await sleep(100);
 
-  // Draw image to offscreen canvas and read pixels
+  // Read pixels at working resolution
   const oc = document.createElement('canvas');
   oc.width = res; oc.height = res;
   const ctx = oc.getContext('2d');
   ctx.drawImage(imgBitmap, 0, 0, res, res);
   const data = ctx.getImageData(0, 0, res, res).data;
 
-  setProgress('Building geometry…', 40);
-  await sleep(50);
-
   // Clear old model + texture cache
   _texCache.forEach(t => t.dispose()); _texCache.clear();
   if (modelGroup) { scene.remove(modelGroup); modelGroup = null; }
   if (currentModel) { scene.remove(currentModel); currentModel = null; }
 
-  let mesh;
-  if (imgMode === 'height') {
-    mesh = buildHeightMap(data, res, depthScale, smoothRadius);
+  let group;
+
+  if (shapeHint) {
+    // ── Shape Hint path: build a proper 3D object, color from image ──────
+    await setProgress('Analysing image colors…', 30);
+    await sleep(200);
+    const dominantColor = extractDominantColor(data, res);
+
+    await setProgress(`Identifying shape: "${shapeHint}"…`, 50);
+    await sleep(300);
+
+    const analysis = analyzePrompt(shapeHint);
+    // Override color with what we extracted from the image
+    analysis.matDef = { ...analysis.matDef, color: dominantColor };
+
+    await setProgress('Building 3D model…', 70);
+    await sleep(200);
+
+    const built = buildFromAnalysis(analysis);
+    group = new THREE.Group();
+    group.add(built);
+
+    // Reveal all meshes instantly (no animation for image path)
+    group.traverse(obj => {
+      if (obj.isMesh) obj.castShadow = true;
+    });
+
+    document.getElementById('vtitle').textContent = `Image → 3D · ${capitalize(analysis.subject)}`;
   } else {
-    mesh = buildSilhouette(data, res, depthScale, smoothRadius);
+    // ── Pixel mode: voxel or medallion ───────────────────────────────────
+    await setProgress('Building geometry…', 40);
+    await sleep(50);
+    let mesh;
+    if (imgMode === 'height') {
+      mesh = buildHeightMap(data, res, depthScale, smoothRadius);
+    } else {
+      mesh = buildSilhouette(data, res, depthScale, smoothRadius);
+    }
+    group = new THREE.Group();
+    group.add(mesh);
+    document.getElementById('vtitle').textContent = 'Image → 3D Conversion';
   }
 
-  const group = new THREE.Group();
-  group.add(mesh);
   scene.add(group);
   modelGroup = group;
   currentModel = group;
@@ -1965,10 +2188,9 @@ async function convertImage() {
   document.getElementById('empty').style.display = 'none';
   setDot('g');
   const polyCount = countPolys(group);
-  setStatus('Ready · Image 3D');
+  setStatus(`Ready · ${shapeHint ? capitalize(analyzePrompt(shapeHint).subject) : 'Image 3D'}`);
   document.getElementById('poly-count').textContent = `${polyCount.toLocaleString()} triangles`;
-  document.getElementById('vtitle').textContent = 'Image → 3D Conversion';
-  toast('Image converted to 3D!', 'ok');
+  toast('Converted to 3D!', 'ok');
 }
 
 // Gaussian blur on a luminance grid — key to smooth height maps
