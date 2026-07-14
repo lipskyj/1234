@@ -1851,46 +1851,83 @@ async function _generate(prompt) {
   const meshes = [];
   group.traverse(obj => { if (obj.isMesh) { meshes.push(obj); } });
 
-  // Clone & hide all materials, saving original opacity
+  // Save real materials for Stage 2
+  const realMats = meshes.map(m =>
+    Array.isArray(m.material) ? m.material.slice() : m.material
+  );
+
+  // ── STAGE 1: Coarse clay pass ──────────────────────────────────────────────
+  const clayMat = new THREE.MeshStandardMaterial({ color: 0xb8b0a8, metalness: 0, roughness: 0.95 });
   meshes.forEach(m => {
-    const hide = (mat) => {
-      const c = mat.clone();
-      c._origOpacity = c.opacity;
-      c._origTransparent = c.transparent;
+    const clay = (mat) => {
+      const c = clayMat.clone();
+      c._origOpacity = mat.opacity !== undefined ? mat.opacity : 1;
+      c._origTransparent = mat.transparent || false;
       c.transparent = true;
       c.opacity = 0;
       return c;
     };
-    if (Array.isArray(m.material)) m.material = m.material.map(hide);
-    else m.material = hide(m.material);
+    if (Array.isArray(m.material)) m.material = m.material.map(clay);
+    else m.material = clay(m.material);
     m.castShadow = true;
   });
 
   scene.add(group);
   modelGroup = group;
 
-  // Reveal meshes one by one
   for (let i = 0; i < meshes.length; i++) {
-    const pct = 28 + (i / meshes.length) * 52;
-    await setProgress(`Building part ${i+1}/${meshes.length}…`, Math.round(pct));
-    await revealMesh(meshes[i], 160);
+    const pct = 28 + (i / meshes.length) * 24;
+    await setProgress(`Stage 1 — Coarse mesh ${i+1}/${meshes.length}…`, Math.round(pct));
+    await revealMesh(meshes[i], 120);
   }
 
-  await setProgress('Applying materials & lighting…', 85);
-  await sleep(450);
+  await setProgress('Stage 1 complete ✓ — Starting PBR refinement…', 54);
+  await sleep(600);
 
-  await setProgress('Finalizing model…', 95);
+  // ── STAGE 2: PBR material refinement pass ─────────────────────────────────
+  for (let i = 0; i < meshes.length; i++) {
+    const pct = 55 + (i / meshes.length) * 35;
+    await setProgress(`Stage 2 — Refining surface ${i+1}/${meshes.length}…`, Math.round(pct));
 
-  // Restore proper opacity
+    const real = realMats[i];
+    const applyReal = (mat, orig) => {
+      const o = orig.clone ? orig.clone() : orig;
+      o.transparent = true;
+      o.opacity = 0;
+      o._origOpacity = (orig.opacity !== undefined ? orig.opacity : 1);
+      o._origTransparent = orig.transparent || false;
+      o.needsUpdate = true;
+      return o;
+    };
+
+    if (Array.isArray(real)) {
+      // Dispose clay
+      if (Array.isArray(meshes[i].material)) meshes[i].material.forEach(c => c.dispose());
+      else meshes[i].material.dispose();
+      meshes[i].material = real.map(r => applyReal(r, r));
+    } else {
+      if (Array.isArray(meshes[i].material)) meshes[i].material.forEach(c => c.dispose());
+      else meshes[i].material.dispose();
+      meshes[i].material = applyReal(real, real);
+    }
+
+    await revealMesh(meshes[i], 200);
+  }
+
+  await setProgress('Finalizing model…', 92);
+
+  // Restore final opacity state
   meshes.forEach(m => {
     const restore = (mat) => {
-      mat.transparent = mat._origTransparent;
+      mat.transparent = mat._origTransparent || false;
       mat.opacity = mat._origOpacity !== undefined ? mat._origOpacity : 1;
       mat.needsUpdate = true;
     };
     if (Array.isArray(m.material)) m.material.forEach(restore);
     else restore(m.material);
   });
+
+  clayMat.dispose();
 
   await sleep(300);
 
