@@ -69,6 +69,31 @@ select:focus{border-color:var(--accent)}
 .dot.p{background:var(--accent2);animation:pulse 1.5s ease infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
+/* tabs */
+.tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
+.tab-btn{flex:1;padding:10px 4px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;cursor:pointer;transition:all .2s}
+.tab-btn.active{color:var(--accent3);border-bottom-color:var(--accent3)}
+.tab-panel{display:none;flex-direction:column;overflow-y:auto;flex:1}
+.tab-panel.active{display:flex}
+
+/* image to 3d */
+.drop-zone{border:2px dashed var(--border);border-radius:10px;padding:24px 12px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.drop-zone:hover,.drop-zone.over{border-color:var(--accent3);background:var(--surface2)}
+.drop-zone .dz-icon{font-size:32px;display:block;margin-bottom:8px}
+.drop-zone p{font-size:.75rem;color:var(--muted);line-height:1.5}
+.drop-zone input{display:none}
+#img-preview{width:100%;border-radius:8px;margin-bottom:12px;display:none;max-height:160px;object-fit:cover}
+.seg-btns{display:flex;gap:6px;margin-bottom:10px}
+.seg-btn{flex:1;padding:6px 4px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
+.seg-btn.active{border-color:var(--accent3);color:var(--accent3);background:#7c3aed18}
+
+/* quality settings */
+.q-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.q-row label{font-size:.72rem;color:var(--muted);font-weight:600;flex:1;white-space:nowrap}
+.q-row input[type=range]{flex:2;accent-color:var(--accent2)}
+.q-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent2);cursor:pointer}
+.q-val{font-size:.7rem;color:var(--accent3);font-weight:700;min-width:28px;text-align:right}
+
 /* toast */
 #toast{position:fixed;bottom:20px;right:20px;padding:10px 16px;border-radius:8px;font-size:.82rem;font-weight:600;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;z-index:9999}
 #toast.on{opacity:1;transform:translateY(0)}
@@ -85,39 +110,146 @@ select:focus{border-color:var(--accent)}
 </header>
 <main>
   <aside class="sidebar">
-    <div class="sb-sec">
-      <div class="lbl">Describe Your 3D Model</div>
-      <textarea id="prompt" rows="4" placeholder="A glowing crystal dragon with golden wings&#10;A medieval castle on a cliff&#10;Futuristic battle mech suit"></textarea>
-      <div class="opts">
-        <div class="opt"><label>Style</label>
-          <select id="style">
-            <option value="realistic">Realistic</option>
-            <option value="cartoon">Cartoon</option>
-            <option value="lowpoly">Low Poly</option>
-            <option value="scifi">Sci-Fi</option>
-          </select>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('generate')">Generate</button>
+      <button class="tab-btn" onclick="switchTab('image')">Image → 3D</button>
+      <button class="tab-btn" onclick="switchTab('settings')">Settings</button>
+    </div>
+
+    <!-- Generate Tab -->
+    <div class="tab-panel active" id="tab-generate">
+      <div class="sb-sec">
+        <div class="lbl">Describe Your 3D Model</div>
+        <textarea id="prompt" rows="4" placeholder="A glowing crystal dragon with golden wings&#10;A medieval castle on a cliff&#10;Futuristic battle mech suit"></textarea>
+        <div class="opts">
+          <div class="opt"><label>Style</label>
+            <select id="style">
+              <option value="realistic">Realistic</option>
+              <option value="cartoon">Cartoon</option>
+              <option value="lowpoly">Low Poly</option>
+              <option value="scifi">Sci-Fi</option>
+            </select>
+          </div>
+          <div class="opt"><label>Complexity</label>
+            <select id="complexity">
+              <option value="simple">Simple</option>
+              <option value="medium" selected>Medium</option>
+              <option value="detailed">Detailed</option>
+            </select>
+          </div>
         </div>
-        <div class="opt"><label>Complexity</label>
-          <select id="complexity">
-            <option value="simple">Simple</option>
-            <option value="medium" selected>Medium</option>
-            <option value="detailed">Detailed</option>
-          </select>
+        <button class="btn-gen" id="gen-btn" onclick="generate()">
+          <span id="gen-ico">✦</span><span id="gen-lbl">Generate 3D Model</span>
+        </button>
+      </div>
+      <div class="sb-sec">
+        <div class="lbl">Quick Prompts</div>
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="sb-sec">
+        <div class="lbl">About</div>
+        <p style="font-size:.78rem;color:var(--muted);line-height:1.7">
+          100% local — no API needed. Parses your prompt, builds a 3D mesh with multiple parts. Export as GLB for Blender/Unity.
+        </p>
+      </div>
+    </div>
+
+    <!-- Image → 3D Tab -->
+    <div class="tab-panel" id="tab-image">
+      <div class="sb-sec">
+        <div class="lbl">Upload Image</div>
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('img-file').click()">
+          <span class="dz-icon">🖼️</span>
+          <p>Click or drag & drop an image<br><span style="color:var(--accent3)">PNG / JPG / WebP</span></p>
+          <input type="file" id="img-file" accept="image/*" onchange="onImageFile(event)">
+        </div>
+        <img id="img-preview" alt="preview">
+        <div class="lbl">Conversion Mode</div>
+        <div class="seg-btns">
+          <div class="seg-btn active" id="mode-height" onclick="setImgMode('height')">Height Map</div>
+          <div class="seg-btn" id="mode-silhouette" onclick="setImgMode('silhouette')">Silhouette</div>
+        </div>
+        <div class="q-row">
+          <label>Depth Scale</label>
+          <input type="range" id="depth-scale" min="0.2" max="3" step="0.1" value="1.2">
+          <span class="q-val" id="depth-val">1.2</span>
+        </div>
+        <div class="q-row">
+          <label>Resolution</label>
+          <input type="range" id="img-res" min="32" max="128" step="16" value="64">
+          <span class="q-val" id="res-val">64</span>
+        </div>
+        <button class="btn-gen" id="img-gen-btn" onclick="convertImage()" style="opacity:.4;cursor:not-allowed" disabled>
+          <span>⬆</span><span id="img-gen-lbl">Convert to 3D</span>
+        </button>
+      </div>
+      <div class="sb-sec">
+        <div class="lbl">How It Works</div>
+        <p style="font-size:.78rem;color:var(--muted);line-height:1.7">
+          <b style="color:var(--text)">Height Map</b> — pixel brightness drives vertex displacement on a subdivided plane, creating relief-style 3D.<br><br>
+          <b style="color:var(--text)">Silhouette</b> — dark areas are extruded into solid geometry, light areas become recesses.
+        </p>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="sb-sec">
+        <div class="lbl">Post Processing</div>
+        <div class="q-row">
+          <label>Bloom</label>
+          <input type="checkbox" id="bloom-on" checked onchange="updateBloom()">
+        </div>
+        <div class="q-row">
+          <label>Strength</label>
+          <input type="range" id="bloom-str" min="0" max="3" step="0.1" value="0.8" oninput="updateBloom()">
+          <span class="q-val" id="bloom-str-val">0.8</span>
+        </div>
+        <div class="q-row">
+          <label>Threshold</label>
+          <input type="range" id="bloom-thr" min="0" max="1" step="0.05" value="0.2" oninput="updateBloom()">
+          <span class="q-val" id="bloom-thr-val">0.20</span>
+        </div>
+        <div class="q-row">
+          <label>Radius</label>
+          <input type="range" id="bloom-rad" min="0" max="1" step="0.05" value="0.4" oninput="updateBloom()">
+          <span class="q-val" id="bloom-rad-val">0.40</span>
         </div>
       </div>
-      <button class="btn-gen" id="gen-btn" onclick="generate()">
-        <span id="gen-ico">✦</span><span id="gen-lbl">Generate 3D Model</span>
-      </button>
-    </div>
-    <div class="sb-sec">
-      <div class="lbl">Quick Prompts</div>
-      <div class="chips" id="chips"></div>
-    </div>
-    <div class="sb-sec">
-      <div class="lbl">About</div>
-      <p style="font-size:.78rem;color:var(--muted);line-height:1.7">
-        100% local — no API needed. The AI parses your prompt, identifies the subject and materials, then procedurally builds a 3D mesh with multiple parts. Export as GLB and open in Blender, Unity, or any 3D tool.
-      </p>
+      <div class="sb-sec">
+        <div class="lbl">Display</div>
+        <div class="q-row">
+          <label>Wireframe</label>
+          <input type="checkbox" id="wireframe-on" onchange="toggleWireframe()">
+        </div>
+        <div class="q-row">
+          <label>Auto Rotate</label>
+          <input type="checkbox" id="rotate-on" checked onchange="rotateModel=this.checked">
+        </div>
+        <div class="q-row">
+          <label>Exposure</label>
+          <input type="range" id="exposure" min="0.5" max="3" step="0.1" value="1.3" oninput="updateExposure(this)">
+          <span class="q-val" id="exposure-val">1.3</span>
+        </div>
+      </div>
+      <div class="sb-sec">
+        <div class="lbl">Lights</div>
+        <div class="q-row">
+          <label>Ambient</label>
+          <input type="range" id="amb-int" min="0" max="2" step="0.1" value="0.5" oninput="ambient.intensity=parseFloat(this.value);document.getElementById('amb-val').textContent=this.value">
+          <span class="q-val" id="amb-val">0.5</span>
+        </div>
+        <div class="q-row">
+          <label>Sun</label>
+          <input type="range" id="sun-int" min="0" max="5" step="0.1" value="2.5" oninput="sun.intensity=parseFloat(this.value);document.getElementById('sun-val').textContent=this.value">
+          <span class="q-val" id="sun-val">2.5</span>
+        </div>
+        <div class="q-row">
+          <label>Fill</label>
+          <input type="range" id="fill-int" min="0" max="10" step="0.5" value="4" oninput="fillL.intensity=parseFloat(this.value);document.getElementById('fill-val').textContent=this.value">
+          <span class="q-val" id="fill-val">4</span>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -225,11 +357,29 @@ floor.position.y = -2;
 floor.receiveShadow = true;
 scene.add(floor);
 
+// EffectComposer (bloom post-processing)
+const composer = new THREE.EffectComposer(renderer);
+const renderPass = new THREE.RenderPass(scene, camera);
+composer.addPass(renderPass);
+
+const bloomPass = new THREE.UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  0.8,  // strength
+  0.4,  // radius
+  0.2   // threshold
+);
+composer.addPass(bloomPass);
+
+const gammPass = new THREE.ShaderPass(THREE.GammaCorrectionShader);
+gammPass.renderToScreen = true;
+composer.addPass(gammPass);
+
 // Resize
 function resize() {
   const vb = canvas.parentElement;
   const w = vb.clientWidth, h = vb.clientHeight;
   renderer.setSize(w, h, false);
+  composer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
 }
@@ -243,7 +393,9 @@ let rotateModel = true;
   requestAnimationFrame(animate);
   controls.update();
   if (currentModel && rotateModel) currentModel.rotation.y += 0.004;
-  renderer.render(scene, camera);
+  const bloomOn = document.getElementById('bloom-on')?.checked ?? true;
+  bloomPass.enabled = bloomOn;
+  bloomOn ? composer.render() : renderer.render(scene, camera);
 })();
 
 // ── Prompt Analysis ─────────────────────────────────────────────────────────
@@ -1558,6 +1710,207 @@ function toast(msg, type='inf') {
   el.textContent=msg; el.className='on '+type;
   clearTimeout(toastT);
   toastT=setTimeout(()=>{ el.className=type; },3200);
+}
+
+// ── Tabs ────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    const tabs=['generate','image','settings'];
+    b.classList.toggle('active', tabs[i]===name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ── Settings controls ───────────────────────────────────────────────────────
+function updateBloom() {
+  const str = parseFloat(document.getElementById('bloom-str').value);
+  const thr = parseFloat(document.getElementById('bloom-thr').value);
+  const rad = parseFloat(document.getElementById('bloom-rad').value);
+  bloomPass.strength = str;
+  bloomPass.threshold = thr;
+  bloomPass.radius = rad;
+  document.getElementById('bloom-str-val').textContent = str.toFixed(1);
+  document.getElementById('bloom-thr-val').textContent = thr.toFixed(2);
+  document.getElementById('bloom-rad-val').textContent = rad.toFixed(2);
+}
+
+function updateExposure(el) {
+  renderer.toneMappingExposure = parseFloat(el.value);
+  document.getElementById('exposure-val').textContent = el.value;
+}
+
+function toggleWireframe() {
+  const on = document.getElementById('wireframe-on').checked;
+  if (!modelGroup) return;
+  modelGroup.traverse(obj => {
+    if (obj.isMesh) {
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      mats.forEach(m => { m.wireframe = on; });
+    }
+  });
+}
+
+// ── Image → 3D ──────────────────────────────────────────────────────────────
+let imgMode = 'height';
+let imgBitmap = null;
+
+function setImgMode(m) {
+  imgMode = m;
+  document.getElementById('mode-height').classList.toggle('active', m==='height');
+  document.getElementById('mode-silhouette').classList.toggle('active', m==='silhouette');
+}
+
+// Wire up drag & drop on drop zone
+(function() {
+  const dz = document.getElementById('drop-zone');
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) loadImageFile(file);
+  });
+
+  document.getElementById('depth-scale').addEventListener('input', function() {
+    document.getElementById('depth-val').textContent = parseFloat(this.value).toFixed(1);
+  });
+  document.getElementById('img-res').addEventListener('input', function() {
+    document.getElementById('res-val').textContent = this.value;
+  });
+})();
+
+function onImageFile(e) { if (e.target.files[0]) loadImageFile(e.target.files[0]); }
+
+function loadImageFile(file) {
+  const url = URL.createObjectURL(file);
+  const preview = document.getElementById('img-preview');
+  preview.src = url; preview.style.display = 'block';
+  const img = new Image();
+  img.onload = () => {
+    imgBitmap = img;
+    const btn = document.getElementById('img-gen-btn');
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+    document.getElementById('img-gen-lbl').textContent = 'Convert to 3D';
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+async function convertImage() {
+  if (!imgBitmap) { toast('Upload an image first', 'err'); return; }
+  const res = parseInt(document.getElementById('img-res').value);
+  const depthScale = parseFloat(document.getElementById('depth-scale').value);
+
+  setProgress('Reading image pixels…', 15);
+  await sleep(100);
+
+  // Draw image to offscreen canvas and read pixels
+  const oc = new OffscreenCanvas(res, res);
+  const ctx = oc.getContext('2d');
+  ctx.drawImage(imgBitmap, 0, 0, res, res);
+  const data = ctx.getImageData(0, 0, res, res).data;
+
+  setProgress('Building geometry…', 40);
+  await sleep(50);
+
+  // Clear old model
+  if (modelGroup) { scene.remove(modelGroup); modelGroup = null; }
+  if (currentModel) { scene.remove(currentModel); currentModel = null; }
+
+  let mesh;
+  if (imgMode === 'height') {
+    mesh = buildHeightMap(data, res, depthScale);
+  } else {
+    mesh = buildSilhouette(data, res, depthScale);
+  }
+
+  const group = new THREE.Group();
+  group.add(mesh);
+  scene.add(group);
+  modelGroup = group;
+  currentModel = group;
+
+  setProgress('Fitting camera…', 90);
+  await sleep(100);
+  fitCamera(group);
+
+  await setProgress('Complete!', 100);
+  await sleep(200);
+  hideProgress();
+
+  document.getElementById('btn-glb').style.display = 'block';
+  document.getElementById('empty').style.display = 'none';
+  setDot('g');
+  const polyCount = countPolys(group);
+  setStatus('Ready · Image 3D');
+  document.getElementById('poly-count').textContent = `${polyCount.toLocaleString()} triangles`;
+  document.getElementById('vtitle').textContent = 'Image → 3D Conversion';
+  toast('Image converted to 3D!', 'ok');
+}
+
+function buildHeightMap(data, res, depthScale) {
+  const geo = new THREE.PlaneGeometry(3, 3, res-1, res-1);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
+    const lum = (r*0.299 + g*0.587 + b*0.114) / 255;
+    pos.setY(i, lum * depthScale);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x8866ff, metalness: 0.4, roughness: 0.5,
+    side: THREE.DoubleSide,
+    vertexColors: false,
+  });
+
+  // Colorize by height
+  const colors = [];
+  for (let i = 0; i < pos.count; i++) {
+    const r = data[i*4], g = data[i*4+1], b2 = data[i*4+2];
+    colors.push(r/255, g/255, b2/255);
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+  mat.vertexColors = true;
+  mat.color.set(0xffffff);
+
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  mesh.position.y = -depthScale/2;
+  return mesh;
+}
+
+function buildSilhouette(data, res, depthScale) {
+  const geo = new THREE.PlaneGeometry(3, 3, res-1, res-1);
+  geo.rotateX(-Math.PI / 2);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const r = data[i*4], g = data[i*4+1], b = data[i*4+2];
+    const lum = (r*0.299 + g*0.587 + b*0.114) / 255;
+    // Dark → extrude up, light → recess down
+    pos.setY(i, (1 - lum) * depthScale);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xaa88ff, metalness: 0.6, roughness: 0.3,
+    side: THREE.DoubleSide, vertexColors: true,
+  });
+  const colors = [];
+  for (let i = 0; i < pos.count; i++) {
+    const r = data[i*4], g = data[i*4+1], b2 = data[i*4+2];
+    colors.push(r/255, g/255, b2/255);
+  }
+  geo.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+  mat.color.set(0xffffff);
+
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  return mesh;
 }
 </script>
 </body>
