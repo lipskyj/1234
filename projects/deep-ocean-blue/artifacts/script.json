@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "title": "The Countdown — Why Deep Ocean Water Is Blue",
+  "total_duration_seconds": 60,
+  "voice_performance": {
+    "performance_intent": "Submarine documentary narrator. Calm, unhurried, and quietly astonished — like someone watching something beautiful happen in slow motion. Not dramatic. Not corporate. Each depth milestone lands with space around it, letting the number breathe.",
+    "pacing_profile": "contemplative",
+    "energy_curve": "Opens flat and measured. Slight intensity on the mechanism reveal at s3. Builds to quiet wonder on the 50x stat at s4. Pulls back to serene and humbling for the scale reveal at s5. Closes soft and confident.",
+    "pause_policy": "Mandatory 0.3–0.5s pause after each depth milestone in s1. Half-second pause before the 'But why?' question in s2. Full 0.5s after the 'Fifty times.' repetition in s4. Pause after '...completely dark.' in s5 before the closing section.",
+    "sample_section_id": "s3",
+    "provider_notes": {
+      "piper": "Use en_US-lessac-medium. Set length_scale=1.15 for contemplative pacing. Insert explicit <break> SSML tags at marked pause points. Emphasize words in brackets via punctuation — a comma and period act as micro-pauses."
+    }
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "label": "Hook — The Descent",
+      "text": "Dive into the ocean. Red is gone by five meters. Orange, at twenty-five. Yellow, at fifty.",
+      "start_seconds": 0,
+      "end_seconds": 7,
+      "speaker_directions": "Flat, quiet opener — no hype. Each depth milestone is a short declarative beat, spoken like a fact being ticked off a list. Pause briefly after each one.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm",
+        "emphasis_words": ["five", "twenty-five", "fifty"],
+        "pause_after_seconds": 0.3,
+        "delivery_note": "Let each color disappear like a small event — not dramatic, just inevitable. The rhythm should feel like depth gauges clicking.",
+        "provider_text": "Dive into the ocean. <break time=\"0.3s\"/> Red is gone by five meters. <break time=\"0.3s\"/> Orange, at twenty-five. <break time=\"0.3s\"/> Yellow, at fifty."
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "Depth gauge counter ticks from 0m down. Color bands peel away as the number crosses each threshold: red band disappears at 5m, orange at 25m, yellow at 50m. Remaining colors mute to blue.",
+          "timestamp_seconds": 0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "research_brief: data_points[1] — NOAA Ocean Service, depth-specific color disappearance: red 5-10m, orange 25m, yellow 50m"
+    },
+    {
+      "id": "s2",
+      "label": "Setup — The Question",
+      "text": "By two hundred meters, only blue light remains. But why? What's stripping each color away?",
+      "start_seconds": 7,
+      "end_seconds": 14,
+      "speaker_directions": "Hold on '...only blue light remains.' — let it settle. Then the question is genuine curiosity, not rhetorical. Slight upward lilt on 'But why?'",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "curious",
+        "emphasis_words": ["only", "blue", "why"],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.5,
+        "delivery_note": "The knowledge gap lives in this pause. Don't rush to the answer — let the viewer sit with the question for half a beat.",
+        "provider_text": "By two hundred meters, only blue light remains. <break time=\"0.5s\"/> But why? <break time=\"0.4s\"/> What's stripping each color away?"
+      },
+      "enhancement_cues": [
+        {
+          "type": "stat_card",
+          "description": "Display: depth gauge settled at 200m, color spectrum showing only a deep blue band surviving. Label: 'Only blue remains at 200m'",
+          "timestamp_seconds": 7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "research_brief: data_points[1] — NOAA Ocean Service, photic zone extends to ~200m; research_brief: data_points[2] — only blue penetrates to base of photic zone"
+    },
+    {
+      "id": "s3",
+      "label": "Mechanism — The O-H Bond",
+      "text": "Water molecules absorb light — but not equally. Longer wavelengths, like red, carry exactly the right energy to excite water's oxygen-hydrogen bonds. The molecule vibrates. The photon vanishes.",
+      "start_seconds": 14,
+      "end_seconds": 28,
+      "speaker_directions": "Slightly more precise here — this is the explanation. 'Longer wavelengths, like red' should be almost parenthetical. Slow down on 'The molecule vibrates. The photon vanishes.' — two short sentences that should land like two small thuds.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "focused",
+        "emphasis_words": ["exactly", "right", "vibrates", "vanishes"],
+        "pause_after_seconds": 0.4,
+        "delivery_note": "The final two sentences are the payoff of the mechanism. Drop the pace. Let each sentence be its own beat.",
+        "provider_text": "Water molecules absorb light — <break time=\"0.2s\"/> but not equally. <break time=\"0.3s\"/> Longer wavelengths, like red, carry exactly the right energy to excite water's oxygen-hydrogen bonds. <break time=\"0.4s\"/> The molecule vibrates. <break time=\"0.3s\"/> The photon vanishes."
+      },
+      "enhancement_cues": [
+        {
+          "type": "diagram",
+          "description": "Mermaid diagram: H2O molecule with O-H bonds labeled. Arrow showing red photon hitting bond → bond oscillates → photon absorbed. Blue photon shown passing through with no absorption.",
+          "timestamp_seconds": 14
+        },
+        {
+          "type": "overlay",
+          "description": "Label card: 'O-H bond vibrational resonance' fading in as the molecule vibrates in the diagram.",
+          "timestamp_seconds": 21
+        }
+      ],
+      "pronunciation_guides": [
+        {"word": "oxygen-hydrogen", "phonetic": "OX-ih-jen HY-droh-jen"}
+      ],
+      "source_ref": "research_brief: data_points[3] — Mobley 2006, O-H bond vibrational quantum resonance absorption of red-wavelength photons"
+    },
+    {
+      "id": "s4",
+      "label": "The 50x Anchor",
+      "text": "Red light is absorbed fifty times faster than blue. Fifty times. So red disappears in meters. Blue survives for two hundred. That's why the deep ocean is blue.",
+      "start_seconds": 28,
+      "end_seconds": 43,
+      "speaker_directions": "Land 'fifty times' and then repeat it after a pause — the repetition is intentional, let it feel that way. 'Fifty times.' is its own sentence. Then the chain of consequences should flow a little faster, like dominoes.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "grounded",
+        "emphasis_words": ["fifty", "meters", "two hundred"],
+        "pause_after_seconds": 0.5,
+        "delivery_note": "The 'Fifty times.' repetition is the emotional anchor of the video. Slight downward inflection on the second 'times' — land it like a verdict.",
+        "provider_text": "Red light is absorbed fifty times faster than blue. <break time=\"0.5s\"/> Fifty times. <break time=\"0.4s\"/> So red disappears in meters. <break time=\"0.2s\"/> Blue survives for two hundred. <break time=\"0.3s\"/> That's why the deep ocean is blue."
+      },
+      "enhancement_cues": [
+        {
+          "type": "stat_card",
+          "description": "Large '50x' stat card with label 'Red absorbed 50× faster than blue'. Sub-label: Pope & Fry 1997.",
+          "timestamp_seconds": 28
+        },
+        {
+          "type": "animation",
+          "description": "Horizontal bar chart: absorption coefficient bars for each visible wavelength (red tallest at 0.65, blue shortest at 0.013). Bars animate in from left.",
+          "timestamp_seconds": 35
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "research_brief: data_points[0] — Pope & Fry 1997, Applied Optics: red 700nm absorption 0.65 m⁻¹ vs blue 450nm 0.013 m⁻¹, ~50x ratio"
+    },
+    {
+      "id": "s5",
+      "label": "Scale Reveal — The Dark Ocean",
+      "text": "Below two hundred meters, no sunlight reaches at all. The lit zone is a thin sliver at the surface. Ninety-five percent of the ocean is completely dark.",
+      "start_seconds": 43,
+      "end_seconds": 54,
+      "speaker_directions": "Quiet and humbling. Not alarming — awe. Each sentence should feel like stepping back and seeing a larger picture. 'Completely dark.' lands with finality — don't trail off.",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "subdued",
+        "emphasis_words": ["no", "thin sliver", "ninety-five", "completely"],
+        "pause_after_seconds": 0.5,
+        "delivery_note": "This is the scale moment. The viewer should feel the vastness. Slow is better than fast here — if anything, push the length_scale up a notch.",
+        "provider_text": "Below two hundred meters, <break time=\"0.2s\"/> no sunlight reaches at all. <break time=\"0.5s\"/> The lit zone is a thin sliver at the surface. <break time=\"0.4s\"/> Ninety-five percent of the ocean is completely dark."
+      },
+      "enhancement_cues": [
+        {
+          "type": "stat_card",
+          "description": "Ocean depth infographic: full ocean column (0-3688m average depth). Thin blue-lit band at top (0-200m labeled 'Sunlit zone'). Vast dark section below labeled '95% — no light'.",
+          "timestamp_seconds": 43
+        },
+        {
+          "type": "overlay",
+          "description": "Text overlay fading in: 'Average ocean depth: 3,688m'",
+          "timestamp_seconds": 50
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "research_brief: data_points[2] — NOAA Ocean Service: photic zone to 200m, < 5% of 3,688m average depth; below 1,000m zero sunlight"
+    },
+    {
+      "id": "s6",
+      "label": "Landing — Core Message",
+      "text": "The ocean's blue isn't reflected from the sky. It's built into the water itself. Blue is simply what's left.",
+      "start_seconds": 54,
+      "end_seconds": 60,
+      "speaker_directions": "Soft and certain. No need for drama — the explanation has done the work. 'Blue is simply what's left.' is the last line; deliver it with quiet finality, like closing a book.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm",
+        "emphasis_words": ["built", "itself", "left"],
+        "pause_before_seconds": 0.3,
+        "delivery_note": "The final sentence is the core message. No rush. Let the last word hang.",
+        "provider_text": "The ocean's blue isn't reflected from the sky. <break time=\"0.3s\"/> It's built into the water itself. <break time=\"0.4s\"/> Blue is simply what's left."
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "Clean text card on deep blue background: 'Blue is simply what's left.' Title card fades in beneath: 'Why the Ocean is Blue'",
+          "timestamp_seconds": 54
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "research_brief: audience_insights.misconceptions[0] — sky reflection myth vs intrinsic water absorption; research_brief: expert_voices[0] — Mobley: color determined by absorption properties of water, not sky reflection"
+    }
+  ],
+  "metadata": {
+    "word_count": 136,
+    "target_wpm": 140,
+    "estimated_speech_seconds": 58,
+    "break_budget_seconds": 8,
+    "total_estimated_seconds": 60,
+    "concept_id": "c1",
+    "research_brief_ref": "projects/deep-ocean-blue/artifacts/research_brief.json"
+  }
+}

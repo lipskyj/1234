@@ -1,0 +1,527 @@
+100
+00:00:00,000 --> 00:00:00,407
+<b>Dive</b> into the ocean. Red is
+
+101
+00:00:00,438 --> 00:00:00,845
+Dive <b>into</b> the ocean. Red is
+
+102
+00:00:00,875 --> 00:00:01,282
+Dive into <b>the</b> ocean. Red is
+
+103
+00:00:01,312 --> 00:00:01,720
+Dive into the <b>ocean.</b> Red is
+
+104
+00:00:01,750 --> 00:00:02,158
+Dive into the ocean. <b>Red</b> is
+
+105
+00:00:02,188 --> 00:00:02,595
+Dive into the ocean. Red <b>is</b>
+
+200
+00:00:02,625 --> 00:00:03,033
+<b>gone</b> by five meters. Orange, at
+
+201
+00:00:03,062 --> 00:00:03,470
+gone <b>by</b> five meters. Orange, at
+
+202
+00:00:03,500 --> 00:00:03,908
+gone by <b>five</b> meters. Orange, at
+
+203
+00:00:03,938 --> 00:00:04,345
+gone by five <b>meters.</b> Orange, at
+
+204
+00:00:04,375 --> 00:00:04,782
+gone by five meters. <b>Orange,</b> at
+
+205
+00:00:04,812 --> 00:00:05,220
+gone by five meters. Orange, <b>at</b>
+
+300
+00:00:05,250 --> 00:00:05,657
+<b>twenty-five.</b> Yellow, at fifty. By two
+
+301
+00:00:05,688 --> 00:00:06,095
+twenty-five. <b>Yellow,</b> at fifty. By two
+
+302
+00:00:06,125 --> 00:00:06,532
+twenty-five. Yellow, <b>at</b> fifty. By two
+
+303
+00:00:06,562 --> 00:00:06,970
+twenty-five. Yellow, at <b>fifty.</b> By two
+
+304
+00:00:07,000 --> 00:00:07,437
+twenty-five. Yellow, at fifty. <b>By</b> two
+
+305
+00:00:07,467 --> 00:00:07,903
+twenty-five. Yellow, at fifty. By <b>two</b>
+
+400
+00:00:07,933 --> 00:00:08,370
+<b>hundred</b> meters, only blue light remains.
+
+401
+00:00:08,400 --> 00:00:08,837
+hundred <b>meters,</b> only blue light remains.
+
+402
+00:00:08,867 --> 00:00:09,303
+hundred meters, <b>only</b> blue light remains.
+
+403
+00:00:09,333 --> 00:00:09,770
+hundred meters, only <b>blue</b> light remains.
+
+404
+00:00:09,800 --> 00:00:10,237
+hundred meters, only blue <b>light</b> remains.
+
+405
+00:00:10,267 --> 00:00:10,703
+hundred meters, only blue light <b>remains.</b>
+
+500
+00:00:10,733 --> 00:00:11,170
+<b>But</b> why? What's stripping each color
+
+501
+00:00:11,200 --> 00:00:11,637
+But <b>why?</b> What's stripping each color
+
+502
+00:00:11,667 --> 00:00:12,103
+But why? <b>What's</b> stripping each color
+
+503
+00:00:12,133 --> 00:00:12,570
+But why? What's <b>stripping</b> each color
+
+504
+00:00:12,600 --> 00:00:13,037
+But why? What's stripping <b>each</b> color
+
+505
+00:00:13,067 --> 00:00:13,503
+But why? What's stripping each <b>color</b>
+
+600
+00:00:13,533 --> 00:00:13,970
+<b>away?</b> Water molecules absorb light but
+
+601
+00:00:14,000 --> 00:00:14,489
+away? <b>Water</b> molecules absorb light but
+
+602
+00:00:14,519 --> 00:00:15,007
+away? Water <b>molecules</b> absorb light but
+
+603
+00:00:15,037 --> 00:00:15,526
+away? Water molecules <b>absorb</b> light but
+
+604
+00:00:15,556 --> 00:00:16,044
+away? Water molecules absorb <b>light</b> but
+
+605
+00:00:16,074 --> 00:00:16,563
+away? Water molecules absorb light <b>but</b>
+
+700
+00:00:16,593 --> 00:00:17,081
+<b>not</b> equally. Longer wavelengths, like red,
+
+701
+00:00:17,111 --> 00:00:17,600
+not <b>equally.</b> Longer wavelengths, like red,
+
+702
+00:00:17,630 --> 00:00:18,118
+not equally. <b>Longer</b> wavelengths, like red,
+
+703
+00:00:18,148 --> 00:00:18,637
+not equally. Longer <b>wavelengths,</b> like red,
+
+704
+00:00:18,667 --> 00:00:19,155
+not equally. Longer wavelengths, <b>like</b> red,
+
+705
+00:00:19,185 --> 00:00:19,674
+not equally. Longer wavelengths, like <b>red,</b>
+
+800
+00:00:19,704 --> 00:00:20,192
+<b>carry</b> exactly the right energy to
+
+801
+00:00:20,222 --> 00:00:20,711
+carry <b>exactly</b> the right energy to
+
+802
+00:00:20,741 --> 00:00:21,229
+carry exactly <b>the</b> right energy to
+
+803
+00:00:21,259 --> 00:00:21,748
+carry exactly the <b>right</b> energy to
+
+804
+00:00:21,778 --> 00:00:22,266
+carry exactly the right <b>energy</b> to
+
+805
+00:00:22,296 --> 00:00:22,785
+carry exactly the right energy <b>to</b>
+
+900
+00:00:22,815 --> 00:00:23,303
+<b>excite</b> water's oxygen-hydrogen bonds. The
+
+901
+00:00:23,333 --> 00:00:23,822
+excite <b>water's</b> oxygen-hydrogen bonds. The
+
+902
+00:00:23,852 --> 00:00:24,340
+excite water's <b>oxygen-hydrogen</b> bonds. The
+
+903
+00:00:24,370 --> 00:00:24,859
+excite water's oxygen-hydrogen <b>bonds.</b> The
+
+904
+00:00:24,889 --> 00:00:25,377
+excite water's oxygen-hydrogen bonds. <b>The</b>
+
+1000
+00:00:25,407 --> 00:00:25,896
+<b>molecule</b> vibrates. The photon vanishes.
+
+1001
+00:00:25,926 --> 00:00:26,414
+molecule <b>vibrates.</b> The photon vanishes.
+
+1002
+00:00:26,444 --> 00:00:26,933
+molecule vibrates. <b>The</b> photon vanishes.
+
+1003
+00:00:26,963 --> 00:00:27,451
+molecule vibrates. The <b>photon</b> vanishes.
+
+1004
+00:00:27,481 --> 00:00:27,970
+molecule vibrates. The photon <b>vanishes.</b>
+
+1100
+00:00:28,000 --> 00:00:28,506
+<b>Red</b> light is absorbed fifty times
+
+1101
+00:00:28,536 --> 00:00:29,041
+Red <b>light</b> is absorbed fifty times
+
+1102
+00:00:29,071 --> 00:00:29,577
+Red light <b>is</b> absorbed fifty times
+
+1103
+00:00:29,607 --> 00:00:30,113
+Red light is <b>absorbed</b> fifty times
+
+1104
+00:00:30,143 --> 00:00:30,649
+Red light is absorbed <b>fifty</b> times
+
+1105
+00:00:30,679 --> 00:00:31,184
+Red light is absorbed fifty <b>times</b>
+
+1200
+00:00:31,214 --> 00:00:31,720
+<b>faster</b> than blue. Fifty times. So
+
+1201
+00:00:31,750 --> 00:00:32,256
+faster <b>than</b> blue. Fifty times. So
+
+1202
+00:00:32,286 --> 00:00:32,791
+faster than <b>blue.</b> Fifty times. So
+
+1203
+00:00:32,821 --> 00:00:33,327
+faster than blue. <b>Fifty</b> times. So
+
+1204
+00:00:33,357 --> 00:00:33,863
+faster than blue. Fifty <b>times.</b> So
+
+1205
+00:00:33,893 --> 00:00:34,399
+faster than blue. Fifty times. <b>So</b>
+
+1300
+00:00:34,429 --> 00:00:34,934
+<b>red</b> disappears in meters. Blue survives
+
+1301
+00:00:34,964 --> 00:00:35,470
+red <b>disappears</b> in meters. Blue survives
+
+1302
+00:00:35,500 --> 00:00:36,006
+red disappears <b>in</b> meters. Blue survives
+
+1303
+00:00:36,036 --> 00:00:36,541
+red disappears in <b>meters.</b> Blue survives
+
+1304
+00:00:36,571 --> 00:00:37,077
+red disappears in meters. <b>Blue</b> survives
+
+1305
+00:00:37,107 --> 00:00:37,613
+red disappears in meters. Blue <b>survives</b>
+
+1400
+00:00:37,643 --> 00:00:38,149
+<b>for</b> two hundred. That's why the
+
+1401
+00:00:38,179 --> 00:00:38,684
+for <b>two</b> hundred. That's why the
+
+1402
+00:00:38,714 --> 00:00:39,220
+for two <b>hundred.</b> That's why the
+
+1403
+00:00:39,250 --> 00:00:39,756
+for two hundred. <b>That's</b> why the
+
+1404
+00:00:39,786 --> 00:00:40,291
+for two hundred. That's <b>why</b> the
+
+1405
+00:00:40,321 --> 00:00:40,827
+for two hundred. That's why <b>the</b>
+
+1500
+00:00:40,857 --> 00:00:41,363
+<b>deep</b> ocean is blue. Below two
+
+1501
+00:00:41,393 --> 00:00:41,899
+deep <b>ocean</b> is blue. Below two
+
+1502
+00:00:41,929 --> 00:00:42,434
+deep ocean <b>is</b> blue. Below two
+
+1503
+00:00:42,464 --> 00:00:42,970
+deep ocean is <b>blue.</b> Below two
+
+1504
+00:00:43,000 --> 00:00:43,377
+deep ocean is blue. <b>Below</b> two
+
+1505
+00:00:43,407 --> 00:00:43,785
+deep ocean is blue. Below <b>two</b>
+
+1600
+00:00:43,815 --> 00:00:44,192
+<b>hundred</b> meters, no sunlight reaches at
+
+1601
+00:00:44,222 --> 00:00:44,600
+hundred <b>meters,</b> no sunlight reaches at
+
+1602
+00:00:44,630 --> 00:00:45,007
+hundred meters, <b>no</b> sunlight reaches at
+
+1603
+00:00:45,037 --> 00:00:45,414
+hundred meters, no <b>sunlight</b> reaches at
+
+1604
+00:00:45,444 --> 00:00:45,822
+hundred meters, no sunlight <b>reaches</b> at
+
+1605
+00:00:45,852 --> 00:00:46,229
+hundred meters, no sunlight reaches <b>at</b>
+
+1700
+00:00:46,259 --> 00:00:46,637
+<b>all.</b> The lit zone is a
+
+1701
+00:00:46,667 --> 00:00:47,044
+all. <b>The</b> lit zone is a
+
+1702
+00:00:47,074 --> 00:00:47,451
+all. The <b>lit</b> zone is a
+
+1703
+00:00:47,481 --> 00:00:47,859
+all. The lit <b>zone</b> is a
+
+1704
+00:00:47,889 --> 00:00:48,266
+all. The lit zone <b>is</b> a
+
+1705
+00:00:48,296 --> 00:00:48,674
+all. The lit zone is <b>a</b>
+
+1800
+00:00:48,704 --> 00:00:49,081
+<b>thin</b> sliver at the surface. Ninety-five
+
+1801
+00:00:49,111 --> 00:00:49,489
+thin <b>sliver</b> at the surface. Ninety-five
+
+1802
+00:00:49,519 --> 00:00:49,896
+thin sliver <b>at</b> the surface. Ninety-five
+
+1803
+00:00:49,926 --> 00:00:50,303
+thin sliver at <b>the</b> surface. Ninety-five
+
+1804
+00:00:50,333 --> 00:00:50,711
+thin sliver at the <b>surface.</b> Ninety-five
+
+1805
+00:00:50,741 --> 00:00:51,118
+thin sliver at the surface. <b>Ninety-five</b>
+
+1900
+00:00:51,148 --> 00:00:51,526
+<b>percent</b> of the ocean is completely
+
+1901
+00:00:51,556 --> 00:00:51,933
+percent <b>of</b> the ocean is completely
+
+1902
+00:00:51,963 --> 00:00:52,340
+percent of <b>the</b> ocean is completely
+
+1903
+00:00:52,370 --> 00:00:52,748
+percent of the <b>ocean</b> is completely
+
+1904
+00:00:52,778 --> 00:00:53,155
+percent of the ocean <b>is</b> completely
+
+1905
+00:00:53,185 --> 00:00:53,563
+percent of the ocean is <b>completely</b>
+
+2000
+00:00:53,593 --> 00:00:53,970
+<b>dark.</b> The ocean's blue isn't reflected
+
+2001
+00:00:54,000 --> 00:00:54,286
+dark. <b>The</b> ocean's blue isn't reflected
+
+2002
+00:00:54,316 --> 00:00:54,602
+dark. The <b>ocean's</b> blue isn't reflected
+
+2003
+00:00:54,632 --> 00:00:54,917
+dark. The ocean's <b>blue</b> isn't reflected
+
+2004
+00:00:54,947 --> 00:00:55,233
+dark. The ocean's blue <b>isn't</b> reflected
+
+2005
+00:00:55,263 --> 00:00:55,549
+dark. The ocean's blue isn't <b>reflected</b>
+
+2100
+00:00:55,579 --> 00:00:55,865
+<b>from</b> the sky. It's built into
+
+2101
+00:00:55,895 --> 00:00:56,181
+from <b>the</b> sky. It's built into
+
+2102
+00:00:56,211 --> 00:00:56,496
+from the <b>sky.</b> It's built into
+
+2103
+00:00:56,526 --> 00:00:56,812
+from the sky. <b>It's</b> built into
+
+2104
+00:00:56,842 --> 00:00:57,128
+from the sky. It's <b>built</b> into
+
+2105
+00:00:57,158 --> 00:00:57,444
+from the sky. It's built <b>into</b>
+
+2200
+00:00:57,474 --> 00:00:57,759
+<b>the</b> water itself. Blue is simply
+
+2201
+00:00:57,789 --> 00:00:58,075
+the <b>water</b> itself. Blue is simply
+
+2202
+00:00:58,105 --> 00:00:58,391
+the water <b>itself.</b> Blue is simply
+
+2203
+00:00:58,421 --> 00:00:58,707
+the water itself. <b>Blue</b> is simply
+
+2204
+00:00:58,737 --> 00:00:59,023
+the water itself. Blue <b>is</b> simply
+
+2205
+00:00:59,053 --> 00:00:59,338
+the water itself. Blue is <b>simply</b>
+
+2300
+00:00:59,368 --> 00:00:59,654
+<b>what's</b> left.
+
+2301
+00:00:59,684 --> 00:00:59,970
+what's <b>left.</b>

@@ -1,0 +1,6 @@
+{"ts": "2026-08-05T17:01:21.352539+00:00", "tool": "subtitle_gen", "event": "start", "output_path": "projects/deep-ocean-blue/assets/captions/narration.srt"}
+{"ts": "2026-08-05T17:01:21.353903+00:00", "tool": "subtitle_gen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/captions/narration.srt", "success": true, "cost_usd": 0.0, "duration_s": 0.0}
+{"ts": "2026-08-05T17:01:21.354187+00:00", "tool": "subtitle_gen", "event": "start", "output_path": "projects/deep-ocean-blue/assets/captions/narration.caption.json"}
+{"ts": "2026-08-05T17:01:21.355535+00:00", "tool": "subtitle_gen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/captions/narration.caption.json", "success": true, "cost_usd": 0.0, "duration_s": 0.0}
+{"ts": "2026-08-05T17:01:45.725292+00:00", "tool": "diagram_gen", "event": "start", "output_path": "projects/deep-ocean-blue/assets/diagrams/oh_bond_absorption.png"}
+{"ts": "2026-08-05T17:01:45.799735+00:00", "tool": "diagram_gen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/diagrams/oh_bond_absorption.png", "success": true, "cost_usd": 0.0, "duration_s": 0.07}

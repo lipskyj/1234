@@ -1,0 +1,225 @@
+{
+  "version": "1.0",
+  "concept_options": [
+    {
+      "id": "c1",
+      "title": "The Countdown",
+      "hook": "Dive in. Red vanishes at 5m. Orange at 25. Yellow at 50. Only blue survives. Here's why.",
+      "narrative_structure": "journey",
+      "visual_approach": "Animated depth gauge counter descending through milestones. Stat cards appear at each color-loss event (5m, 25m, 50m, 200m). Word-level karaoke captions throughout. Remotion text_card and stat_card scene components.",
+      "target_duration_seconds": 60,
+      "tone": "Calm, curious, wonder-driven. Submarine documentary feel.",
+      "suggested_playbook": "clean-professional",
+      "target_audience": "General adults curious about ocean science",
+      "target_platform": "youtube",
+      "key_points": [
+        "Red light is absorbed within 5 meters of the ocean surface",
+        "Orange disappears by 25m, yellow by 50m — only blue penetrates to 200m",
+        "Water molecules absorb longer wavelengths via O-H bond resonance",
+        "95% of the ocean has zero sunlight — the deep is black, not blue"
+      ],
+      "core_message": "The ocean is blue because water molecules eat red light — color by color, meter by meter.",
+      "cta": "Next time you look at the ocean, picture every color being stripped away beneath the surface.",
+      "grounded_in": [
+        "NOAA depth-specific color disappearance data: red 5m, orange 25m, yellow 50m, blue only at 200m",
+        "Pope & Fry 1997: 50x absorption ratio red vs blue",
+        "Audience common question: why do underwater photos look green/grey?"
+      ],
+      "why_this_works": "The descent structure creates a visceral countdown audiences can feel. Each depth milestone is a satisfying beat. The underserved gap in existing content is the precise depth-by-depth data; this concept delivers it in the most intuitive format possible — you are descending. Grounded in NOAA data and a high-surprise audience pain point: holiday underwater photos looking washed out."
+    },
+    {
+      "id": "c2",
+      "title": "The Myth Bust",
+      "hook": "The ocean would still be blue under a completely grey sky. Its blue is not borrowed from above.",
+      "narrative_structure": "myth_busting",
+      "visual_approach": "Open on sky-reflection misconception card. Shatter transition reveals the truth. Molecular diagram (Mermaid SVG) shows O-H bond absorbing red photons. Closes on scale stat card: 95% of the ocean has no light at all.",
+      "target_duration_seconds": 60,
+      "tone": "Calm curiosity with gentle 'wait, actually' energy.",
+      "suggested_playbook": "clean-professional",
+      "target_audience": "Adults who know the 'reflects the sky' answer and want the real explanation",
+      "target_platform": "youtube",
+      "key_points": [
+        "The sky-reflection explanation is incomplete — deep water is blue even under a grey sky",
+        "Water's O-H bond absorbs red light; blue is what remains after absorption",
+        "The ocean's color is intrinsic to water molecules, not borrowed from above"
+      ],
+      "core_message": "The ocean's blue is not borrowed from the sky — it lives in the water molecules themselves.",
+      "cta": "Share this with someone who gave you the sky-reflection answer.",
+      "grounded_in": [
+        "Audience misconception: 'it reflects the sky' — dominant but incomplete explanation online",
+        "Mobley 2006: intrinsic absorption spectrum of water",
+        "Pope & Fry 1997: wavelength-specific absorption coefficients"
+      ],
+      "why_this_works": "Myth-busting format creates an immediate 'wait, really?' engagement hook. The sky-reflection misconception is the dominant online explanation, making the correction genuinely surprising to most viewers. The counterintuitive claim in the hook drives shares and retention."
+    },
+    {
+      "id": "c3",
+      "title": "The 50x Molecule",
+      "hook": "Water absorbs red light 50 times faster than blue. That one number explains everything.",
+      "narrative_structure": "data_narrative",
+      "visual_approach": "Lead with bar-chart stat card showing wavelength absorption spectrum. 50x ratio headline card. Transition to O-H bond vibrational resonance explanation via Mermaid diagram. Close with ocean depth scale.",
+      "target_duration_seconds": 60,
+      "tone": "Sciency, satisfying, mechanism-first. For viewers who want the quantitative physics.",
+      "suggested_playbook": "clean-professional",
+      "target_audience": "Adults who want the mechanism, not just the phenomenon",
+      "target_platform": "youtube",
+      "key_points": [
+        "Red absorption coefficient 0.65 m⁻¹ vs blue 0.013 m⁻¹ — a 50x difference (Pope & Fry 1997)",
+        "O-H bond vibrational resonance explains why water absorbs red photons specifically",
+        "This molecular selectivity, not sky reflection, determines ocean color"
+      ],
+      "core_message": "One number — 50x — is the whole story of ocean color.",
+      "cta": "Now you know why underwater photography needs a red filter below 10 meters.",
+      "grounded_in": [
+        "Pope & Fry 1997: absorption coefficients 0.65 m⁻¹ (red 700nm) vs 0.013 m⁻¹ (blue 450nm)",
+        "Mobley 2006: O-H bond vibrational resonance absorption mechanism",
+        "B&H Photo underwater photography: red filters used below ~10m"
+      ],
+      "why_this_works": "The 50x ratio anchors the physics in one memorable, striking number. Mechanism-first structure serves the underserved gap of viewers who found 'sky reflection' answers unsatisfying. The data-narrative format is fresh against the mostly qualitative existing content on this topic."
+    }
+  ],
+  "selected_concept": {
+    "concept_id": "c1",
+    "rationale": "User selected Option A — The Countdown. Depth-descent journey with milestone stat cards is the most visceral and intuitive structure for this content.",
+    "modifications": ["Add word-level karaoke captions throughout"]
+  },
+  "production_plan": {
+    "pipeline": "animated-explainer",
+    "render_runtime": "remotion",
+    "renderer_family": "explainer-data",
+    "composition_mode": "templated",
+    "playbook": "clean-professional",
+    "delivery_promise": {
+      "promise_type": "data_explainer",
+      "motion_required": false,
+      "tone_mode": "educational",
+      "quality_floor": "presentable",
+      "approved_fallback": null
+    },
+    "stages": [
+      {
+        "stage": "script",
+        "tools": [],
+        "approach": "Write 60-second narration script (~150 words at 2.5 words/second). Countdown structure: hook at surface, red gone at 5m, orange at 25m, yellow at 50m, mechanism reveal (O-H bond in plain language), closing scale punch (95% of ocean has no light). Word-level timing markers included."
+      },
+      {
+        "stage": "scene_plan",
+        "tools": [],
+        "approach": "Map script segments to Remotion scene components: text_card for hook and narration beats, stat_card for depth milestones (5m/25m/50m/200m), callout for the 50x absorption ratio. Define frame timing, transition types, depth-gauge animated visual layer."
+      },
+      {
+        "stage": "assets",
+        "tools": [
+          {
+            "tool_name": "piper_tts",
+            "role": "narration_synthesis",
+            "available": true,
+            "provider": "piper",
+            "estimated_cost_usd": 0.00,
+            "why_this_provider": "Only available TTS under zero-key constraint. Free, offline, produces natural English narration at documentary pacing."
+          },
+          {
+            "tool_name": "pixabay_music",
+            "role": "music_bed_search",
+            "available": true,
+            "provider": "pixabay",
+            "estimated_cost_usd": 0.00,
+            "why_this_provider": "Free royalty-free music search with no API key required. Royalty-free license permits content use."
+          },
+          {
+            "tool_name": "subtitle_gen",
+            "role": "word_level_captions",
+            "available": true,
+            "provider": "openmontage",
+            "estimated_cost_usd": 0.00,
+            "why_this_provider": "Local subtitle generation from Piper TTS timing data. Produces word-level SRT/JSON for karaoke-style captions."
+          }
+        ],
+        "approach": "Synthesize narration with Piper TTS (en_US-lessac-medium). Generate word-level caption timing from TTS output. Search Pixabay for ambient underwater or calm instrumental track at 60BPM or slower.",
+        "fallback_if_unavailable": "Script narration rendered as on-screen text only; no audio narration generated."
+      },
+      {
+        "stage": "compose",
+        "tools": [
+          {
+            "tool_name": "video_compose",
+            "role": "remotion_render",
+            "available": true,
+            "provider": "remotion",
+            "estimated_cost_usd": 0.00,
+            "why_this_provider": "Only available render runtime; ffmpeg not installed. Remotion natively supports word-level caption burn-in via React scene components."
+          }
+        ],
+        "approach": "Render 60-second animated composition via Remotion. Scene stack: text_card (hook + narration), stat_card (depth milestones), callout (50x fact). Word-level karaoke captions synchronized to TTS audio timing.",
+        "fallback_if_unavailable": "Remotion renders visuals-only (ffmpeg unavailable for audio mux). Deliverable is silent video + separate WAV narration file."
+      },
+      {
+        "stage": "publish",
+        "tools": [
+          {
+            "tool_name": "export_bundle",
+            "role": "package_deliverables",
+            "available": true,
+            "provider": "openmontage",
+            "estimated_cost_usd": 0.00,
+            "why_this_provider": "Local export tool. Bundles video, caption SRT, and metadata into a delivery package."
+          }
+        ],
+        "approach": "Export final bundle: video file, word-level SRT caption file, metadata JSON. Known limitation logged: ffmpeg unavailable, so audio mux into MP4 is skipped. Video and narration audio delivered as separate files."
+      }
+    ],
+    "voice_selection": {
+      "provider": "piper",
+      "voice_id": "en_US-lessac-medium",
+      "rationale": "Only available TTS provider under zero-key constraint. Piper local TTS is free, offline, and produces natural-sounding English narration suitable for a documentary tone.",
+      "estimated_cost_usd": 0.00,
+      "delivery_style": "Warm expert narrator. Calm, curious, measured pace. Documentary feel — not corporate.",
+      "pacing_policy": "Natural conversational pace with 0.5-second pauses at each depth milestone for visual emphasis. Slight slowdown on the final scale reveal.",
+      "sample_approval_required": false
+    },
+    "music_source": {
+      "source_type": "bring_your_own",
+      "provider": "pixabay",
+      "mood_direction": "Ambient underwater or calm instrumental. 60BPM or slower. Minimal melodic line. Blue, deep, expansive feel. No drums or upbeat elements.",
+      "estimated_cost_usd": 0.00
+    },
+    "decision_log_ref": "projects/deep-ocean-blue/artifacts/decision_log.json"
+  },
+  "cost_estimate": {
+    "total_estimated_usd": 0.00,
+    "line_items": [
+      {
+        "tool": "piper_tts",
+        "operation": "Synthesize 60-second narration (~150 words)",
+        "quantity": 1,
+        "estimated_usd": 0.00,
+        "notes": "Free offline TTS — no API key, no per-character cost"
+      },
+      {
+        "tool": "video_compose",
+        "operation": "Remotion render — 60-second animated composition at 30fps",
+        "quantity": 1,
+        "estimated_usd": 0.00,
+        "notes": "Local Node.js render, no cloud cost"
+      },
+      {
+        "tool": "pixabay_music",
+        "operation": "Search and select royalty-free music track",
+        "quantity": 1,
+        "estimated_usd": 0.00,
+        "notes": "Free royalty-free track; Pixabay license permits content use"
+      },
+      {
+        "tool": "subtitle_gen",
+        "operation": "Generate word-level karaoke caption SRT from TTS audio",
+        "quantity": 1,
+        "estimated_usd": 0.00,
+        "notes": "Local generation from TTS timing data, no external calls"
+      }
+    ],
+    "budget_verdict": "no_budget_set"
+  },
+  "approval": {
+    "status": "approved"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "project": "deep-ocean-blue",
+  "entries": [
+    {
+      "id": "dl-001",
+      "timestamp": "2026-08-05T00:00:01Z",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "Composition render runtime",
+      "selected": "remotion",
+      "options_considered": [
+        {"option": "remotion", "note": "Available — Node.js + React scene stack installed"},
+        {"option": "hyperframes", "rejected_because": "runtime not available on this machine — requires FFmpeg"},
+        {"option": "ffmpeg", "rejected_because": "runtime not available on this machine — FFmpeg binary not installed"}
+      ],
+      "reason": "Remotion is the only available runtime. Word-level caption burn requested by user, which is Remotion-native."
+    },
+    {
+      "id": "dl-002",
+      "timestamp": "2026-08-05T00:00:02Z",
+      "stage": "proposal",
+      "category": "concept_selection",
+      "subject": "Video concept",
+      "selected": "concept-a-countdown",
+      "options_considered": [
+        {"option": "concept-a-countdown", "note": "Narrative descent countdown — user selected"},
+        {"option": "concept-b-myth-bust", "rejected_because": "not selected by user"},
+        {"option": "concept-c-50x-molecule", "rejected_because": "not selected by user"}
+      ],
+      "reason": "User selected Option A: depth-descent countdown with word-level captions."
+    },
+    {
+      "id": "dl-003",
+      "timestamp": "2026-08-05T00:00:03Z",
+      "stage": "proposal",
+      "category": "composition_mode",
+      "subject": "Composition authoring mode",
+      "selected": "templated",
+      "options_considered": [
+        {"option": "templated", "note": "Stock Remotion scene stack (text_card, stat_card, callout)"},
+        {"option": "atelier", "rejected_because": "zero-key run, templated is appropriate for this brief and faster"}
+      ],
+      "reason": "Zero-key run on a factual explainer — templated Remotion scene components are the right fit."
+    },
+    {
+      "id": "dl-004",
+      "timestamp": "2026-08-05T00:00:04Z",
+      "stage": "proposal",
+      "category": "voice_selection",
+      "subject": "Narration TTS provider",
+      "selected": "piper_tts",
+      "options_considered": [
+        {"option": "piper_tts", "note": "Free offline — available"},
+        {"option": "openai_tts", "rejected_because": "no OPENAI_API_KEY configured"},
+        {"option": "google_chirp3", "rejected_because": "no GOOGLE_API_KEY configured"}
+      ],
+      "reason": "Zero-key constraint. Piper TTS is the only available provider."
+    }
+  ]
+}

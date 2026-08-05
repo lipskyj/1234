@@ -1,0 +1,849 @@
+{
+  "cues": [
+    {
+      "index": 1,
+      "start": 0.0,
+      "end": 2.595,
+      "text": "Dive into the ocean. Red is",
+      "words": [
+        {
+          "word": "Dive",
+          "start": 0.0,
+          "end": 0.407
+        },
+        {
+          "word": "into",
+          "start": 0.438,
+          "end": 0.845
+        },
+        {
+          "word": "the",
+          "start": 0.875,
+          "end": 1.282
+        },
+        {
+          "word": "ocean.",
+          "start": 1.312,
+          "end": 1.72
+        },
+        {
+          "word": "Red",
+          "start": 1.75,
+          "end": 2.158
+        },
+        {
+          "word": "is",
+          "start": 2.188,
+          "end": 2.595
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "start": 2.625,
+      "end": 5.22,
+      "text": "gone by five meters. Orange, at",
+      "words": [
+        {
+          "word": "gone",
+          "start": 2.625,
+          "end": 3.033
+        },
+        {
+          "word": "by",
+          "start": 3.062,
+          "end": 3.47
+        },
+        {
+          "word": "five",
+          "start": 3.5,
+          "end": 3.908
+        },
+        {
+          "word": "meters.",
+          "start": 3.938,
+          "end": 4.345
+        },
+        {
+          "word": "Orange,",
+          "start": 4.375,
+          "end": 4.782
+        },
+        {
+          "word": "at",
+          "start": 4.812,
+          "end": 5.22
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "start": 5.25,
+      "end": 7.903,
+      "text": "twenty-five. Yellow, at fifty. By two",
+      "words": [
+        {
+          "word": "twenty-five.",
+          "start": 5.25,
+          "end": 5.657
+        },
+        {
+          "word": "Yellow,",
+          "start": 5.688,
+          "end": 6.095
+        },
+        {
+          "word": "at",
+          "start": 6.125,
+          "end": 6.532
+        },
+        {
+          "word": "fifty.",
+          "start": 6.562,
+          "end": 6.97
+        },
+        {
+          "word": "By",
+          "start": 7.0,
+          "end": 7.437
+        },
+        {
+          "word": "two",
+          "start": 7.467,
+          "end": 7.903
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "start": 7.933,
+      "end": 10.703,
+      "text": "hundred meters, only blue light remains.",
+      "words": [
+        {
+          "word": "hundred",
+          "start": 7.933,
+          "end": 8.37
+        },
+        {
+          "word": "meters,",
+          "start": 8.4,
+          "end": 8.837
+        },
+        {
+          "word": "only",
+          "start": 8.867,
+          "end": 9.303
+        },
+        {
+          "word": "blue",
+          "start": 9.333,
+          "end": 9.77
+        },
+        {
+          "word": "light",
+          "start": 9.8,
+          "end": 10.237
+        },
+        {
+          "word": "remains.",
+          "start": 10.267,
+          "end": 10.703
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "start": 10.733,
+      "end": 13.503,
+      "text": "But why? What's stripping each color",
+      "words": [
+        {
+          "word": "But",
+          "start": 10.733,
+          "end": 11.17
+        },
+        {
+          "word": "why?",
+          "start": 11.2,
+          "end": 11.637
+        },
+        {
+          "word": "What's",
+          "start": 11.667,
+          "end": 12.103
+        },
+        {
+          "word": "stripping",
+          "start": 12.133,
+          "end": 12.57
+        },
+        {
+          "word": "each",
+          "start": 12.6,
+          "end": 13.037
+        },
+        {
+          "word": "color",
+          "start": 13.067,
+          "end": 13.503
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "start": 13.533,
+      "end": 16.563,
+      "text": "away? Water molecules absorb light but",
+      "words": [
+        {
+          "word": "away?",
+          "start": 13.533,
+          "end": 13.97
+        },
+        {
+          "word": "Water",
+          "start": 14.0,
+          "end": 14.489
+        },
+        {
+          "word": "molecules",
+          "start": 14.519,
+          "end": 15.007
+        },
+        {
+          "word": "absorb",
+          "start": 15.037,
+          "end": 15.526
+        },
+        {
+          "word": "light",
+          "start": 15.556,
+          "end": 16.044
+        },
+        {
+          "word": "but",
+          "start": 16.074,
+          "end": 16.563
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "start": 16.593,
+      "end": 19.674,
+      "text": "not equally. Longer wavelengths, like red,",
+      "words": [
+        {
+          "word": "not",
+          "start": 16.593,
+          "end": 17.081
+        },
+        {
+          "word": "equally.",
+          "start": 17.111,
+          "end": 17.6
+        },
+        {
+          "word": "Longer",
+          "start": 17.63,
+          "end": 18.118
+        },
+        {
+          "word": "wavelengths,",
+          "start": 18.148,
+          "end": 18.637
+        },
+        {
+          "word": "like",
+          "start": 18.667,
+          "end": 19.155
+        },
+        {
+          "word": "red,",
+          "start": 19.185,
+          "end": 19.674
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "start": 19.704,
+      "end": 22.785,
+      "text": "carry exactly the right energy to",
+      "words": [
+        {
+          "word": "carry",
+          "start": 19.704,
+          "end": 20.192
+        },
+        {
+          "word": "exactly",
+          "start": 20.222,
+          "end": 20.711
+        },
+        {
+          "word": "the",
+          "start": 20.741,
+          "end": 21.229
+        },
+        {
+          "word": "right",
+          "start": 21.259,
+          "end": 21.748
+        },
+        {
+          "word": "energy",
+          "start": 21.778,
+          "end": 22.266
+        },
+        {
+          "word": "to",
+          "start": 22.296,
+          "end": 22.785
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "start": 22.815,
+      "end": 25.377,
+      "text": "excite water's oxygen-hydrogen bonds. The",
+      "words": [
+        {
+          "word": "excite",
+          "start": 22.815,
+          "end": 23.303
+        },
+        {
+          "word": "water's",
+          "start": 23.333,
+          "end": 23.822
+        },
+        {
+          "word": "oxygen-hydrogen",
+          "start": 23.852,
+          "end": 24.34
+        },
+        {
+          "word": "bonds.",
+          "start": 24.37,
+          "end": 24.859
+        },
+        {
+          "word": "The",
+          "start": 24.889,
+          "end": 25.377
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "start": 25.407,
+      "end": 27.97,
+      "text": "molecule vibrates. The photon vanishes.",
+      "words": [
+        {
+          "word": "molecule",
+          "start": 25.407,
+          "end": 25.896
+        },
+        {
+          "word": "vibrates.",
+          "start": 25.926,
+          "end": 26.414
+        },
+        {
+          "word": "The",
+          "start": 26.444,
+          "end": 26.933
+        },
+        {
+          "word": "photon",
+          "start": 26.963,
+          "end": 27.451
+        },
+        {
+          "word": "vanishes.",
+          "start": 27.481,
+          "end": 27.97
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "start": 28.0,
+      "end": 31.184,
+      "text": "Red light is absorbed fifty times",
+      "words": [
+        {
+          "word": "Red",
+          "start": 28.0,
+          "end": 28.506
+        },
+        {
+          "word": "light",
+          "start": 28.536,
+          "end": 29.041
+        },
+        {
+          "word": "is",
+          "start": 29.071,
+          "end": 29.577
+        },
+        {
+          "word": "absorbed",
+          "start": 29.607,
+          "end": 30.113
+        },
+        {
+          "word": "fifty",
+          "start": 30.143,
+          "end": 30.649
+        },
+        {
+          "word": "times",
+          "start": 30.679,
+          "end": 31.184
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "start": 31.214,
+      "end": 34.399,
+      "text": "faster than blue. Fifty times. So",
+      "words": [
+        {
+          "word": "faster",
+          "start": 31.214,
+          "end": 31.72
+        },
+        {
+          "word": "than",
+          "start": 31.75,
+          "end": 32.256
+        },
+        {
+          "word": "blue.",
+          "start": 32.286,
+          "end": 32.791
+        },
+        {
+          "word": "Fifty",
+          "start": 32.821,
+          "end": 33.327
+        },
+        {
+          "word": "times.",
+          "start": 33.357,
+          "end": 33.863
+        },
+        {
+          "word": "So",
+          "start": 33.893,
+          "end": 34.399
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "start": 34.429,
+      "end": 37.613,
+      "text": "red disappears in meters. Blue survives",
+      "words": [
+        {
+          "word": "red",
+          "start": 34.429,
+          "end": 34.934
+        },
+        {
+          "word": "disappears",
+          "start": 34.964,
+          "end": 35.47
+        },
+        {
+          "word": "in",
+          "start": 35.5,
+          "end": 36.006
+        },
+        {
+          "word": "meters.",
+          "start": 36.036,
+          "end": 36.541
+        },
+        {
+          "word": "Blue",
+          "start": 36.571,
+          "end": 37.077
+        },
+        {
+          "word": "survives",
+          "start": 37.107,
+          "end": 37.613
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "start": 37.643,
+      "end": 40.827,
+      "text": "for two hundred. That's why the",
+      "words": [
+        {
+          "word": "for",
+          "start": 37.643,
+          "end": 38.149
+        },
+        {
+          "word": "two",
+          "start": 38.179,
+          "end": 38.684
+        },
+        {
+          "word": "hundred.",
+          "start": 38.714,
+          "end": 39.22
+        },
+        {
+          "word": "That's",
+          "start": 39.25,
+          "end": 39.756
+        },
+        {
+          "word": "why",
+          "start": 39.786,
+          "end": 40.291
+        },
+        {
+          "word": "the",
+          "start": 40.321,
+          "end": 40.827
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "start": 40.857,
+      "end": 43.785,
+      "text": "deep ocean is blue. Below two",
+      "words": [
+        {
+          "word": "deep",
+          "start": 40.857,
+          "end": 41.363
+        },
+        {
+          "word": "ocean",
+          "start": 41.393,
+          "end": 41.899
+        },
+        {
+          "word": "is",
+          "start": 41.929,
+          "end": 42.434
+        },
+        {
+          "word": "blue.",
+          "start": 42.464,
+          "end": 42.97
+        },
+        {
+          "word": "Below",
+          "start": 43.0,
+          "end": 43.377
+        },
+        {
+          "word": "two",
+          "start": 43.407,
+          "end": 43.785
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "start": 43.815,
+      "end": 46.229,
+      "text": "hundred meters, no sunlight reaches at",
+      "words": [
+        {
+          "word": "hundred",
+          "start": 43.815,
+          "end": 44.192
+        },
+        {
+          "word": "meters,",
+          "start": 44.222,
+          "end": 44.6
+        },
+        {
+          "word": "no",
+          "start": 44.63,
+          "end": 45.007
+        },
+        {
+          "word": "sunlight",
+          "start": 45.037,
+          "end": 45.414
+        },
+        {
+          "word": "reaches",
+          "start": 45.444,
+          "end": 45.822
+        },
+        {
+          "word": "at",
+          "start": 45.852,
+          "end": 46.229
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "start": 46.259,
+      "end": 48.674,
+      "text": "all. The lit zone is a",
+      "words": [
+        {
+          "word": "all.",
+          "start": 46.259,
+          "end": 46.637
+        },
+        {
+          "word": "The",
+          "start": 46.667,
+          "end": 47.044
+        },
+        {
+          "word": "lit",
+          "start": 47.074,
+          "end": 47.451
+        },
+        {
+          "word": "zone",
+          "start": 47.481,
+          "end": 47.859
+        },
+        {
+          "word": "is",
+          "start": 47.889,
+          "end": 48.266
+        },
+        {
+          "word": "a",
+          "start": 48.296,
+          "end": 48.674
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "start": 48.704,
+      "end": 51.118,
+      "text": "thin sliver at the surface. Ninety-five",
+      "words": [
+        {
+          "word": "thin",
+          "start": 48.704,
+          "end": 49.081
+        },
+        {
+          "word": "sliver",
+          "start": 49.111,
+          "end": 49.489
+        },
+        {
+          "word": "at",
+          "start": 49.519,
+          "end": 49.896
+        },
+        {
+          "word": "the",
+          "start": 49.926,
+          "end": 50.303
+        },
+        {
+          "word": "surface.",
+          "start": 50.333,
+          "end": 50.711
+        },
+        {
+          "word": "Ninety-five",
+          "start": 50.741,
+          "end": 51.118
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "start": 51.148,
+      "end": 53.563,
+      "text": "percent of the ocean is completely",
+      "words": [
+        {
+          "word": "percent",
+          "start": 51.148,
+          "end": 51.526
+        },
+        {
+          "word": "of",
+          "start": 51.556,
+          "end": 51.933
+        },
+        {
+          "word": "the",
+          "start": 51.963,
+          "end": 52.34
+        },
+        {
+          "word": "ocean",
+          "start": 52.37,
+          "end": 52.748
+        },
+        {
+          "word": "is",
+          "start": 52.778,
+          "end": 53.155
+        },
+        {
+          "word": "completely",
+          "start": 53.185,
+          "end": 53.563
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "start": 53.593,
+      "end": 55.549,
+      "text": "dark. The ocean's blue isn't reflected",
+      "words": [
+        {
+          "word": "dark.",
+          "start": 53.593,
+          "end": 53.97
+        },
+        {
+          "word": "The",
+          "start": 54.0,
+          "end": 54.286
+        },
+        {
+          "word": "ocean's",
+          "start": 54.316,
+          "end": 54.602
+        },
+        {
+          "word": "blue",
+          "start": 54.632,
+          "end": 54.917
+        },
+        {
+          "word": "isn't",
+          "start": 54.947,
+          "end": 55.233
+        },
+        {
+          "word": "reflected",
+          "start": 55.263,
+          "end": 55.549
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "start": 55.579,
+      "end": 57.444,
+      "text": "from the sky. It's built into",
+      "words": [
+        {
+          "word": "from",
+          "start": 55.579,
+          "end": 55.865
+        },
+        {
+          "word": "the",
+          "start": 55.895,
+          "end": 56.181
+        },
+        {
+          "word": "sky.",
+          "start": 56.211,
+          "end": 56.496
+        },
+        {
+          "word": "It's",
+          "start": 56.526,
+          "end": 56.812
+        },
+        {
+          "word": "built",
+          "start": 56.842,
+          "end": 57.128
+        },
+        {
+          "word": "into",
+          "start": 57.158,
+          "end": 57.444
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "start": 57.474,
+      "end": 59.338,
+      "text": "the water itself. Blue is simply",
+      "words": [
+        {
+          "word": "the",
+          "start": 57.474,
+          "end": 57.759
+        },
+        {
+          "word": "water",
+          "start": 57.789,
+          "end": 58.075
+        },
+        {
+          "word": "itself.",
+          "start": 58.105,
+          "end": 58.391
+        },
+        {
+          "word": "Blue",
+          "start": 58.421,
+          "end": 58.707
+        },
+        {
+          "word": "is",
+          "start": 58.737,
+          "end": 59.023
+        },
+        {
+          "word": "simply",
+          "start": 59.053,
+          "end": 59.338
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "start": 59.368,
+      "end": 59.97,
+      "text": "what's left.",
+      "words": [
+        {
+          "word": "what's",
+          "start": 59.368,
+          "end": 59.654
+        },
+        {
+          "word": "left.",
+          "start": 59.684,
+          "end": 59.97
+        }
+      ]
+    }
+  ],
+  "highlight_style": "karaoke"
+}

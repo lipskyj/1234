@@ -1,0 +1,238 @@
+{
+  "version": "1.0",
+  "style_playbook": "clean-professional",
+  "scenes": [
+    {
+      "id": "sc01",
+      "type": "animation",
+      "description": "Depth gauge counter animates downward from 0m. As the gauge crosses 5m a red color band fades to grey. At 25m orange fades. At 50m yellow fades. Remaining spectrum collapses to pure blue. Dark navy background. Narration runs over the animation. Word-level karaoke captions at bottom.",
+      "start_seconds": 0,
+      "end_seconds": 7,
+      "script_section_id": "s1",
+      "framing": "Centered depth gauge with animated color spectrum strip on left side. Caption bar at 15% from bottom.",
+      "movement": "Depth counter ticks downward continuously. Color bands dissolve in sequence. No camera movement.",
+      "transition_in": "fade_from_black",
+      "transition_out": "cut",
+      "narrative_role": "introduce_subject",
+      "information_role": "Viewer immediately sees the color-stripping phenomenon in motion before it is explained",
+      "hero_moment": false,
+      "shot_intent": "Make the viewer feel the descent before they understand it — visceral first, explanation second",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "static",
+        "lighting_key": "blue_hour",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["clean", "motion-graphic"],
+      "required_assets": [
+        {
+          "type": "animation_component",
+          "description": "Remotion depth_gauge_counter component: animated counter 0-200m, color band strip dissolving at 5m/25m/50m",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc02",
+      "type": "text_card",
+      "description": "Stat card on dark blue background. Large centered text: '200m — only blue remains.' Subtitle: 'What's stripping each color away?' Narration pause creates visual breathing room before the mechanism answer.",
+      "start_seconds": 7,
+      "end_seconds": 14,
+      "script_section_id": "s2",
+      "framing": "Full-bleed dark navy. Center-aligned text block. Caption strip at bottom.",
+      "movement": "Text fades in on a 0.4s dissolve. Subtitle fades in 0.6s after headline.",
+      "transition_in": "cut",
+      "transition_out": "cross_dissolve",
+      "narrative_role": "build_tension",
+      "information_role": "Anchors the 200m depth fact and opens the knowledge gap — viewer needs to know why",
+      "hero_moment": false,
+      "shot_intent": "Pause the visual tempo here; the question mark creates forward momentum into the mechanism section",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["clean", "minimal"],
+      "required_assets": []
+    },
+    {
+      "id": "sc03",
+      "type": "diagram",
+      "description": "Mermaid SVG diagram of a water molecule (H2O) with O-H bonds labeled. Animated sequence: red photon arrow approaches → bond oscillates → photon absorbed (label: 'absorbed'). Blue photon arrow shown passing through with label 'passes through'. Clean white-on-dark layout.",
+      "start_seconds": 14,
+      "end_seconds": 23,
+      "script_section_id": "s3",
+      "framing": "Diagram occupies center 60% of frame. Left-aligned narration caption. Label overlay 'O-H bond vibrational resonance' fades in at 21s.",
+      "movement": "Diagram elements animate in sequentially: molecule first, then photon arrows, then labels. Static layout once built.",
+      "transition_in": "cross_dissolve",
+      "transition_out": "cut",
+      "narrative_role": "deliver_payload",
+      "information_role": "Viewer sees the molecular mechanism — WHY red is absorbed. This is the core explanation.",
+      "hero_moment": true,
+      "shot_intent": "Make the invisible visible — a water molecule doing something is more memorable than a verbal explanation alone",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["clean", "scientific"],
+      "required_assets": [
+        {
+          "type": "diagram_svg",
+          "description": "Mermaid-generated SVG: H2O molecule diagram with O-H bonds, red photon absorption annotation, blue photon pass-through annotation",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc04",
+      "type": "text_card",
+      "description": "Two-line text card on dark background. Line 1: 'The molecule vibrates.' Line 2 (delayed 0.5s): 'The photon vanishes.' Minimal — just the words, dark blue background, center-aligned. Carries the emotional weight of the mechanism conclusion.",
+      "start_seconds": 23,
+      "end_seconds": 28,
+      "script_section_id": "s3",
+      "framing": "Centered text. Large type weight. No additional graphics.",
+      "movement": "Each line fades in independently with 0.5s stagger.",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "narrative_role": "emotional_beat",
+      "information_role": "The mechanism summary — viewer internalizes the two-step process in a memorable, stripped-down form",
+      "hero_moment": false,
+      "shot_intent": "Rhythm break — after the diagram, a clean text moment to let the mechanism land before the stat",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["minimal", "clean"],
+      "required_assets": []
+    },
+    {
+      "id": "sc05",
+      "type": "animation",
+      "description": "Hero stat card: large '50×' centered on deep blue background. Below: 'Red absorbed 50 times faster than blue'. Small attribution: 'Pope & Fry 1997, Applied Optics'. Number animates in with a short scale-up pulse. Repeated narration 'Fifty times.' coincides with the number settling.",
+      "start_seconds": 28,
+      "end_seconds": 36,
+      "script_section_id": "s4",
+      "framing": "Full-bleed. Oversized number dominates frame. Text below is half the scale.",
+      "movement": "50× scales up from 80% to 100% over 0.4s then settles. Subtitle fades in 0.6s after.",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "narrative_role": "evidence",
+      "information_role": "The anchor quantitative fact — 50x is the memorable number the viewer carries away",
+      "hero_moment": true,
+      "shot_intent": "This is the video's single most shareable still frame — the 50x number must be bold and unambiguous",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["bold", "clean"],
+      "required_assets": []
+    },
+    {
+      "id": "sc06",
+      "type": "animation",
+      "description": "Horizontal bar chart: absorption coefficient for visible light wavelengths (400-700nm). Bars animate in from left. Red bar (700nm) is tallest at 0.65 m⁻¹. Blue bar (450nm) shortest at 0.013 m⁻¹. Bars colored by wavelength. X-axis: wavelength label. Y-axis: absorption coefficient. Title: 'Water Absorption Spectrum'.",
+      "start_seconds": 36,
+      "end_seconds": 43,
+      "script_section_id": "s4",
+      "framing": "Chart occupies 80% of frame width. Caption strip below. Dark background.",
+      "movement": "Bars animate in left-to-right over 0.8s. Red bar animates to full height last with slight emphasis pulse.",
+      "transition_in": "cut",
+      "transition_out": "cross_dissolve",
+      "narrative_role": "evidence",
+      "information_role": "Visual proof of the 50x claim — the chart makes the disparity immediately intuitive",
+      "hero_moment": false,
+      "shot_intent": "Data visualization that confirms the verbal 50x stat — viewers who process visually get their proof here",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["data-graphic", "clean"],
+      "required_assets": [
+        {
+          "type": "animation_component",
+          "description": "Remotion bar chart component: wavelength absorption spectrum 400-700nm, bars colored by wavelength hue, animated build",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc07",
+      "type": "animation",
+      "description": "Ocean depth scale infographic. Full ocean column from surface (0m) to average depth (3,688m). Narrow blue-tinted band at top: 'Sunlit zone: 0-200m'. Everything below is near-black. Label at right: '95% of the ocean — zero light'. Scale bar shows 200m vs 3,688m to emphasize how thin the lit zone is.",
+      "start_seconds": 43,
+      "end_seconds": 54,
+      "script_section_id": "s5",
+      "framing": "Vertical infographic, centered. Labels animate in with narration. Caption strip at bottom.",
+      "movement": "Depth column extends downward from surface over 1.5s. Labels fade in as column passes their depth. Dark zone grows from bottom.",
+      "transition_in": "cross_dissolve",
+      "transition_out": "cross_dissolve",
+      "narrative_role": "deliver_payload",
+      "information_role": "The humbling scale reveal — 95% dark is the emotional climax, recontextualizing everything above",
+      "hero_moment": true,
+      "shot_intent": "Make the viewer feel the enormity of the dark ocean relative to the tiny lit zone",
+      "shot_language": {
+        "shot_size": "wide",
+        "camera_movement": "static",
+        "lighting_key": "low_key",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["clean", "infographic"],
+      "required_assets": [
+        {
+          "type": "animation_component",
+          "description": "Remotion depth_scale_infographic component: animated ocean column 0-3688m, lit zone band, dark zone fill, animated labels",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc08",
+      "type": "text_card",
+      "description": "Closing card. Three lines phased in sequentially: 'The ocean's blue isn't reflected from the sky.' / 'It's built into the water itself.' / 'Blue is simply what's left.' Deep blue background with subtle upward gradient toward lighter blue at top. Final frame holds for 2s after last word.",
+      "start_seconds": 54,
+      "end_seconds": 60,
+      "script_section_id": "s6",
+      "framing": "Center-aligned text stack. Title-weight first line, body-weight second and third lines.",
+      "movement": "Lines fade in with 0.6s stagger. Hold final state. Fade to black on last 0.8s.",
+      "transition_in": "cross_dissolve",
+      "transition_out": "fade_to_black",
+      "narrative_role": "resolution",
+      "information_role": "Core message delivery — the viewer now knows the real explanation and the sky-reflection myth is quietly corrected",
+      "hero_moment": false,
+      "shot_intent": "Quiet, confident close. No call-to-action card needed — the last line IS the takeaway",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "blue_hour",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "texture_keywords": ["minimal", "clean"],
+      "required_assets": []
+    }
+  ],
+  "metadata": {
+    "total_scenes": 8,
+    "hero_scenes": ["sc03", "sc05", "sc07"],
+    "render_runtime": "remotion",
+    "composition_mode": "templated",
+    "caption_style": "word-level-karaoke",
+    "script_ref": "projects/deep-ocean-blue/artifacts/script.json"
+  }
+}

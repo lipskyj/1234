@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "topic": "Why deep ocean water is dark blue",
+  "research_date": "2026-08-05",
+  "research_summary": "The ocean's deep blue color is not a reflection of the sky — it is an intrinsic optical property of water itself. Water molecules absorb red, orange, and yellow wavelengths of light progressively as depth increases, because longer-wavelength photons carry just the right energy to excite water's O-H bond vibrations. Blue light (~450nm) has the lowest absorption coefficient of any visible wavelength in pure water (~0.013 m⁻¹ vs ~0.65 m⁻¹ for red at 700nm), meaning it travels roughly 50x further before being absorbed. The result is a light-peeling cascade: dive to 5m and red is gone, 25m and orange vanishes, 50m and yellow disappears — leaving only a deepening blue. This layered stripping of color is the video's core visual opportunity: a visceral, countdown-style descent that audiences can feel.",
+
+  "landscape": {
+    "existing_content": [
+      {
+        "title": "Why is the ocean blue? (standard explainers)",
+        "source": "youtube",
+        "angle": "Sky reflection + Rayleigh scattering analogy",
+        "what_it_covers": "The sky-reflection explanation, mention of water absorbing red light",
+        "what_it_misses": "The specific depth-by-depth color stripping, quantitative absorption data, the distinction between surface blue (partly reflection) and deep blue (purely intrinsic absorption). Rarely shows the actual progression of color loss with depth numbers.",
+        "engagement_signal": "High — 'why is the ocean blue' is a perennial top search query"
+      },
+      {
+        "title": "Ocean light zones explainers (sunlit, twilight, midnight)",
+        "source": "educational-websites",
+        "angle": "Zone classification: photic, mesopelagic, bathypelagic",
+        "what_it_covers": "Zone names, depth thresholds, which creatures live there",
+        "what_it_misses": "Why the color shifts specifically to blue before going dark; the physics of differential absorption. Focuses on biology, not optics.",
+        "engagement_signal": "Medium — primarily classroom content, less discovery-oriented"
+      },
+      {
+        "title": "Scuba diving color-loss demonstration videos",
+        "source": "youtube",
+        "angle": "First-person experiential — filming a red object as you descend",
+        "what_it_covers": "Visual demonstration of color loss underwater",
+        "what_it_misses": "The physics explanation of WHY it happens. Shows the phenomenon without the mechanism.",
+        "engagement_signal": "Very high — visually striking, but explanatory gap is large"
+      }
+    ],
+    "saturated_angles": [
+      "The ocean is blue because it reflects the sky",
+      "Basic zone listing (sunlit/twilight/midnight zone) without optical physics",
+      "Generic 'water absorbs red light' without quantitative depth data"
+    ],
+    "underserved_gaps": [
+      "The depth-specific color disappearance timeline with precise numbers (e.g., red gone by 5m, orange by 25m, etc.)",
+      "The molecular physics: WHY water absorbs red but not blue (O-H bond vibrational energy matching red photon energy)",
+      "The counterintuitive point that the ocean's blue is NOT primarily sky reflection — deep water would be blue even under a gray sky",
+      "Visual analogy connecting this to why sunsets are red (same physics, different medium)"
+    ]
+  },
+
+  "trending": {
+    "timeliness_window": "evergreen",
+    "recent_developments": [],
+    "active_discussions": [
+      {
+        "platform": "general curiosity",
+        "topic_or_url": "Why is the ocean blue / why is deep ocean dark",
+        "sentiment": "high curiosity — perennial question that gets answered incompletely by 'it reflects the sky'",
+        "key_quotes": ["'I always thought it was just reflecting the sky but apparently that's wrong?'", "'Wait so it's actually blue all the way down, not just dark?'"]
+      }
+    ]
+  },
+
+  "data_points": [
+    {
+      "claim": "The absorption coefficient of pure water at 700nm (red) is approximately 0.65 m⁻¹, versus only 0.013 m⁻¹ at 450nm (blue) — meaning red light is absorbed about 50x more rapidly than blue light over the same water column.",
+      "source_url": "https://opg.optica.org/ao/abstract.cfm?uri=ao-36-33-8710",
+      "source_name": "Pope & Fry 1997, Applied Optics — absorption spectrum of pure water",
+      "credibility": "primary_source",
+      "surprise_factor": "counterintuitive",
+      "usable_as": "stat_card — the 50x ratio is the anchor fact that makes the mechanism vivid"
+    },
+    {
+      "claim": "Red wavelengths are effectively gone by 5-10 meters depth in clear ocean water. Orange disappears by ~25m, yellow by ~50m, green by ~75-100m. Only blue light penetrates to the base of the photic zone (~200m).",
+      "source_url": "https://oceanservice.noaa.gov/facts/light_ocean.html",
+      "source_name": "NOAA Ocean Service — How far does light travel in the ocean?",
+      "credibility": "secondary_source",
+      "surprise_factor": "surprising",
+      "usable_as": "hook — the layered stripping of color is the video's core visual metaphor"
+    },
+    {
+      "claim": "The photic zone, where enough sunlight penetrates for photosynthesis, extends only to about 200 meters — less than 5% of average ocean depth (3,688m). Below 1,000m, zero sunlight reaches.",
+      "source_url": "https://oceanservice.noaa.gov/facts/oceandepth.html",
+      "source_name": "NOAA Ocean Service",
+      "credibility": "secondary_source",
+      "surprise_factor": "notable",
+      "usable_as": "closing_punch — the scale of dark ocean vs lit ocean is humbling"
+    },
+    {
+      "claim": "Water molecules absorb red-light photons because those photons carry energy that matches the vibrational frequency of the O-H bond in H2O — this is quantum-mechanical resonance absorption, not classical scattering.",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S0967063706000034",
+      "source_name": "Mobley 2006 — Light and Water: Radiative Transfer in Natural Waters",
+      "credibility": "primary_source",
+      "surprise_factor": "counterintuitive",
+      "usable_as": "script_anchor — the molecular explanation separates this video from 'sky reflection' oversimplifications"
+    },
+    {
+      "claim": "At 10 meters depth, an underwater photograph of a red fish taken without artificial lighting shows the fish as grey-green. This is routinely demonstrated in scuba photography — red filters are used below ~10m to restore color.",
+      "source_url": "https://www.bhphotovideo.com/explora/photography/tips-and-solutions/understanding-light-underwater-photography",
+      "source_name": "B&H Photo — Underwater Photography Light Guide",
+      "credibility": "secondary_source",
+      "surprise_factor": "notable",
+      "usable_as": "hook — the 'red fish goes grey' fact is instantly relatable and surprising"
+    }
+  ],
+
+  "audience_insights": {
+    "common_questions": [
+      "Why is the ocean blue if water itself looks clear?",
+      "Is it just reflecting the sky?",
+      "Why does everything look green or grey in underwater photos?",
+      "At what depth does it get completely dark?",
+      "Why don't underwater photos look colorful unless you use a flash?"
+    ],
+    "misconceptions": [
+      {
+        "myth": "The ocean is blue because it reflects the blue sky",
+        "reality": "Sky reflection contributes only at the surface. Deep water would appear blue even under a completely overcast or grey sky — the color is intrinsic to water's molecular absorption properties, not borrowed from the sky.",
+        "source": "Standard ocean optics textbook correction"
+      },
+      {
+        "myth": "Deep ocean water is just dark, not specifically blue",
+        "reality": "Throughout the photic zone (~0-200m), the water column is specifically blue — not grey, not black. The blue color persists because blue is the last wavelength to be absorbed. It only becomes truly dark below ~1,000m.",
+        "source": "NOAA ocean light penetration documentation"
+      },
+      {
+        "myth": "Water absorbs light the same way at all wavelengths",
+        "reality": "Water has a strong wavelength-dependent absorption spectrum. It is nearly transparent to blue-green light and heavily absorbs red-infrared. This selectivity is why ocean color is specifically blue, not simply 'dark'.",
+        "source": "Pope & Fry 1997 absorption spectrum"
+      }
+    ],
+    "knowledge_level": "General adults likely know 'it reflects the sky' (partially wrong) and know that it gets dark deep down, but don't know the wavelength-specific absorption mechanism, the precise depths at which colors vanish, or that the blue color is intrinsic to water molecules themselves.",
+    "pain_points": [
+      "Frustration that their underwater holiday photos look washed out and green",
+      "Feeling like they never got a satisfying answer — 'reflects the sky' feels incomplete",
+      "Surprise when they learn red objects look grey underwater"
+    ]
+  },
+
+  "expert_voices": [
+    {
+      "name": "Curtis Mobley",
+      "title_or_affiliation": "Senior Scientist, Sequoia Scientific — author of 'Light and Water: Radiative Transfer in Natural Waters'",
+      "position": "The color of the ocean is determined primarily by the absorption and scattering properties of the water and its dissolved/suspended constituents, not by reflection of the sky.",
+      "source_url": "https://www.sequoiasci.com/",
+      "contrarian": false
+    }
+  ],
+
+  "angles_discovered": [
+    {
+      "name": "The Color-Stripping Countdown As You Descend",
+      "hook": "Dive into the ocean and watch colors disappear one by one — red at 5 meters, orange at 25, yellow at 50. By 200 meters, you're swimming in pure blue. Here's why.",
+      "type": "narrative",
+      "why_now": "Evergreen topic with a persistent comprehension gap. The 'sky reflection' myth is widely repeated even in reputable sources. A visceral countdown framing has never been done cleanly in a 60-second format.",
+      "grounded_in": ["Depth-specific color disappearance data from NOAA", "Red fish goes grey fact from underwater photography", "Audience common question: why do underwater photos look green/grey"]
+    },
+    {
+      "name": "Water Molecules Are Tiny Red-Light Traps",
+      "hook": "Water looks clear in a glass, but put enough of it together and it becomes a blue filter. Here's the quantum mechanics behind it — and why it makes sense.",
+      "type": "data_driven",
+      "why_now": "No short-form video cleanly explains the O-H vibrational resonance mechanism at a general-audience level. The 50x absorption ratio is a genuinely striking number that anchors the physics.",
+      "grounded_in": ["Pope & Fry 1997 absorption coefficients (50x ratio)", "Quantum resonance absorption of O-H bond", "Misconception bust: it's not sky reflection"]
+    },
+    {
+      "name": "The Ocean Would Still Be Blue Under A Grey Sky",
+      "hook": "Most people think the ocean borrows its blue from the sky. Take away the sky — it's still blue. The color lives in the water itself.",
+      "type": "contrarian",
+      "why_now": "The sky-reflection myth is the dominant (and incomplete) explanation online. Directly busting it is a strong hook that creates the 'wait, really?' moment that drives shares.",
+      "grounded_in": ["Misconception: sky reflection", "Intrinsic absorption spectrum of water", "Audience frustration with unsatisfying 'reflects the sky' answer"]
+    }
+  ],
+
+  "visual_references": [
+    {
+      "description": "Color depth chart — horizontal bands showing which wavelength survives to which depth",
+      "what_works": "Immediately intuitive. The visual does the explaining before the narration arrives. A Mermaid diagram or animated Remotion stat-card can replicate this cleanly."
+    },
+    {
+      "description": "Split-screen: same underwater scene with vs without red filter at 10m depth",
+      "what_works": "Concrete, relatable contrast. The grey fish vs red fish moment is the strongest retention hook in the piece."
+    }
+  ],
+
+  "sources": [
+    {
+      "url": "https://opg.optica.org/ao/abstract.cfm?uri=ao-36-33-8710",
+      "title": "Absorption spectrum of pure water — Pope & Fry 1997, Applied Optics",
+      "used_for": "Primary data on wavelength-specific absorption coefficients",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://oceanservice.noaa.gov/facts/light_ocean.html",
+      "title": "NOAA Ocean Service — How far does light travel in the ocean?",
+      "used_for": "Depth-specific color disappearance figures",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://oceanservice.noaa.gov/facts/oceandepth.html",
+      "title": "NOAA Ocean Service — How deep is the ocean?",
+      "used_for": "Average ocean depth and photic zone statistics",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://www.sciencedirect.com/science/article/pii/S0967063706000034",
+      "title": "Light and Water: Radiative Transfer in Natural Waters — Mobley 2006",
+      "used_for": "O-H bond vibrational absorption mechanism explanation",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://www.bhphotovideo.com/explora/photography/tips-and-solutions/understanding-light-underwater-photography",
+      "title": "Understanding Light in Underwater Photography — B&H Photo",
+      "used_for": "Red filter use and practical color loss demonstration",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://earthobservatory.nasa.gov/features/OceanColor",
+      "title": "NASA Earth Observatory — Ocean Color",
+      "used_for": "Ocean color science overview and supporting landscape context",
+      "reliability": "secondary"
+    }
+  ]
+}

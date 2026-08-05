@@ -1,0 +1,16 @@
+graph TD
+    A["Red photon<br/>λ=700nm"]:::red --> B["O-H bond<br/>in H₂O"]:::bond
+    B --> C["Bond vibrates<br/>absorbs energy"]:::vibrate
+    C --> D["Photon absorbed<br/>heat"]:::absorbed
+    
+    E["Blue photon<br/>λ=450nm"]:::blue --> F["O-H bond<br/>in H₂O"]:::bond
+    F --> G["Energy mismatch<br/>no resonance"]:::pass
+    G --> H["Photon passes<br/>through"]:::through
+
+    classDef red fill:#cc2200,color:#fff,stroke:#ff4422
+    classDef blue fill:#0055cc,color:#fff,stroke:#4499ff
+    classDef bond fill:#334455,color:#cde,stroke:#667788
+    classDef vibrate fill:#885500,color:#fff,stroke:#bb7722
+    classDef absorbed fill:#440000,color:#faa,stroke:#883333
+    classDef pass fill:#223344,color:#acd,stroke:#336677
+    classDef through fill:#002244,color:#adf,stroke:#004488

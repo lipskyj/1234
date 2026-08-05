@@ -1,0 +1,150 @@
+{
+  "version": "1.0",
+  "render_runtime": "remotion",
+  "renderer_family": "explainer-data",
+  "composition_mode": "templated",
+  "cuts": [
+    {
+      "id": "cut-sc01",
+      "source": "sc01",
+      "in_seconds": 0,
+      "out_seconds": 7,
+      "layer": "primary",
+      "transition_in": "fade",
+      "transition_out": "cut",
+      "transition_duration": 0.5,
+      "backgroundColor": "#0a0f1a",
+      "reason": "Hook scene. Depth gauge animation from 0-50m with color band dissolution. Opens on fade from black to avoid hard cold open."
+    },
+    {
+      "id": "cut-sc02",
+      "source": "sc02",
+      "in_seconds": 7,
+      "out_seconds": 14,
+      "layer": "primary",
+      "transition_in": "cut",
+      "transition_out": "dissolve",
+      "transition_duration": 0.4,
+      "backgroundColor": "#060c18",
+      "reason": "Knowledge gap card. Hard cut in from sc01 for a brief visual reset; dissolve out into the mechanism."
+    },
+    {
+      "id": "cut-sc03",
+      "source": "sc03",
+      "in_seconds": 14,
+      "out_seconds": 23,
+      "layer": "primary",
+      "transition_in": "dissolve",
+      "transition_out": "cut",
+      "transition_duration": 0.4,
+      "backgroundColor": "#080c14",
+      "reason": "O-H bond molecular diagram — the hero explanation scene. Dissolves in from the knowledge gap. Diagram elements animate in sequentially with narration."
+    },
+    {
+      "id": "cut-sc04",
+      "source": "sc04",
+      "in_seconds": 23,
+      "out_seconds": 28,
+      "layer": "primary",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "transition_duration": 0,
+      "backgroundColor": "#060c18",
+      "reason": "Mechanism summary: 'The molecule vibrates. The photon vanishes.' Hard cuts on both sides — the rhythm break is intentional, no softening transitions."
+    },
+    {
+      "id": "cut-sc05",
+      "source": "sc05",
+      "in_seconds": 28,
+      "out_seconds": 36,
+      "layer": "primary",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "transition_duration": 0,
+      "backgroundColor": "#020814",
+      "reason": "50x hero stat card. Hard cut in for maximum impact. The 50x number is the video's sharpest visual moment — no dissolve softening."
+    },
+    {
+      "id": "cut-sc06",
+      "source": "sc06",
+      "in_seconds": 36,
+      "out_seconds": 43,
+      "layer": "primary",
+      "transition_in": "cut",
+      "transition_out": "dissolve",
+      "transition_duration": 0.5,
+      "backgroundColor": "#040a16",
+      "reason": "Absorption spectrum bar chart — confirms the 50x claim visually. Dissolves out into the scale reveal."
+    },
+    {
+      "id": "cut-sc07",
+      "source": "sc07",
+      "in_seconds": 43,
+      "out_seconds": 54,
+      "layer": "primary",
+      "transition_in": "dissolve",
+      "transition_out": "dissolve",
+      "transition_duration": 0.5,
+      "backgroundColor": "#030810",
+      "reason": "Scale infographic — the humbling 95% dark ocean reveal. Slow dissolves on both sides to give this scene room to breathe."
+    },
+    {
+      "id": "cut-sc08",
+      "source": "sc08",
+      "in_seconds": 54,
+      "out_seconds": 60,
+      "layer": "primary",
+      "transition_in": "dissolve",
+      "transition_out": "fade",
+      "transition_duration": 0.8,
+      "backgroundColor": "#040c1a",
+      "reason": "Closing core message card. Dissolves in from the scale scene. Long fade to black on exit — ending should feel like settling into the deep, not cutting away."
+    }
+  ],
+  "audio": {
+    "narration": {
+      "segments": [
+        {
+          "asset_id": "a01",
+          "start_seconds": 0,
+          "end_seconds": 60
+        }
+      ]
+    },
+    "music": {
+      "asset_id": "a06",
+      "volume": 0.18,
+      "fade_in_seconds": 2.0,
+      "fade_out_seconds": 3.0,
+      "ducking": {
+        "enabled": true,
+        "threshold_db": -18,
+        "reduction_db": 12,
+        "attack_ms": 100,
+        "release_ms": 500
+      }
+    }
+  },
+  "subtitles": {
+    "enabled": true,
+    "style": "karaoke",
+    "source": "a02",
+    "font": "Inter",
+    "font_size": 36,
+    "color": "#FFFFFF",
+    "outline_color": "#00000099",
+    "background": "#00000055",
+    "position": "bottom-center",
+    "max_words_per_line": 6
+  },
+  "slideshow_risk_score": {
+    "average": 0.35,
+    "verdict": "acceptable"
+  },
+  "metadata": {
+    "total_cuts": 8,
+    "total_duration_seconds": 60,
+    "audio_note": "Music bed (a06) is a placeholder — Pixabay download was blocked by network policy. Volume set to 0.18 (18%) to sit under narration. Ducking reduces music by 12dB when narration is active.",
+    "tts_note": "Narration asset (a01) is a silent placeholder. Caption timing (a02, a03) is estimated from script section timing — sync to actual TTS audio before final render."
+  }
+}
