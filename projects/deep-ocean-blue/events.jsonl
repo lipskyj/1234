@@ -4,3 +4,9 @@
 {"ts": "2026-08-05T17:01:21.355535+00:00", "tool": "subtitle_gen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/captions/narration.caption.json", "success": true, "cost_usd": 0.0, "duration_s": 0.0}
 {"ts": "2026-08-05T17:01:45.725292+00:00", "tool": "diagram_gen", "event": "start", "output_path": "projects/deep-ocean-blue/assets/diagrams/oh_bond_absorption.png"}
 {"ts": "2026-08-05T17:01:45.799735+00:00", "tool": "diagram_gen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/diagrams/oh_bond_absorption.png", "success": true, "cost_usd": 0.0, "duration_s": 0.07}
+{"ts": "2026-08-06T07:20:22.852818+00:00", "tool": "google_tts", "event": "start", "output_path": "projects/deep-ocean-blue/assets/audio/narration.wav"}
+{"ts": "2026-08-06T07:20:23.534809+00:00", "tool": "google_tts", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/audio/narration.wav", "success": false, "cost_usd": 0.0, "duration_s": 0.6}
+{"ts": "2026-08-06T07:20:45.761372+00:00", "tool": "google_imagen", "event": "start", "output_path": "projects/deep-ocean-blue/assets/images/sc03_oh_bond.png"}
+{"ts": "2026-08-06T07:20:46.453727+00:00", "tool": "google_imagen", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/images/sc03_oh_bond.png", "success": false, "cost_usd": 0.0, "duration_s": 0.69}
+{"ts": "2026-08-06T07:21:04.074661+00:00", "tool": "veo_video", "event": "start", "output_path": "projects/deep-ocean-blue/assets/video/sc01_descent.mp4"}
+{"ts": "2026-08-06T07:21:08.309559+00:00", "tool": "veo_video", "event": "finish", "output_path": "projects/deep-ocean-blue/assets/video/sc01_descent.mp4", "success": false, "cost_usd": 0.0, "duration_s": 4.23}
